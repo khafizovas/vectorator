@@ -1,15 +1,16 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import MainRouter from './MainRouter';
+
+import './styles.css';
 
 const App = () => {
-	const [data, setData] = React.useState(null);
-
-	React.useEffect(() => {
-		fetch('/api')
-			.then((res) => res.json())
-			.then((data) => setData(data.message));
-	}, []);
-
-	return <div>{data}</div>;
+	return (
+		<BrowserRouter>
+			<MainRouter />
+		</BrowserRouter>
+	);
 };
 
 export default App;

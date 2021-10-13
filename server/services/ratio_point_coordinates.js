@@ -24,4 +24,4 @@ const findRatioCoordinate = (first, second, ratio) => {
 	return (first + ratio * second) / (1 + ratio);
 };
 
-module.exports = { findRatioPoint3D };
+module.exports = findRatioPoint3D;

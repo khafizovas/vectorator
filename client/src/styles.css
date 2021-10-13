@@ -1,0 +1,22 @@
+body {
+	margin: 0;
+}
+
+.navbar {
+	background: lightblue;
+}
+
+.navbar-item {
+	background: lightcoral;
+
+	cursor: pointer;
+	border: none;
+	padding: 1%;
+
+	font-size: 1.3em;
+}
+
+.content {
+	background: lightgoldenrodyellow;
+	padding: 1%;
+}

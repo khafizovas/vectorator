@@ -1,8 +1,8 @@
-const ratioPointCoordinates = require('../services/ratio_point_coordinates');
+const findRatioPoint3D = require('../services/ratio_point_coordinates');
 
 const ratioPointCoordinates = (req, res) => {
 	res.json({
-		result: ratioPointCoordinates(req.body.pointsPair, req.body.ratioParts),
+		result: findRatioPoint3D(req.body.pointsPair, req.body.ratioParts),
 	});
 };
 
