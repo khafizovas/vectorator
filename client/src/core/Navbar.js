@@ -9,7 +9,7 @@ const Navbar = withRouter(({ history }) => (
 	<nav className='navbar'>
 		<Link to='/'>
 			<button className={`navbar-item ${isActive ? 'active' : ''}`}>
-				HomePage
+				Главная страница
 			</button>
 		</Link>
 	</nav>

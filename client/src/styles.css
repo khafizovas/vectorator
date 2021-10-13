@@ -16,7 +16,15 @@ body {
 	font-size: 1.3em;
 }
 
+.active {
+	box-shadow: inset 0px 0px 1em lightcyan;
+}
+
 .content {
 	background: lightgoldenrodyellow;
 	padding: 1%;
+}
+
+form > * {
+	margin: 0.2%;
 }

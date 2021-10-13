@@ -3,13 +3,33 @@ import { Route, Switch } from 'react-router-dom';
 
 import HomePage from './core/HomePage';
 import Navbar from './core/Navbar';
+import Task from './Task';
+
+import tasks from './tasks';
 
 const MainRouter = () => {
 	return (
 		<div>
 			<Navbar />
 			<Switch>
-				<Route exact path='/' component={HomePage} />
+				<Route path='/' exact render={() => <HomePage />} />
+
+				{tasks.map((task) => (
+					<Route
+						key={task.id}
+						path={task.path}
+						exact
+						render={() => (
+							<Task
+								name={task.name}
+								task={task.task}
+								inputs={task.inputs}
+								reqBodySample={task.reqBodySample}
+								path={task.path}
+							/>
+						)}
+					/>
+				))}
 			</Switch>
 		</div>
 	);

@@ -1,33 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import tasks from '../tasks';
 
 const HomePage = () => {
-	const [test, setTest] = useState(null);
-
-	useEffect(
-		() =>
-			fetch('/api/task/ratio_point_coordinates', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					pointsPair: {
-						first: { x: 0, y: 0, z: 0 },
-						second: { x: 3, y: 0, z: 0 },
-					},
-					ratioParts: { a: 1, b: 2 },
-				}),
-			})
-				.then((response) => {
-					return response.json();
-				})
-				.then((data) => {
-					setTest(data.result);
-				}),
-		[]
-	);
-
 	return (
 		<div className='content'>
-			HomePage component: {`${test?.x}, ${test?.y}, ${test?.z}`}
+			{tasks.map((task) => (
+				<ul key={task.id}>
+					<Link to={task.path}>{task.name}</Link>
+				</ul>
+			))}
 		</div>
 	);
 };
