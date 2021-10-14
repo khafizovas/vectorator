@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './core/HomePage';
 import Navbar from './core/Navbar';
 import Task from './Task';
+import TaskSolution from './TaskSolution';
 
 import tasks from './tasks';
 
@@ -30,6 +31,12 @@ const MainRouter = () => {
 						)}
 					/>
 				))}
+
+				<Route
+					path='/solution'
+					exact
+					render={(props) => <TaskSolution {...props} />}
+				/>
 			</Switch>
 		</div>
 	);

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router';
 
 const Task = (props) => {
+	const [solutionState, setSolutionState] = useState(null);
+
 	let params;
 	let paramIndex = 0;
 
@@ -34,13 +37,14 @@ const Task = (props) => {
 				return response.json();
 			})
 			.then((data) => {
-				console.log(data);
-				// TODO: Result component rendering
+				setSolutionState(data);
 			});
 	};
 
-	// TODO: Add required and intervals
-	// TODO: Check decimal
+	if (solutionState) {
+		return <Redirect to={{ pathname: '/solution', state: solutionState }} />;
+	}
+
 	return (
 		<div className='content'>
 			<h3>{props.name}</h3>
@@ -52,7 +56,10 @@ const Task = (props) => {
 						<input
 							type={input.type}
 							id={input.type + i}
+							required
 							{...(input.decimal && { step: '0.1' })}
+							{...(input.min !== undefined && { min: input.min })}
+							{...(input.max !== undefined && { max: input.max })}
 						/>
 					</div>
 				))}

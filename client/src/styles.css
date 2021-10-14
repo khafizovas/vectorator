@@ -1,5 +1,6 @@
 body {
 	margin: 0;
+	font-size: 1.1em;
 }
 
 .navbar {
@@ -16,6 +17,10 @@ body {
 	font-size: 1.3em;
 }
 
+.navbar-item:disabled {
+	color: #000;
+}
+
 .active {
 	box-shadow: inset 0px 0px 1em lightcyan;
 }
@@ -27,4 +32,8 @@ body {
 
 form > * {
 	margin: 0.2%;
+}
+
+a {
+	color: #000;
 }
