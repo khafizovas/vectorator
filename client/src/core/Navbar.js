@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+// TODO: Fix isActive changing
 const isActive = (history, path) => {
 	return history.location.pathname === path;
 };

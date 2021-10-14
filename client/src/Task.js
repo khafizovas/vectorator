@@ -34,12 +34,13 @@ const Task = (props) => {
 				return response.json();
 			})
 			.then((data) => {
-				console.log(data.result);
+				console.log(data);
 				// TODO: Result component rendering
 			});
 	};
 
 	// TODO: Add required and intervals
+	// TODO: Check decimal
 	return (
 		<div className='content'>
 			<h3>{props.name}</h3>
