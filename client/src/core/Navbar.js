@@ -16,7 +16,7 @@ const Navbar = withRouter(({ history }) => (
 
 		{!isActive(history, '/') && (
 			<button disabled className={'navbar-item active'}>
-				{isActive(history, '/solution') ? 'Решение' : 'Ввод данных'}
+				Задача
 			</button>
 		)}
 	</nav>

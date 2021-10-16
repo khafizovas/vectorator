@@ -3,8 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import HomePage from './core/HomePage';
 import Navbar from './core/Navbar';
-import Task from './Task';
-import TaskSolution from './TaskSolution';
+import Task from './Task/Task';
 
 import tasks from './tasks';
 
@@ -12,12 +11,13 @@ const MainRouter = () => {
 	return (
 		<div>
 			<Navbar />
+
 			<Switch>
 				<Route path='/' exact render={() => <HomePage />} />
 
-				{tasks.map((task) => (
+				{tasks.map((task, i) => (
 					<Route
-						key={task.id}
+						key={i}
 						path={task.path}
 						exact
 						render={() => (
@@ -31,12 +31,6 @@ const MainRouter = () => {
 						)}
 					/>
 				))}
-
-				<Route
-					path='/solution'
-					exact
-					render={(props) => <TaskSolution {...props} />}
-				/>
 			</Switch>
 		</div>
 	);

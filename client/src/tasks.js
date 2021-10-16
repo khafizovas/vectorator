@@ -1,14 +1,13 @@
 const tasks = [
 	{
-		id: 1,
 		name: 'Координаты точки, делящей вектор в отношении',
 		task: 'Найти координаты точки М, делящей вектор AB в отношении a : b',
 		reqBodySample: {
 			pointsPair: {
-				first: { x: '', y: '', z: '' },
-				second: { x: 'x', y: 'y', z: 'z' },
+				first: { x: null, y: null, z: null },
+				second: { x: null, y: null, z: null },
 			},
-			ratioParts: { a: '', b: '' },
+			ratioParts: { a: null, b: null },
 		},
 		inputs: [
 			{ type: 'number', caption: 'x точки A', decimal: true },
