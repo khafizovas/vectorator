@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import TaskSolution from './TaskSolution';
+import Solution from './Solution';
 
 const Task = (props) => {
 	const [solution, setSolution] = useState(null);
@@ -48,7 +48,7 @@ const Task = (props) => {
 			<p>{props.task}</p>
 
 			{solution ? (
-				<TaskSolution
+				<Solution
 					solution={solution.describedSolution}
 					result={solution.result}
 				/>

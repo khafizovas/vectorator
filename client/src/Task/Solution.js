@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TaskSolution = (props) => {
+const Solution = (props) => {
 	return (
 		<div>
 			<h3>Решение:</h3>
@@ -24,4 +24,4 @@ const TaskSolution = (props) => {
 	);
 };
 
-export default TaskSolution;
+export default Solution;
