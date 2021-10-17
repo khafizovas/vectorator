@@ -10,7 +10,7 @@ const Task = (props) => {
 
 	const fillReqBody = (obj) => {
 		for (let k in obj) {
-			if (typeof obj[k] === 'object' && obj[k] !== null) {
+			if (typeof obj[k] === 'object') {
 				fillReqBody(obj[k]);
 			} else {
 				obj[k] = params[paramIndex];
@@ -48,7 +48,10 @@ const Task = (props) => {
 			<p>{props.task}</p>
 
 			{solution ? (
-				<TaskSolution solution={solution.solution} result={solution.result} />
+				<TaskSolution
+					solution={solution.describedSolution}
+					result={solution.result}
+				/>
 			) : (
 				<form onSubmit={getSolution}>
 					{props.inputs.map((input, i) => (

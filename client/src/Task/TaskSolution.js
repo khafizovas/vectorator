@@ -8,10 +8,8 @@ const TaskSolution = (props) => {
 				{props.solution.map((step, i) => (
 					<li key={`solution-step${i}`}>
 						<ul>
-							<li>{step.caption}:</li>
-							<li>
-								{step.name} = {step.equals}
-							</li>
+							<li>{step.description}:</li>
+							<li>{step.action}</li>
 						</ul>
 					</li>
 				))}

@@ -6,8 +6,8 @@ import tasks from '../tasks';
 const HomePage = () => {
 	return (
 		<div className='content'>
-			{tasks.map((task) => (
-				<ul key={task.id}>
+			{tasks.map((task, i) => (
+				<ul key={i}>
 					<Link to={task.path}>{task.name}</Link>
 				</ul>
 			))}

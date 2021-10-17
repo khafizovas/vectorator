@@ -53,3 +53,7 @@ ul {
 	list-style: none;
 	padding: 0;
 }
+
+ol {
+	padding-left: 1%;
+}
