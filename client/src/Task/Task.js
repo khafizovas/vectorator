@@ -49,7 +49,8 @@ const Task = (props) => {
 
 			{solution ? (
 				<Solution
-					solution={solution.describedSolution}
+					solution={solution.solution}
+					describedSolution={solution.describedSolution}
 					result={solution.result}
 				/>
 			) : (

@@ -31,6 +31,18 @@ body {
 	padding: 1%;
 }
 
+.solution {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-start;
+}
+
+.illustration {
+	border: solid red;
+	align-self: center;
+	margin-left: 5%;
+}
+
 form > * {
 	margin: 0.2%;
 }
@@ -52,8 +64,4 @@ button {
 ul {
 	list-style: none;
 	padding: 0;
-}
-
-ol {
-	padding-left: 1%;
 }
