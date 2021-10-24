@@ -37,10 +37,15 @@ body {
 	align-items: flex-start;
 }
 
-.illustration {
-	border: solid red;
+#illustration {
+	border: solid #000;
+	background: #fff;
+
 	align-self: center;
-	margin-left: 5%;
+	margin-left: 10%;
+
+	height: 20vw;
+	width: 20vw;
 }
 
 form > * {
