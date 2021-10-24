@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 
-const routes = require('./routes/task.routes');
+const routes = require('./routes/tasks.routes');
 const PORT = process.env.PORT || 3001;
 
 const app = express();

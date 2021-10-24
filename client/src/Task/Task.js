@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 
 import Solution from './Solution';
 
-const Task = (props) => {
+const Task = () => {
+	const { id } = useParams();
+
+	const [task, setTask] = useState(null);
 	const [solution, setSolution] = useState(null);
+
+	useEffect(() => {
+		fetch(`/api/tasks/${id}`)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				setTask(data.task);
+			});
+	}, [id]);
 
 	let params;
 	let paramIndex = 0;
@@ -26,10 +40,10 @@ const Task = (props) => {
 			(input) => input.value
 		);
 
-		const reqBody = props.reqBodySample;
+		const reqBody = task?.reqBodySample;
 		fillReqBody(reqBody);
 
-		fetch('/api/task/ratio_point_coordinates', {
+		fetch(`/api/tasks${task.path}`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(reqBody),
@@ -44,8 +58,8 @@ const Task = (props) => {
 
 	return (
 		<div className='content'>
-			<h3>{props.name}</h3>
-			<p>{props.task}</p>
+			<h3>{task?.name}</h3>
+			<p>{task?.task}</p>
 
 			{solution ? (
 				<Solution
@@ -55,7 +69,7 @@ const Task = (props) => {
 				/>
 			) : (
 				<form onSubmit={getSolution}>
-					{props.inputs.map((input, i) => (
+					{task?.inputs.map((input, i) => (
 						<div key={i}>
 							<label htmlFor={input.type + i}>{input.caption}: </label>
 							<input

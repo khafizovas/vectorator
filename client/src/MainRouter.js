@@ -5,17 +5,24 @@ import HomePage from './core/HomePage';
 import Navbar from './core/Navbar';
 import Task from './Task/Task';
 
-import tasks from './tasks';
-
 const MainRouter = () => {
 	return (
 		<div>
 			<Navbar />
 
 			<Switch>
-				<Route path='/' exact render={() => <HomePage />} />
+				<Route exact path='/'>
+					<HomePage />
+				</Route>
 
-				{tasks.map((task, i) => (
+				<Route path='/tasks/:id'>
+					<Task />
+				</Route>
+			</Switch>
+
+			{/* <Route exact path='/task/:id' component={Task} /> */}
+
+			{/* {tasks.map((task, i) => (
 					<Route
 						key={i}
 						path={task.path}
@@ -30,8 +37,7 @@ const MainRouter = () => {
 							/>
 						)}
 					/>
-				))}
-			</Switch>
+				))} */}
 		</div>
 	);
 };
