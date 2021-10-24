@@ -19,25 +19,6 @@ const MainRouter = () => {
 					<Task />
 				</Route>
 			</Switch>
-
-			{/* <Route exact path='/task/:id' component={Task} /> */}
-
-			{/* {tasks.map((task, i) => (
-					<Route
-						key={i}
-						path={task.path}
-						exact
-						render={() => (
-							<Task
-								name={task.name}
-								task={task.task}
-								inputs={task.inputs}
-								reqBodySample={task.reqBodySample}
-								path={task.path}
-							/>
-						)}
-					/>
-				))} */}
 		</div>
 	);
 };
