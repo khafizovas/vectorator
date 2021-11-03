@@ -62,26 +62,26 @@ const SolutionIllustration = (props) => {
 	const drawCoordinate = (coordinate, canv) => {
 		canv.ctx.beginPath();
 
-		let lineCoordinates;
+		let canvasCoordinates;
 		switch (coordinate.name) {
 			case 'x':
-				lineCoordinates = findX(coordinate.value, canv);
+				canvasCoordinates = findX(coordinate.value, canv);
 				break;
 
 			case 'y':
-				lineCoordinates = findY(coordinate.value, canv);
+				canvasCoordinates = findY(coordinate.value, canv);
 				break;
 
 			case 'z':
-				lineCoordinates = findZ(coordinate.value, canv);
+				canvasCoordinates = findZ(coordinate.value, canv);
 				break;
 
 			default:
 				break;
 		}
 
-		canv.ctx.moveTo(...lineCoordinates.from);
-		canv.ctx.lineTo(...lineCoordinates.to);
+		canv.ctx.moveTo(...canvasCoordinates.from);
+		canv.ctx.lineTo(...canvasCoordinates.to);
 
 		canv.ctx.strokeStyle = 'red';
 		canv.ctx.stroke();
@@ -133,11 +133,57 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawPoint = (point, canv) => {
-		const coordinates = [
+		const pointInfo = findPointCoordinates(point, canv);
+
+		drawPointProjections(pointInfo, canv);
+
+		canv.ctx.beginPath();
+
+		canv.ctx.arc(
+			...pointInfo.canvasCoordinates,
+			0.2 * canv.unit,
+			0,
+			2 * Math.PI,
+			true
+		);
+
+		canv.ctx.fillStyle = 'green';
+		canv.ctx.fill();
+	};
+
+	const findPointCoordinates = (point, canv) => {
+		const pointCoordinates = [
 			findX(point.value[0], canv),
 			findY(point.value[1], canv),
 			findZ(point.value[2], canv),
 		].map((coordinate) => coordinate.center);
+
+		const pointCanvasCoordinates = [
+			pointCoordinates[0].x + canv.unit * point.value[1],
+			pointCoordinates[0].y - canv.unit * point.value[2],
+		];
+
+		return {
+			coordinates: pointCoordinates,
+			canvasCoordinates: pointCanvasCoordinates,
+		};
+	};
+
+	const drawPointProjections = (point, canv) => {
+		canv.ctx.beginPath();
+
+		canv.ctx.moveTo(point.coordinates[0].x, point.coordinates[0].y);
+		canv.ctx.lineTo(point.canvasCoordinates[0], point.coordinates[0].y);
+		canv.ctx.lineTo(point.coordinates[1].x, point.coordinates[1].y);
+
+		canv.ctx.moveTo(point.canvasCoordinates[0], point.coordinates[0].y);
+		canv.ctx.lineTo(...point.canvasCoordinates);
+		canv.ctx.lineTo(point.coordinates[2].x, point.coordinates[2].y);
+
+		canv.ctx.setLineDash([1, 1]);
+		canv.ctx.strokeStyle = 'blue';
+
+		canv.ctx.stroke();
 	};
 	// Magic ends here
 
