@@ -64,11 +64,54 @@ const SolutionIllustration = (props) => {
 		console.log('drawCoordinate', coordinate);
 
 		switch (coordinate.name) {
-			case 'x':
-				break;
+			case 'x': {
+				canv.ctx.beginPath();
 
-			case 'y':
+				canv.ctx.moveTo(
+					0.5 * canv.size.width -
+						(canv.unit * coordinate.value + canv.unit) / Math.sqrt(2),
+					0.5 * canv.size.height +
+						(canv.unit * coordinate.value - canv.unit) / Math.sqrt(2)
+				);
+				canv.ctx.lineTo(
+					0.5 * canv.size.width -
+						(canv.unit * coordinate.value - canv.unit) / Math.sqrt(2),
+					0.5 * canv.size.height + (canv.unit * coordinate.value) / Math.sqrt(2)
+				);
+
+				canv.ctx.strokeStyle = 'red';
+				canv.ctx.stroke();
+
+				canv.ctx.fillText(
+					coordinate.value,
+					0.5 * canv.size.width -
+						(canv.unit * coordinate.value + canv.unit) / Math.sqrt(2),
+					0.5 * canv.size.height +
+						(canv.unit * coordinate.value - canv.unit) / Math.sqrt(2)
+				);
+
 				break;
+			}
+
+			case 'y': {
+				const location = 0.5 * canv.size.width + coordinate.value * canv.unit;
+
+				canv.ctx.beginPath();
+
+				canv.ctx.moveTo(location, 0.5 * canv.size.height - 0.5 * canv.unit);
+				canv.ctx.lineTo(location, 0.5 * canv.size.height + 0.5 * canv.unit);
+
+				canv.ctx.strokeStyle = 'red';
+				canv.ctx.stroke();
+
+				canv.ctx.fillText(
+					coordinate.value,
+					location,
+					0.5 * canv.size.height - 0.5 * canv.unit
+				);
+
+				break;
+			}
 
 			case 'z': {
 				const location = 0.5 * canv.size.height - coordinate.value * canv.unit;
@@ -94,6 +137,7 @@ const SolutionIllustration = (props) => {
 				break;
 		}
 	};
+
 	const drawPoint = (point, canv) => {
 		console.log('drawPoint', point);
 	};
