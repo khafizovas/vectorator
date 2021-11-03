@@ -5,9 +5,7 @@ const SolutionIllustration = (props) => {
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
-
 		const context = canvas.getContext('2d');
-
 		const size = { width: canvas.width, height: canvas.height };
 
 		drawGrid(context, size);
@@ -40,6 +38,7 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawSolution = (ctx, size) => {
+		// TODO: adaptive unit
 		const unit = Math.min(size.width, size.height) / 20;
 
 		props.solution.forEach((step) => drawStep(step, { ctx, size, unit }));
@@ -63,60 +62,82 @@ const SolutionIllustration = (props) => {
 	const drawCoordinate = (coordinate, canv) => {
 		canv.ctx.beginPath();
 
+		let lineCoordinates;
 		switch (coordinate.name) {
-			case 'x': {
-				const offset = {
-					x:
-						0.5 * canv.size.width -
-						(canv.unit * coordinate.value) / Math.sqrt(2),
-					y:
-						0.5 * canv.size.height +
-						(canv.unit * coordinate.value) / Math.sqrt(2),
-				};
-
-				canv.ctx.moveTo(
-					offset.x - canv.unit / Math.sqrt(2),
-					offset.y - canv.unit / Math.sqrt(2)
-				);
-				canv.ctx.lineTo(offset.x + canv.unit / Math.sqrt(2), offset.y);
-
+			case 'x':
+				lineCoordinates = findX(coordinate.value, canv);
 				break;
-			}
 
-			case 'y': {
-				const offset = {
-					x: 0.5 * canv.size.width + coordinate.value * canv.unit,
-					y: 0.5 * canv.size.height,
-				};
-
-				canv.ctx.moveTo(offset.x, offset.y - 0.5 * canv.unit);
-				canv.ctx.lineTo(offset.x, offset.y + 0.5 * canv.unit);
-
+			case 'y':
+				lineCoordinates = findY(coordinate.value, canv);
 				break;
-			}
 
-			case 'z': {
-				const offset = {
-					x: 0.5 * canv.size.width,
-					y: 0.5 * canv.size.height - coordinate.value * canv.unit,
-				};
-
-				canv.ctx.moveTo(offset.x - 0.5 * canv.unit, offset.y);
-				canv.ctx.lineTo(offset.x + 0.5 * canv.unit, offset.y);
-
+			case 'z':
+				lineCoordinates = findZ(coordinate.value, canv);
 				break;
-			}
 
 			default:
 				break;
 		}
 
+		canv.ctx.moveTo(...lineCoordinates.from);
+		canv.ctx.lineTo(...lineCoordinates.to);
+
 		canv.ctx.strokeStyle = 'red';
 		canv.ctx.stroke();
 	};
 
+	const findX = (value, canv) => {
+		const offset = {
+			x: 0.5 * canv.size.width - (canv.unit * value) / Math.sqrt(2),
+			y: 0.5 * canv.size.height + (canv.unit * (value - 0.5)) / Math.sqrt(2),
+		};
+
+		return {
+			center: offset,
+			from: [
+				offset.x - canv.unit / Math.sqrt(2),
+				offset.y - (0.5 * canv.unit) / Math.sqrt(2),
+			],
+			to: [
+				offset.x + canv.unit / Math.sqrt(2),
+				offset.y + (0.5 * canv.unit) / Math.sqrt(2),
+			],
+		};
+	};
+
+	const findY = (value, canv) => {
+		const offset = {
+			x: 0.5 * canv.size.width + value * canv.unit,
+			y: 0.5 * canv.size.height,
+		};
+
+		return {
+			center: offset,
+			from: [offset.x, offset.y - 0.5 * canv.unit],
+			to: [offset.x, offset.y + 0.5 * canv.unit],
+		};
+	};
+
+	const findZ = (value, canv) => {
+		const offset = {
+			x: 0.5 * canv.size.width,
+			y: 0.5 * canv.size.height - value * canv.unit,
+		};
+
+		return {
+			center: offset,
+			from: [offset.x - 0.5 * canv.unit, offset.y],
+			to: [offset.x + 0.5 * canv.unit, offset.y],
+		};
+	};
+
 	const drawPoint = (point, canv) => {
-		console.log('drawPoint', point);
+		const coordinates = [
+			findX(point.value[0], canv),
+			findY(point.value[1], canv),
+			findZ(point.value[2], canv),
+		].map((coordinate) => coordinate.center);
 	};
 	// Magic ends here
 
