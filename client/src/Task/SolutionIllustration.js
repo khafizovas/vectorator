@@ -6,7 +6,7 @@ const SolutionIllustration = (props) => {
 	useEffect(() => {
 		const canvas = canvasRef.current;
 		const context = canvas.getContext('2d');
-		const size = { width: canvas.width, height: canvas.height };
+		const size = canvas.width;
 
 		drawGrid(context, size);
 		drawSolution(context, size);
@@ -17,29 +17,37 @@ const SolutionIllustration = (props) => {
 		ctx.beginPath();
 
 		// OZ
-		ctx.moveTo(0.5 * size.width, 0);
-		ctx.lineTo(0.5 * size.width, 0.5 * size.height);
+		ctx.moveTo(0.5 * size, 0);
+		ctx.lineTo(0.5 * size, 0.5 * size);
 
 		// OY
-		ctx.lineTo(size.width, 0.5 * size.height);
+		ctx.lineTo(size, 0.5 * size);
 
 		// OX
-		ctx.moveTo(0.5 * size.width, 0.5 * size.height);
-		ctx.lineTo(0, size.height);
+		ctx.moveTo(0.5 * size, 0.5 * size);
+		ctx.lineTo(0, size);
 
 		ctx.strokeStyle = 'black';
 		ctx.stroke();
 
 		// Captions
-		ctx.fillText('0', 0.5 * size.width, 0.5 * size.height);
-		ctx.fillText('x', 0.05, 0.95 * size.height);
-		ctx.fillText('y', 0.95 * size.width, 0.5 * size.height);
-		ctx.fillText('z', 0.5 * size.width, 0.05 * size.height);
+		ctx.fillText('0', 0.5 * size, 0.5 * size);
+		ctx.fillText('x', 0.05, 0.95 * size);
+		ctx.fillText('y', 0.95 * size, 0.5 * size);
+		ctx.fillText('z', 0.5 * size, 0.05 * size);
 	};
 
 	const drawSolution = (ctx, size) => {
-		// TODO: adaptive unit
-		const unit = Math.min(size.width, size.height) / 20;
+		const unit =
+			size /
+			(3 *
+				Math.max(
+					...props.solution
+						.filter((step) => step.type !== 'number')
+						.map((step) =>
+							Array.isArray(step.value) ? Math.max(...step.value) : step.value
+						)
+				));
 
 		props.solution.forEach((step) => drawStep(step, { ctx, size, unit }));
 	};
@@ -50,9 +58,12 @@ const SolutionIllustration = (props) => {
 				drawCoordinate(step, canv);
 				break;
 
-			case 'point':
-				drawPoint(step, canv);
+			case 'point': {
+				const pointInfo = findPointCoordinates(step, canv);
+				drawPointProjections(pointInfo, canv);
+				drawPoint(pointInfo, canv);
 				break;
+			}
 
 			default:
 				break;
@@ -60,6 +71,10 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawCoordinate = (coordinate, canv) => {
+		if (coordinate.value === 0) {
+			return;
+		}
+
 		canv.ctx.beginPath();
 
 		let canvasCoordinates;
@@ -89,63 +104,53 @@ const SolutionIllustration = (props) => {
 
 	const findX = (value, canv) => {
 		const offset = {
-			x: 0.5 * canv.size.width - (canv.unit * value) / Math.sqrt(2),
-			y: 0.5 * canv.size.height + (canv.unit * (value - 0.5)) / Math.sqrt(2),
+			x: 0.5 * canv.size - (canv.unit * value) / Math.sqrt(2),
+			y: 0.5 * canv.size + (canv.unit * value) / Math.sqrt(2),
 		};
 
 		return {
 			center: offset,
 			from: [
-				offset.x - canv.unit / Math.sqrt(2),
-				offset.y - (0.5 * canv.unit) / Math.sqrt(2),
+				offset.x - (0.1 * canv.unit) / Math.sqrt(2),
+				offset.y - (0.1 * canv.unit) / Math.sqrt(2),
 			],
 			to: [
-				offset.x + canv.unit / Math.sqrt(2),
-				offset.y + (0.5 * canv.unit) / Math.sqrt(2),
+				offset.x + (0.1 * canv.unit) / Math.sqrt(2),
+				offset.y + (0.1 * canv.unit) / Math.sqrt(2),
 			],
 		};
 	};
 
 	const findY = (value, canv) => {
 		const offset = {
-			x: 0.5 * canv.size.width + value * canv.unit,
-			y: 0.5 * canv.size.height,
+			x: 0.5 * canv.size + value * canv.unit,
+			y: 0.5 * canv.size,
 		};
 
 		return {
 			center: offset,
-			from: [offset.x, offset.y - 0.5 * canv.unit],
-			to: [offset.x, offset.y + 0.5 * canv.unit],
+			from: [offset.x, offset.y - 0.1 * canv.unit],
+			to: [offset.x, offset.y + 0.1 * canv.unit],
 		};
 	};
 
 	const findZ = (value, canv) => {
 		const offset = {
-			x: 0.5 * canv.size.width,
-			y: 0.5 * canv.size.height - value * canv.unit,
+			x: 0.5 * canv.size,
+			y: 0.5 * canv.size - value * canv.unit,
 		};
 
 		return {
 			center: offset,
-			from: [offset.x - 0.5 * canv.unit, offset.y],
-			to: [offset.x + 0.5 * canv.unit, offset.y],
+			from: [offset.x - 0.1 * canv.unit, offset.y],
+			to: [offset.x + 0.1 * canv.unit, offset.y],
 		};
 	};
 
 	const drawPoint = (point, canv) => {
-		const pointInfo = findPointCoordinates(point, canv);
-
-		drawPointProjections(pointInfo, canv);
-
 		canv.ctx.beginPath();
 
-		canv.ctx.arc(
-			...pointInfo.canvasCoordinates,
-			0.2 * canv.unit,
-			0,
-			2 * Math.PI,
-			true
-		);
+		canv.ctx.arc(...point.canvasCoordinates, 0.1 * canv.unit, 0, 2 * Math.PI);
 
 		canv.ctx.fillStyle = 'green';
 		canv.ctx.fill();
@@ -187,7 +192,7 @@ const SolutionIllustration = (props) => {
 	};
 	// Magic ends here
 
-	return <canvas id='illustration' ref={canvasRef} {...props} />;
+	return <canvas id='illustration' ref={canvasRef} width='300' height='300' />;
 };
 
 export default SolutionIllustration;
