@@ -27,10 +27,10 @@ const SolutionIllustration = (props) => {
 		ctx.moveTo(0.5 * size, 0.5 * size);
 		ctx.lineTo(0, size);
 
-		ctx.strokeStyle = 'black';
 		ctx.stroke();
 
 		// Captions
+		ctx.font = '18px serif';
 		ctx.fillText('0', 0.5 * size, 0.5 * size);
 		ctx.fillText('x', 0.05, 0.95 * size);
 		ctx.fillText('y', 0.95 * size, 0.5 * size);
@@ -59,7 +59,11 @@ const SolutionIllustration = (props) => {
 				break;
 
 			case 'point': {
-				const pointInfo = findPointCoordinates(step, canv);
+				const pointInfo = {
+					...findPointCoordinates(step, canv),
+					value: step.value,
+					name: step.name,
+				};
 				drawPointProjections(pointInfo, canv);
 				drawPoint(pointInfo, canv);
 				break;
@@ -100,6 +104,9 @@ const SolutionIllustration = (props) => {
 
 		canv.ctx.strokeStyle = 'red';
 		canv.ctx.stroke();
+
+		canv.ctx.font = '12px serif';
+		canv.ctx.fillText(coordinate.value, ...canvasCoordinates.from);
 	};
 
 	const findX = (value, canv) => {
@@ -110,14 +117,8 @@ const SolutionIllustration = (props) => {
 
 		return {
 			center: offset,
-			from: [
-				offset.x - (0.1 * canv.unit) / Math.sqrt(2),
-				offset.y - (0.1 * canv.unit) / Math.sqrt(2),
-			],
-			to: [
-				offset.x + (0.1 * canv.unit) / Math.sqrt(2),
-				offset.y + (0.1 * canv.unit) / Math.sqrt(2),
-			],
+			from: [offset.x - 10 / Math.sqrt(2), offset.y - 10 / Math.sqrt(2)],
+			to: [offset.x + 10 / Math.sqrt(2), offset.y + 10 / Math.sqrt(2)],
 		};
 	};
 
@@ -129,8 +130,8 @@ const SolutionIllustration = (props) => {
 
 		return {
 			center: offset,
-			from: [offset.x, offset.y - 0.1 * canv.unit],
-			to: [offset.x, offset.y + 0.1 * canv.unit],
+			from: [offset.x, offset.y - 10],
+			to: [offset.x, offset.y + 10],
 		};
 	};
 
@@ -142,18 +143,25 @@ const SolutionIllustration = (props) => {
 
 		return {
 			center: offset,
-			from: [offset.x - 0.1 * canv.unit, offset.y],
-			to: [offset.x + 0.1 * canv.unit, offset.y],
+			from: [offset.x - 10, offset.y],
+			to: [offset.x + 10, offset.y],
 		};
 	};
 
 	const drawPoint = (point, canv) => {
 		canv.ctx.beginPath();
 
-		canv.ctx.arc(...point.canvasCoordinates, 0.1 * canv.unit, 0, 2 * Math.PI);
+		canv.ctx.arc(...point.canvasCoordinates, 5, 0, 2 * Math.PI);
 
 		canv.ctx.fillStyle = 'green';
 		canv.ctx.fill();
+
+		canv.ctx.fillStyle = 'black';
+		canv.ctx.font = '18px serif';
+		canv.ctx.fillText(
+			`${point.name}(${point.value.join('; ')})`,
+			...point.canvasCoordinates
+		);
 	};
 
 	const findPointCoordinates = (point, canv) => {
@@ -185,7 +193,7 @@ const SolutionIllustration = (props) => {
 		canv.ctx.lineTo(...point.canvasCoordinates);
 		canv.ctx.lineTo(point.coordinates[2].x, point.coordinates[2].y);
 
-		canv.ctx.setLineDash([1, 1]);
+		canv.ctx.setLineDash([5, 5]);
 		canv.ctx.strokeStyle = 'blue';
 
 		canv.ctx.stroke();
