@@ -61,74 +61,48 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawCoordinate = (coordinate, canv) => {
-		console.log('drawCoordinate', coordinate);
+		canv.ctx.beginPath();
 
 		switch (coordinate.name) {
 			case 'x': {
-				canv.ctx.beginPath();
+				const offset = {
+					x:
+						0.5 * canv.size.width -
+						(canv.unit * coordinate.value) / Math.sqrt(2),
+					y:
+						0.5 * canv.size.height +
+						(canv.unit * coordinate.value) / Math.sqrt(2),
+				};
 
 				canv.ctx.moveTo(
-					0.5 * canv.size.width -
-						(canv.unit * coordinate.value + canv.unit) / Math.sqrt(2),
-					0.5 * canv.size.height +
-						(canv.unit * coordinate.value - canv.unit) / Math.sqrt(2)
+					offset.x - canv.unit / Math.sqrt(2),
+					offset.y - canv.unit / Math.sqrt(2)
 				);
-				canv.ctx.lineTo(
-					0.5 * canv.size.width -
-						(canv.unit * coordinate.value - canv.unit) / Math.sqrt(2),
-					0.5 * canv.size.height + (canv.unit * coordinate.value) / Math.sqrt(2)
-				);
-
-				canv.ctx.strokeStyle = 'red';
-				canv.ctx.stroke();
-
-				canv.ctx.fillText(
-					coordinate.value,
-					0.5 * canv.size.width -
-						(canv.unit * coordinate.value + canv.unit) / Math.sqrt(2),
-					0.5 * canv.size.height +
-						(canv.unit * coordinate.value - canv.unit) / Math.sqrt(2)
-				);
+				canv.ctx.lineTo(offset.x + canv.unit / Math.sqrt(2), offset.y);
 
 				break;
 			}
 
 			case 'y': {
-				const location = 0.5 * canv.size.width + coordinate.value * canv.unit;
+				const offset = {
+					x: 0.5 * canv.size.width + coordinate.value * canv.unit,
+					y: 0.5 * canv.size.height,
+				};
 
-				canv.ctx.beginPath();
-
-				canv.ctx.moveTo(location, 0.5 * canv.size.height - 0.5 * canv.unit);
-				canv.ctx.lineTo(location, 0.5 * canv.size.height + 0.5 * canv.unit);
-
-				canv.ctx.strokeStyle = 'red';
-				canv.ctx.stroke();
-
-				canv.ctx.fillText(
-					coordinate.value,
-					location,
-					0.5 * canv.size.height - 0.5 * canv.unit
-				);
+				canv.ctx.moveTo(offset.x, offset.y - 0.5 * canv.unit);
+				canv.ctx.lineTo(offset.x, offset.y + 0.5 * canv.unit);
 
 				break;
 			}
 
 			case 'z': {
-				const location = 0.5 * canv.size.height - coordinate.value * canv.unit;
+				const offset = {
+					x: 0.5 * canv.size.width,
+					y: 0.5 * canv.size.height - coordinate.value * canv.unit,
+				};
 
-				canv.ctx.beginPath();
-
-				canv.ctx.moveTo(0.5 * canv.size.width - 0.5 * canv.unit, location);
-				canv.ctx.lineTo(0.5 * canv.size.width + 0.5 * canv.unit, location);
-
-				canv.ctx.strokeStyle = 'red';
-				canv.ctx.stroke();
-
-				canv.ctx.fillText(
-					coordinate.value,
-					0.5 * canv.size.width + 0.5 * canv.unit,
-					location
-				);
+				canv.ctx.moveTo(offset.x - 0.5 * canv.unit, offset.y);
+				canv.ctx.lineTo(offset.x + 0.5 * canv.unit, offset.y);
 
 				break;
 			}
@@ -136,6 +110,9 @@ const SolutionIllustration = (props) => {
 			default:
 				break;
 		}
+
+		canv.ctx.strokeStyle = 'red';
+		canv.ctx.stroke();
 	};
 
 	const drawPoint = (point, canv) => {
