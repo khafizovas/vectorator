@@ -19,6 +19,17 @@ const ratioPointCoordinates = (req, res) => {
 	);
 
 	res.send({
+		task: [
+			{
+				type: 'vector',
+				name: 'AB',
+				value: Object.values(req.body.vectorPoints).map((point) =>
+					Object.values(point)
+				),
+			},
+			{ type: 'number', name: 'a', value: req.body.ratioParts.a },
+			{ type: 'number', name: 'b', value: req.body.ratioParts.b },
+		],
 		...describedSolution,
 		solution: solution.solution,
 		result: solution.result,

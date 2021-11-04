@@ -36,8 +36,8 @@ const Task = () => {
 	const getSolution = (ev) => {
 		ev.preventDefault();
 
-		params = [...document.getElementsByTagName('input')].map(
-			(input) => input.value
+		params = [...document.getElementsByTagName('input')].map((input) =>
+			Number(input.value.replace(',', '.'))
 		);
 
 		const reqBody = task?.reqBodySample;
@@ -63,6 +63,7 @@ const Task = () => {
 
 			{solution ? (
 				<Solution
+					task={solution.task}
 					solution={solution.solution}
 					describedSolution={solution.describedSolution}
 					result={solution.result}

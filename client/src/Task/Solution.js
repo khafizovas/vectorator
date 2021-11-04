@@ -23,7 +23,7 @@ const Solution = (props) => {
 						.join(', ')}
 				</p>
 			</div>
-			<SolutionIllustration solution={props.solution} />
+			<SolutionIllustration solution={props.solution} task={props.task} />
 		</div>
 	);
 };

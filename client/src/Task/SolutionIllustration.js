@@ -2,14 +2,30 @@ import React, { useEffect, useRef } from 'react';
 
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
+	// TODO: Draw captions at the end
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
 		const context = canvas.getContext('2d');
 		const size = canvas.width;
 
+		context.lineWidth = 1;
+
+		const unit =
+			size /
+			(3 *
+				Math.max(
+					...[...props.task, ...props.solution]
+						.map((step) =>
+							Array.isArray(step.value) ? step.value.flat(Infinity) : step.value
+						)
+						.flat(Infinity)
+						.filter((step) => step.type !== 'number')
+				));
+
 		drawGrid(context, size);
-		drawSolution(context, size);
+		drawTask(context, size, unit);
+		drawSolution(context, size, unit);
 	}, []);
 
 	// Magic starts here
@@ -37,18 +53,11 @@ const SolutionIllustration = (props) => {
 		ctx.fillText('z', 0.5 * size, 0.05 * size);
 	};
 
-	const drawSolution = (ctx, size) => {
-		const unit =
-			size /
-			(3 *
-				Math.max(
-					...props.solution
-						.filter((step) => step.type !== 'number')
-						.map((step) =>
-							Array.isArray(step.value) ? Math.max(...step.value) : step.value
-						)
-				));
+	const drawTask = (ctx, size, unit) => {
+		props.task.forEach((elem) => drawStep(elem, { ctx, size, unit }));
+	};
 
+	const drawSolution = (ctx, size, unit) => {
 		props.solution.forEach((step) => drawStep(step, { ctx, size, unit }));
 	};
 
@@ -69,9 +78,105 @@ const SolutionIllustration = (props) => {
 				break;
 			}
 
+			case 'vector': {
+				const axis = ['x', 'y', 'z'];
+				const vectorInfo = step.value.map((point, i) => {
+					return {
+						...findPointCoordinates({ value: point }, canv),
+						value: point,
+						name: step.name.slice(i, i + 1),
+					};
+				});
+
+				vectorInfo.forEach((point) =>
+					point.value.forEach((coordinate, i) =>
+						drawCoordinate({ value: coordinate, name: axis[i] }, canv)
+					)
+				);
+				vectorInfo.forEach((point) => drawPointProjections(point, canv));
+				drawVector(vectorInfo, canv);
+				break;
+			}
+
 			default:
 				break;
 		}
+	};
+
+	const drawVector = (vector, canv) => {
+		console.log('drawVector', vector);
+
+		canv.ctx.beginPath();
+
+		canv.ctx.moveTo(...vector[0].canvasCoordinates);
+		canv.ctx.lineTo(...vector[1].canvasCoordinates);
+		// Arrow
+		const angle = Math.atan2(
+			vector[1].canvasCoordinates[1] - vector[0].canvasCoordinates[1],
+			vector[1].canvasCoordinates[0] - vector[0].canvasCoordinates[0]
+		);
+
+		canv.ctx.lineTo(
+			vector[1].canvasCoordinates[0] -
+				0.2 * canv.unit * Math.cos(angle - Math.PI / 6),
+			vector[1].canvasCoordinates[1] -
+				0.2 * canv.unit * Math.sin(angle - Math.PI / 6)
+		);
+		canv.ctx.moveTo(...vector[1].canvasCoordinates);
+		canv.ctx.lineTo(
+			vector[1].canvasCoordinates[0] -
+				0.2 * canv.unit * Math.cos(angle + Math.PI / 6),
+			vector[1].canvasCoordinates[1] -
+				0.2 * canv.unit * Math.sin(angle + Math.PI / 6)
+		);
+
+		canv.ctx.strokeStyle = 'black';
+		canv.ctx.lineWidth = 3;
+		canv.ctx.stroke();
+
+		canv.ctx.lineWidth = 1;
+
+		vector.forEach((point) => drawPoint(point, canv, false));
+	};
+
+	const drawPoint = (
+		point,
+		canv,
+		isVisible = true,
+		showCoordinates = false
+	) => {
+		canv.ctx.beginPath();
+
+		if (isVisible) {
+			canv.ctx.arc(...point.canvasCoordinates, 3, 0, 2 * Math.PI);
+			canv.ctx.fillStyle = 'green';
+			canv.ctx.fill();
+		}
+
+		canv.ctx.fillStyle = 'black';
+		canv.ctx.font = '18px serif';
+		canv.ctx.fillText(
+			showCoordinates ? `${point.name}(${point.value.join('; ')})` : point.name,
+			...point.canvasCoordinates
+		);
+	};
+
+	const drawPointProjections = (point, canv) => {
+		canv.ctx.beginPath();
+
+		canv.ctx.moveTo(point.coordinates[0].x, point.coordinates[0].y);
+		canv.ctx.lineTo(point.canvasCoordinates[0], point.coordinates[0].y);
+		canv.ctx.lineTo(point.coordinates[1].x, point.coordinates[1].y);
+
+		canv.ctx.moveTo(point.canvasCoordinates[0], point.coordinates[0].y);
+		canv.ctx.lineTo(...point.canvasCoordinates);
+		canv.ctx.lineTo(point.coordinates[2].x, point.coordinates[2].y);
+
+		canv.ctx.setLineDash([5, 5]);
+		canv.ctx.strokeStyle = 'blue';
+
+		canv.ctx.stroke();
+		canv.ctx.setLineDash([]);
 	};
 
 	const drawCoordinate = (coordinate, canv) => {
@@ -107,6 +212,25 @@ const SolutionIllustration = (props) => {
 
 		canv.ctx.font = '12px serif';
 		canv.ctx.fillText(coordinate.value, ...canvasCoordinates.from);
+	};
+
+	// Helpers
+	const findPointCoordinates = (point, canv) => {
+		const pointCoordinates = [
+			findX(point.value[0], canv),
+			findY(point.value[1], canv),
+			findZ(point.value[2], canv),
+		].map((coordinate) => coordinate.center);
+
+		const pointCanvasCoordinates = [
+			pointCoordinates[0].x + canv.unit * point.value[1],
+			pointCoordinates[0].y - canv.unit * point.value[2],
+		];
+
+		return {
+			coordinates: pointCoordinates,
+			canvasCoordinates: pointCanvasCoordinates,
+		};
 	};
 
 	const findX = (value, canv) => {
@@ -148,56 +272,6 @@ const SolutionIllustration = (props) => {
 		};
 	};
 
-	const drawPoint = (point, canv) => {
-		canv.ctx.beginPath();
-
-		canv.ctx.arc(...point.canvasCoordinates, 5, 0, 2 * Math.PI);
-
-		canv.ctx.fillStyle = 'green';
-		canv.ctx.fill();
-
-		canv.ctx.fillStyle = 'black';
-		canv.ctx.font = '18px serif';
-		canv.ctx.fillText(
-			`${point.name}(${point.value.join('; ')})`,
-			...point.canvasCoordinates
-		);
-	};
-
-	const findPointCoordinates = (point, canv) => {
-		const pointCoordinates = [
-			findX(point.value[0], canv),
-			findY(point.value[1], canv),
-			findZ(point.value[2], canv),
-		].map((coordinate) => coordinate.center);
-
-		const pointCanvasCoordinates = [
-			pointCoordinates[0].x + canv.unit * point.value[1],
-			pointCoordinates[0].y - canv.unit * point.value[2],
-		];
-
-		return {
-			coordinates: pointCoordinates,
-			canvasCoordinates: pointCanvasCoordinates,
-		};
-	};
-
-	const drawPointProjections = (point, canv) => {
-		canv.ctx.beginPath();
-
-		canv.ctx.moveTo(point.coordinates[0].x, point.coordinates[0].y);
-		canv.ctx.lineTo(point.canvasCoordinates[0], point.coordinates[0].y);
-		canv.ctx.lineTo(point.coordinates[1].x, point.coordinates[1].y);
-
-		canv.ctx.moveTo(point.canvasCoordinates[0], point.coordinates[0].y);
-		canv.ctx.lineTo(...point.canvasCoordinates);
-		canv.ctx.lineTo(point.coordinates[2].x, point.coordinates[2].y);
-
-		canv.ctx.setLineDash([5, 5]);
-		canv.ctx.strokeStyle = 'blue';
-
-		canv.ctx.stroke();
-	};
 	// Magic ends here
 
 	return <canvas id='illustration' ref={canvasRef} width='300' height='300' />;
