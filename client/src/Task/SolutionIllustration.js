@@ -106,8 +106,6 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawVector = (vector, canv) => {
-		console.log('drawVector', vector);
-
 		canv.ctx.beginPath();
 
 		canv.ctx.moveTo(...vector[0].canvasCoordinates);

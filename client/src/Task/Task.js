@@ -4,27 +4,27 @@ import { useParams } from 'react-router';
 import Solution from './Solution';
 
 const Task = () => {
-	const { id } = useParams();
+	const { key } = useParams();
 
 	const [task, setTask] = useState(null);
 	const [solution, setSolution] = useState(null);
 
 	useEffect(() => {
-		fetch(`/api/tasks/${id}`)
+		fetch(`/api/tasks/${key}`)
 			.then((response) => {
 				return response.json();
 			})
 			.then((data) => {
 				setTask(data.task);
 			});
-	}, [id]);
+	}, [key]);
 
 	let params;
 	let paramIndex = 0;
 
 	const fillReqBody = (obj) => {
 		for (let k in obj) {
-			if (typeof obj[k] === 'object') {
+			if (typeof obj[k] === 'object' && obj[k] !== null) {
 				fillReqBody(obj[k]);
 			} else {
 				obj[k] = params[paramIndex];
@@ -40,7 +40,7 @@ const Task = () => {
 			Number(input.value.replace(',', '.'))
 		);
 
-		const reqBody = task?.reqBodySample;
+		const reqBody = JSON.parse(JSON.stringify(task.reqBodySample));
 		fillReqBody(reqBody);
 
 		fetch(`/api/tasks${task.path}`, {
@@ -52,7 +52,7 @@ const Task = () => {
 				return response.json();
 			})
 			.then((data) => {
-				setSolution(data);
+				setSolution({ ...data, task: JSON.parse(data.task) });
 			});
 	};
 

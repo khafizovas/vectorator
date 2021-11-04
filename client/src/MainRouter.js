@@ -15,7 +15,7 @@ const MainRouter = () => {
 					<HomePage />
 				</Route>
 
-				<Route path='/tasks/:id'>
+				<Route path='/tasks/:key'>
 					<Task />
 				</Route>
 			</Switch>
