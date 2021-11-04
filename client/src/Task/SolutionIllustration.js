@@ -58,7 +58,9 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawSolution = (ctx, size, unit) => {
-		props.solution.forEach((step) => drawStep(step, { ctx, size, unit }));
+		props.solution.forEach((step, i) =>
+			setTimeout(() => drawStep(step, { ctx, size, unit }), 3000 * (i + 1))
+		);
 	};
 
 	const drawStep = (step, canv) => {
