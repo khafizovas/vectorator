@@ -3,6 +3,8 @@ import { useParams } from 'react-router';
 
 import Solution from './Solution';
 
+// TODO Make inputs' values state
+
 const Task = () => {
 	const { key } = useParams();
 
@@ -63,7 +65,7 @@ const Task = () => {
 
 			{solution ? (
 				<Solution
-					task={solution.task}
+					task={solution.task.task}
 					solution={solution.solution}
 					describedSolution={solution.describedSolution}
 					result={solution.result}

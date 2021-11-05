@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
+const AXIS = ['x', 'y', 'z'];
+
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
 	// TODO: Draw captions at the end
@@ -9,7 +11,7 @@ const SolutionIllustration = (props) => {
 		const context = canvas.getContext('2d');
 		const size = canvas.width;
 
-		context.lineWidth = 1;
+		context.lineWidth = 2;
 
 		const unit =
 			size /
@@ -20,7 +22,7 @@ const SolutionIllustration = (props) => {
 							Array.isArray(step.value) ? step.value.flat(Infinity) : step.value
 						)
 						.flat(Infinity)
-						.filter((step) => step.type !== 'number')
+						.filter((step) => step.type !== 'number' && step.type !== 'bool')
 				));
 
 		drawGrid(context, size);
@@ -75,13 +77,12 @@ const SolutionIllustration = (props) => {
 					value: step.value,
 					name: step.name,
 				};
-				drawPointProjections(pointInfo, canv);
+
 				drawPoint(pointInfo, canv);
 				break;
 			}
 
 			case 'vector': {
-				const axis = ['x', 'y', 'z'];
 				const vectorInfo = step.value.map((point, i) => {
 					return {
 						...findPointCoordinates({ value: point }, canv),
@@ -90,13 +91,20 @@ const SolutionIllustration = (props) => {
 					};
 				});
 
-				vectorInfo.forEach((point) =>
-					point.value.forEach((coordinate, i) =>
-						drawCoordinate({ value: coordinate, name: axis[i] }, canv)
-					)
-				);
-				vectorInfo.forEach((point) => drawPointProjections(point, canv));
 				drawVector(vectorInfo, canv);
+				break;
+			}
+
+			case 'parallelogram': {
+				const parallelogramInfo = step.value.map((point, i) => {
+					return {
+						...findPointCoordinates({ value: point }, canv),
+						value: point,
+						name: step.name.slice(i, i + 1),
+					};
+				});
+
+				drawParallelogram(parallelogramInfo, canv);
 				break;
 			}
 
@@ -105,38 +113,60 @@ const SolutionIllustration = (props) => {
 		}
 	};
 
+	const drawParallelogram = (parallelogram, canv) => {
+		parallelogram.forEach((point) => drawPoint(point, canv, false));
+
+		canv.ctx.beginPath();
+
+		canv.ctx.moveTo(...parallelogram[0].canvasCoordinates);
+		for (let i = 1; i < parallelogram.length; ++i) {
+			canv.ctx.lineTo(...parallelogram[i].canvasCoordinates);
+		}
+		canv.ctx.lineTo(...parallelogram[0].canvasCoordinates);
+
+		canv.ctx.strokeStyle = 'black';
+		canv.ctx.stroke();
+	};
+
 	const drawVector = (vector, canv) => {
+		vector.forEach((point) => drawPoint(point, canv, false));
+
 		canv.ctx.beginPath();
 
 		canv.ctx.moveTo(...vector[0].canvasCoordinates);
 		canv.ctx.lineTo(...vector[1].canvasCoordinates);
-		// Arrow
+
+		canv.ctx.strokeStyle = 'black';
+		canv.ctx.stroke();
+
+		drawArrow(vector, canv);
+	};
+
+	const drawArrow = (vector, canv) => {
 		const angle = Math.atan2(
 			vector[1].canvasCoordinates[1] - vector[0].canvasCoordinates[1],
 			vector[1].canvasCoordinates[0] - vector[0].canvasCoordinates[0]
 		);
 
+		canv.ctx.beginPath();
+
+		canv.ctx.moveTo(...vector[1].canvasCoordinates);
 		canv.ctx.lineTo(
 			vector[1].canvasCoordinates[0] -
-				0.2 * canv.unit * Math.cos(angle - Math.PI / 6),
+				0.5 * canv.unit * Math.cos(angle - Math.PI / 6),
 			vector[1].canvasCoordinates[1] -
-				0.2 * canv.unit * Math.sin(angle - Math.PI / 6)
+				0.5 * canv.unit * Math.sin(angle - Math.PI / 6)
 		);
 		canv.ctx.moveTo(...vector[1].canvasCoordinates);
 		canv.ctx.lineTo(
 			vector[1].canvasCoordinates[0] -
-				0.2 * canv.unit * Math.cos(angle + Math.PI / 6),
+				0.5 * canv.unit * Math.cos(angle + Math.PI / 6),
 			vector[1].canvasCoordinates[1] -
-				0.2 * canv.unit * Math.sin(angle + Math.PI / 6)
+				0.5 * canv.unit * Math.sin(angle + Math.PI / 6)
 		);
 
 		canv.ctx.strokeStyle = 'black';
-		canv.ctx.lineWidth = 3;
 		canv.ctx.stroke();
-
-		canv.ctx.lineWidth = 1;
-
-		vector.forEach((point) => drawPoint(point, canv, false));
 	};
 
 	const drawPoint = (
@@ -145,6 +175,11 @@ const SolutionIllustration = (props) => {
 		isVisible = true,
 		showCoordinates = false
 	) => {
+		point.value.forEach((coordinate, i) =>
+			drawCoordinate({ name: AXIS[i], value: coordinate }, canv)
+		);
+		drawPointProjections(point, canv);
+
 		canv.ctx.beginPath();
 
 		if (isVisible) {
