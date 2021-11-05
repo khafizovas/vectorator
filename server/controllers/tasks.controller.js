@@ -54,6 +54,7 @@ const ratioPointCoordinates = (req, res) => {
 	});
 };
 
+// TODO remove lengths finding
 const buildParallelogram = (req, res) => {
 	const task = JSON.stringify({
 		key: 1,
@@ -91,7 +92,6 @@ const buildParallelogram = (req, res) => {
 				d: req.body.d,
 			});
 
-			console.log(task, vectorsCoordinates, solution);
 			const describedSolution = descriptors.describeParallelogramBuilding(
 				solution.task,
 				solution.solution
@@ -101,6 +101,64 @@ const buildParallelogram = (req, res) => {
 		}
 	});
 };
+
+// TODO
+const findSidesLength = (req, res) => {};
+
+const findAngleBetweenDiagonales = (req, res) => {
+	const task = JSON.stringify({
+		key: 2,
+		task: [
+			{
+				type: 'point',
+				name: 'A',
+				value: Object.values(req.body.a),
+			},
+			{
+				type: 'point',
+				name: 'B',
+				value: Object.values(req.body.b),
+			},
+			{
+				type: 'point',
+				name: 'D',
+				value: Object.values(req.body.d),
+			},
+		],
+	});
+
+	Solution.findOne({ task: task }, { _id: 0 }, (err, result) => {
+		if (result) {
+			res.send(result);
+		} else {
+			const solution = maths.findParallelogramDiagonalesAngles({
+				a: req.body.a,
+				b: req.body.b,
+				d: req.body.d,
+			});
+
+			const describedSolution = descriptors.findParallelogramDiagonalesAngles(
+				solution.task,
+				solution.solution
+			);
+
+			newSolution(res, task, solution, describedSolution);
+		}
+	});
+};
+
+// TODO
+const findParallelogramArea = (req, res) => {};
+const buildParallelepiped = (req, res) => {};
+const findParallelepipedVolume = (req, res) => {};
+const findParallelepipedHeight = (req, res) => {};
+const findVectorInBasis = (req, res) => {};
+const findVectorProjection = (req, res) => {};
+const findPlaneEquationByPoints = (req, res) => {};
+const findPlaneEquationByPointAndLine = (req, res) => {};
+const findDistanceBetweenLines = (req, res) => {};
+const findSymmetricalPoint = (req, res) => {};
+const findAngleBetweenPlanes = (req, res) => {};
 
 // Helpers
 
@@ -122,4 +180,17 @@ module.exports = {
 	getTask,
 	ratioPointCoordinates,
 	buildParallelogram,
+	findSidesLength,
+	findAngleBetweenDiagonales,
+	findParallelogramArea,
+	buildParallelepiped,
+	findParallelepipedVolume,
+	findParallelepipedHeight,
+	findVectorInBasis,
+	findVectorProjection,
+	findPlaneEquationByPoints,
+	findPlaneEquationByPointAndLine,
+	findDistanceBetweenLines,
+	findSymmetricalPoint,
+	findAngleBetweenPlanes,
 };
