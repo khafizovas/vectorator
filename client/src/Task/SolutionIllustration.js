@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
-const AXIS = ['x', 'y', 'z'];
-
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
-	// TODO: Draw captions at the end
+
+	const captions = [];
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -12,6 +11,7 @@ const SolutionIllustration = (props) => {
 		const size = canvas.width;
 
 		context.lineWidth = 2;
+		context.font = '14px Comic Sans MS';
 
 		const unit =
 			size /
@@ -25,34 +25,69 @@ const SolutionIllustration = (props) => {
 						.filter((step) => step.type !== 'number' && step.type !== 'bool')
 				));
 
-		drawGrid(context, size);
+		drawGrid(context, size, unit);
 		drawTask(context, size, unit);
 		drawSolution(context, size, unit);
+		drawCaptions(context);
 	}, []);
 
 	// Magic starts here
-	const drawGrid = (ctx, size) => {
-		ctx.beginPath();
+	const drawGrid = (contex, size, unit) => {
+		contex.beginPath();
 
 		// OZ
-		ctx.moveTo(0.5 * size, 0);
-		ctx.lineTo(0.5 * size, 0.5 * size);
+		contex.moveTo(0.5 * size, 0);
+		contex.lineTo(0.5 * size, 0.5 * size);
 
 		// OY
-		ctx.lineTo(size, 0.5 * size);
+		contex.lineTo(size, 0.5 * size);
 
 		// OX
-		ctx.moveTo(0.5 * size, 0.5 * size);
-		ctx.lineTo(0, size);
+		contex.moveTo(0.5 * size, 0.5 * size);
+		contex.lineTo(0, size);
 
-		ctx.stroke();
+		contex.strokeStyle = 'gray';
+		contex.stroke();
+
+		// Arrows
+		drawArrow(
+			[
+				{
+					canvasCoordinates: [0.5 * size, 0.5 * size],
+				},
+				{ canvasCoordinates: [0.5 * size, 0] },
+			],
+			{ ctx: contex, size, unit }
+		);
+		drawArrow(
+			[
+				{
+					canvasCoordinates: [0.5 * size, 0.5 * size],
+				},
+				{ canvasCoordinates: [size, 0.5 * size] },
+			],
+			{ ctx: contex, size, unit }
+		);
+		drawArrow(
+			[
+				{
+					canvasCoordinates: [0.5 * size, 0.5 * size],
+				},
+				{ canvasCoordinates: [0, size] },
+			],
+			{ ctx: contex, size, unit }
+		);
 
 		// Captions
-		ctx.font = '18px serif';
-		ctx.fillText('0', 0.5 * size, 0.5 * size);
-		ctx.fillText('x', 0.05, 0.95 * size);
-		ctx.fillText('y', 0.95 * size, 0.5 * size);
-		ctx.fillText('z', 0.5 * size, 0.05 * size);
+		contex.fillStyle = 'black';
+		contex.fillText('0', 0.5 * size - 0.9 * unit, 0.5 * size);
+		contex.fillText('x', 0.05, 0.95 * size);
+		contex.fillText('y', 0.95 * size, 0.5 * size);
+		contex.fillText('z', 0.5 * size, 0.05 * size);
+		captions.push(['0', 0.5 * size - 0.9 * unit, 0.5 * size]);
+		captions.push(['x', 0.05, 0.95 * size]);
+		captions.push(['y', 0.95 * size, 0.5 * size]);
+		captions.push(['z', 0.5 * size, 0.05 * size]);
 	};
 
 	const drawTask = (ctx, size, unit) => {
@@ -60,8 +95,19 @@ const SolutionIllustration = (props) => {
 	};
 
 	const drawSolution = (ctx, size, unit) => {
-		props.solution.forEach((step, i) =>
-			setTimeout(() => drawStep(step, { ctx, size, unit }), 3000 * (i + 1))
+		props.solution
+			.filter((step) => step.type !== 'number' && step.type !== 'bool')
+			.forEach((step, i) =>
+				setTimeout(() => drawStep(step, { ctx, size, unit }), 3000 * (i + 1))
+			);
+	};
+
+	const drawCaptions = (ctx) => {
+		captions.forEach((caption) =>
+			setTimeout(() => {
+				ctx.fillStyle = 'black';
+				ctx.fillText(...caption);
+			}, 3000 * props.solution.filter((step) => step.type !== 'number' && step.type !== 'bool').length)
 		);
 	};
 
@@ -165,7 +211,6 @@ const SolutionIllustration = (props) => {
 				0.5 * canv.unit * Math.sin(angle + Math.PI / 6)
 		);
 
-		canv.ctx.strokeStyle = 'black';
 		canv.ctx.stroke();
 	};
 
@@ -175,6 +220,8 @@ const SolutionIllustration = (props) => {
 		isVisible = true,
 		showCoordinates = false
 	) => {
+		const AXIS = ['x', 'y', 'z'];
+
 		point.value.forEach((coordinate, i) =>
 			drawCoordinate({ name: AXIS[i], value: coordinate }, canv)
 		);
@@ -189,11 +236,14 @@ const SolutionIllustration = (props) => {
 		}
 
 		canv.ctx.fillStyle = 'black';
-		canv.ctx.font = '18px serif';
 		canv.ctx.fillText(
 			showCoordinates ? `${point.name}(${point.value.join('; ')})` : point.name,
 			...point.canvasCoordinates
 		);
+		captions.push([
+			showCoordinates ? `${point.name}(${point.value.join('; ')})` : point.name,
+			...point.canvasCoordinates,
+		]);
 	};
 
 	const drawPointProjections = (point, canv) => {
@@ -245,8 +295,9 @@ const SolutionIllustration = (props) => {
 		canv.ctx.strokeStyle = 'red';
 		canv.ctx.stroke();
 
-		canv.ctx.font = '12px serif';
+		canv.ctx.fillStyle = 'black';
 		canv.ctx.fillText(coordinate.value, ...canvasCoordinates.from);
+		captions.push([coordinate.value, ...canvasCoordinates.from]);
 	};
 
 	// Helpers

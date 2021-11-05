@@ -1,4 +1,18 @@
 /**
+ * @typedef {Object} Point3D
+ * @property {number} x - The X Coordinate
+ * @property {number} y - The Y Coordinate
+ * @property {number} z - The Z Coordinate
+ */
+
+/**
+ * @typedef {Object} Vector3D
+ * @property {number} x - The i Coordinate
+ * @property {number} y - The j Coordinate
+ * @property {number} z - The k Coordinate
+ */
+
+/**
  * Поиск координат вектора по координатам его начальной и конечной точек
  * @param {Point3D} first
  * @param {Point3D} second
