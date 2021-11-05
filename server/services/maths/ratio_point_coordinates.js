@@ -2,11 +2,10 @@
  * Найти координаты точки М, делящей вектор AB в отношении a : b
  * @param {{first: Point3D, second: Point3D}} vectorPoints координаты концов вектора
  * @param {{a: number, b: number}} ratioParts заданное отношение
- * @returns {Point3D} координата искомой точки
+ * @returns {solution} координата искомой точки
  */
 const findRatioPoint3D = (vectorPoints, ratioParts) => {
 	const task = { vectorPoints: vectorPoints, ratioParts: ratioParts };
-
 	const solution = [];
 
 	solution.push({
@@ -61,6 +60,7 @@ const findRatioPoint3D = (vectorPoints, ratioParts) => {
 };
 
 /**
+ * Поиск координаты, делящей в заданном отношении, по координатам начальной и конечной точки
  * @param {number} first
  * @param {number} second
  * @param {number} ratio

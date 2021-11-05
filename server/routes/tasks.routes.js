@@ -10,4 +10,8 @@ router
 	.route('/api/tasks/ratio_point_coordinates')
 	.post(tasksController.ratioPointCoordinates);
 
+router
+	.route('/api/tasks/build_parallelogram')
+	.post(tasksController.buildParallelogram);
+
 module.exports = router;
