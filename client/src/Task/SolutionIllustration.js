@@ -107,7 +107,7 @@ const SolutionIllustration = (props) => {
 			setTimeout(() => {
 				ctx.fillStyle = 'black';
 				ctx.fillText(...caption);
-			}, 3000 * props.solution.filter((step) => step.type !== 'number' && step.type !== 'bool').length)
+			}, 3000 * props.solution.filter((step) => step.type !== 'number' && step.type !== 'bool').length + 1000)
 		);
 	};
 
