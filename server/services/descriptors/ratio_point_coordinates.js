@@ -1,4 +1,4 @@
-const describeRatioPoint3D = (task, solution) => {
+const describeRatioPoint3D = ({ task, solution }) => {
 	const describedSolution = [];
 
 	describedSolution.push({

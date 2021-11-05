@@ -2,6 +2,20 @@ import React from 'react';
 import SolutionIllustration from './SolutionIllustration';
 
 const Solution = (props) => {
+	const getResultString = () => {
+		switch (props.result.type) {
+			case 'point':
+				return Object.entries(props.result.value)
+					.map(([key, val]) => `${key} = ${val}`)
+					.join('; ');
+			case 'bool':
+				return props.result.value ? 'Да' : 'Нет';
+
+			default:
+				break;
+		}
+	};
+
 	return (
 		<div className='solution'>
 			<div>
@@ -17,11 +31,7 @@ const Solution = (props) => {
 					))}
 				</ol>
 				<h3>Ответ:</h3>
-				<p>
-					{Object.entries(props.result)
-						.map(([key, val]) => `${key} = ${val}`)
-						.join(', ')}
-				</p>
+				<p>{getResultString()}</p>
 			</div>
 			<SolutionIllustration solution={props.solution} task={props.task} />
 		</div>

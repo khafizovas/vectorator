@@ -51,9 +51,12 @@ const findRatioPoint3D = (vectorPoints, ratioParts) => {
 	});
 
 	const result = {
-		x: solution[4].value[0],
-		y: solution[4].value[1],
-		z: solution[4].value[2],
+		type: 'point',
+		value: {
+			x: solution[4].value[0],
+			y: solution[4].value[1],
+			z: solution[4].value[2],
+		},
 	};
 
 	return { task: task, solution: solution, result: result };

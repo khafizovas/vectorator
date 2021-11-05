@@ -8,7 +8,6 @@
 const buildParallelogramOrNull = (lhs, rhs, coordinates) => {
 	const task = { lhs: lhs, rhs: rhs, coordinates: coordinates };
 	const solution = [];
-	let result = null;
 
 	solution.push({
 		name: 'collinearity',
@@ -16,9 +15,7 @@ const buildParallelogramOrNull = (lhs, rhs, coordinates) => {
 		value: areCollinearVectors(lhs, rhs),
 	});
 
-	if (solution[0].value) {
-		result = null;
-	} else {
+	if (!solution[0].value) {
 		solution.push({
 			name: 'C',
 			type: 'point',
@@ -34,18 +31,24 @@ const buildParallelogramOrNull = (lhs, rhs, coordinates) => {
 				Object.values(coordinates.d),
 			],
 		});
-		solution.push({
-			name: '|AB|',
-			type: 'number',
-			value: findVectorLength(lhs),
-		});
-		solution.push({
-			name: '|AD|',
-			type: 'number',
-			value: findVectorLength(rhs),
-		});
-		result = { '|AB|': solution[3].value, '|AD|': solution[4].value };
 	}
+
+	const result = {
+		type: 'bool',
+		value: !solution[0].value,
+	};
+
+	// solution.push({
+	// 	name: '|AB|',
+	// 	type: 'number',
+	// 	value: findVectorLength(lhs),
+	// });
+	// solution.push({
+	// 	name: '|AD|',
+	// 	type: 'number',
+	// 	value: findVectorLength(rhs),
+	// });
+	// result = { '|AB|': solution[3].value, '|AD|': solution[4].value };
 
 	return { task: task, solution: solution, result: result };
 };
