@@ -42,6 +42,7 @@ const ratioPointCoordinates = (req, res) => {
 	});
 };
 
+// TODO remove buildVector3D
 const buildParallelogram = (req, res) => {
 	getSolution(
 		[
@@ -81,10 +82,29 @@ const buildParallelogram = (req, res) => {
 	);
 };
 
-// TODO add params and task
+// TODO
 const findSidesLength = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+	];
+
+	getSolution(vectors, res, {
+		task: JSON.stringify({
+			key: 2,
+			task: [
+				{
+					type: 'vector',
+					name: 'AB',
+					value: Object.values(vectors[0]),
+				},
+				{
+					type: 'vector',
+					name: 'AD',
+					value: Object.values(vectors[1]),
+				},
+			],
+		}),
 		maths: maths.findParallelorgamSides,
 		descriptor: descriptors.describeParallelorgamSides,
 	});
@@ -117,82 +137,236 @@ const findAngleBetweenDiagonales = (req, res) => {
 	});
 };
 
-// TODO add params and task
 const findParallelogramArea = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	getSolution(Object.values(req.body), res, {
+		task: JSON.stringify({
+			key: 4,
+			task: [
+				{
+					type: 'point',
+					name: 'A',
+					value: Object.values(req.body.a),
+				},
+				{
+					type: 'point',
+					name: 'B',
+					value: Object.values(req.body.b),
+				},
+				{
+					type: 'point',
+					name: 'D',
+					value: Object.values(req.body.d),
+				},
+			],
+		}),
 		maths: maths.findParallelogramArea,
 		descriptor: descriptors.describeParallelogramArea,
 	});
 };
 
 const buildParallelepiped = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+		maths.buildVector3D(req.body.a, req.body.a1),
+	];
+
+	getSolution(vectors, res, {
+		task: JSON.stringify({
+			key: 5,
+			task: [
+				{
+					type: 'vector',
+					name: 'AB',
+					value: Object.values(vectors[0]),
+				},
+				{
+					type: 'vector',
+					name: 'AD',
+					value: Object.values(vectors[1]),
+				},
+				{
+					type: 'vector',
+					name: 'AA_1',
+					value: Object.values(vectors[2]),
+				},
+			],
+		}),
 		maths: maths.canBuildParallelepiped,
 		descriptor: descriptors.describeParallelepiped,
 	});
 };
 
 const findParallelepipedVolume = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+		maths.buildVector3D(req.body.a, req.body.a1),
+	];
+
+	getSolution(vectors, res, {
+		task: JSON.stringify({
+			key: 6,
+			task: [
+				{
+					type: 'vector',
+					name: 'AB',
+					value: Object.values(vectors[0]),
+				},
+				{
+					type: 'vector',
+					name: 'AD',
+					value: Object.values(vectors[1]),
+				},
+				{
+					type: 'vector',
+					name: 'AA_1',
+					value: Object.values(vectors[2]),
+				},
+			],
+		}),
 		maths: maths.findParallelepipedVolume,
 		descriptor: descriptors.describeParallelepipedVolume,
 	});
 };
 
 const findParallelepipedHeight = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+		maths.buildVector3D(req.body.a, req.body.a1),
+	];
+
+	getSolution(vectors, res, {
+		task: JSON.stringify({
+			key: 7,
+			task: [
+				{
+					type: 'vector',
+					name: 'AB',
+					value: Object.values(vectors[0]),
+				},
+				{
+					type: 'vector',
+					name: 'AD',
+					value: Object.values(vectors[1]),
+				},
+				{
+					type: 'vector',
+					name: 'AA_1',
+					value: Object.values(vectors[2]),
+				},
+			],
+		}),
 		maths: maths.findParallelepipedHeight,
 		descriptor: descriptors.describeParallelepipedHeight,
 	});
 };
 
 const findVectorInBasis = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	const vector = maths.buildVector3D(req.body.a, req.body.h);
+	const basis = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+		maths.buildVector3D(req.body.a, req.body.a1),
+	];
+
+	getSolution({ vector, basis }, res, {
+		task: JSON.stringify({
+			key: 8,
+			task: [
+				{ type: 'vector', name: 'AH', value: Object.values(vector) },
+				{ type: 'vector', name: 'AB', value: Object.values(basis[0]) },
+				{ type: 'vector', name: 'AD', value: Object.values(basis[1]) },
+				{ type: 'vector', name: 'AA_1', value: Object.values(basis[2]) },
+			],
+		}),
 		maths: maths.findVectorDecomposition,
 		descriptor: descriptors.describeVectorDecomposition,
 	});
 };
 
 const findVectorProjection = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.h),
+		maths.buildVector3D(req.body.a, req.body.a1),
+	];
+
+	getSolution(vectors, res, {
+		task: JSON.stringify({
+			key: 9,
+			task: [
+				{ type: 'vector', name: 'AH', value: Object.values(vectors[0]) },
+				{ type: 'vector', name: 'AA_1', value: Object.values(vectors[1]) },
+			],
+		}),
 		maths: maths.findVectorProjection,
 		descriptor: descriptors.describeVectorProjection,
 	});
 };
 
 const findPlaneEquation = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	getSolution(Object.values(req.body), res, {
+		task: JSON.stringify({
+			key: 10,
+			task: [
+				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
+				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
+				{ type: 'point', name: 'D', value: Object.values(req.body.d) },
+			],
+		}),
 		maths: maths.findPlaneEquation,
 		descriptor: descriptors.describePlaneEquation,
 	});
 };
 
 const findDistanceBetweenLines = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	getSolution(Object.values(req.body), res, {
+		task: JSON.stringify({
+			key: 11,
+			task: [
+				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
+				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
+				{ type: 'point', name: 'C', value: Object.values(req.body.c) },
+				{
+					type: 'vector',
+					name: 'AA_1',
+					value: maths.buildVector3D(req.body.a, req.body.a1),
+				},
+			],
+		}),
 		maths: maths.findDistanceBetweenLines,
 		descriptor: descriptors.describeDistanceBetweenLines,
 	});
 };
 
 const findSymmetricalPoint = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	getSolution(Object.values(req.body), res, {
+		task: JSON.stringify({
+			key: 12,
+			task: [
+				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
+				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
+				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
+				{ type: 'point', name: 'D', value: Object.values(req.body.d) },
+			],
+		}),
 		maths: maths.findSymmetricalPoint,
 		descriptor: descriptors.describeSymmetricalPoint,
 	});
 };
 
 const findAngleBetweenPlanes = (req, res) => {
-	getSolution(null, res, {
-		task: JSON.stringify({ key: 2, task: '' }),
+	getSolution(Object.values(req.body), res, {
+		task: JSON.stringify({
+			key: 13,
+			task: [
+				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
+				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
+				{ type: 'point', name: 'D', value: Object.values(req.body.d) },
+				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
+			],
+		}),
 		maths: maths.findAngleBetweenPlanes,
 		descriptor: descriptors.describeAngleBetweenPlanes,
 	});

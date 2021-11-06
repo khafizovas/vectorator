@@ -1,6 +1,8 @@
 const describeParallelogram = ({ task, solution, result }) => {
 	const describedSolution = [];
 
+	// TODO add vectors building from points
+
 	describedSolution.push({
 		description: 'Проверим, коллинеарны ли векторы',
 		action: `AB_x / AD_x = AB_y / AD_y = AB_z / AD_z

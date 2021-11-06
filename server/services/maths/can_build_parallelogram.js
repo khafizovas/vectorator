@@ -10,7 +10,6 @@ const canBuildParallelogram = (lhs, rhs, coordinates) => {
 	const solution = [];
 
 	// TODO add vectors building from points
-
 	solution.push({
 		name: 'collinearity',
 		type: 'bool',
