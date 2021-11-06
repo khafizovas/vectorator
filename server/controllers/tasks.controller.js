@@ -20,6 +20,8 @@ const getTask = (req, res) => {
 	});
 };
 
+// TODO Fix before getSolution
+
 // Solutions
 const ratioPointCoordinates = (req, res) => {
 	getSolution(Object.values(req.body), res, {
@@ -124,7 +126,12 @@ const findAngleBetweenDiagonales = (req, res) => {
 };
 
 const findParallelogramArea = (req, res) => {
-	getSolution(Object.values(req.body), res, {
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+	];
+
+	getSolution(vectors, res, {
 		task: JSON.stringify({
 			key: 4,
 			task: [

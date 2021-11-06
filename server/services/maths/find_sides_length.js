@@ -1,3 +1,5 @@
+const findVectorLength = require('./find_vector_length');
+
 /**
  * Найти длины сторон паралелограмма, построенного на векторах AB и AD.
  * @param {Vector3D} lhs
@@ -23,17 +25,6 @@ const findParallelogramSides = (lhs, rhs) => {
 	result = { '|AB|': solution[0].value, '|AD|': solution[1].value };
 
 	return { task: task, solution: solution, result: result };
-};
-
-// FIXME Helpers
-
-/**
- * Найти длину вектора.
- * @param {Vector3D} vector
- * @returns {number}
- */
-const findVectorLength = (vector) => {
-	return Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
 };
 
 module.exports = findParallelogramSides;
