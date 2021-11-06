@@ -9,7 +9,7 @@ const findMatrixDeterminant = require('./helpers/find_matrix_determinant');
  * @returns {solution}
  */
 const buildParallelepiped = (AB, AD, AA1) => {
-	const task = { lhs: lhs, rhs: rhs };
+	const task = { AB: AB, AD: AD, AA1: AA1 };
 	const solution = [];
 
 	solution.push({
@@ -20,7 +20,7 @@ const buildParallelepiped = (AB, AD, AA1) => {
 
 	solution.push({
 		type: 'number',
-		name: 'determinant',
+		name: 'V',
 		value: findMatrixDeterminant(solution[0].value),
 	});
 
