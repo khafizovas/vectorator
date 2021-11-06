@@ -5,7 +5,7 @@ const buildParallelogram = require('./build_parallelogram');
 const findParallelorgamSides = require('./find_sides_length');
 const findParallelogramDiagonalesAngles = require('./find_angle_between_diagonales');
 const findParallelogramArea = require('./find_parallelogram_area');
-const canBuildParallelepiped = require('./build_parallelepiped');
+const buildParallelepiped = require('./build_parallelepiped');
 const findParallelepipedVolume = require('./find_parallelepiped_volume');
 const findParallelepipedHeight = require('./find_parallelepiped_height');
 const findVectorDecomposition = require('./find_vector_in_basis');
@@ -22,7 +22,7 @@ module.exports = {
 	findParallelorgamSides,
 	findParallelogramDiagonalesAngles,
 	findParallelogramArea,
-	canBuildParallelepiped,
+	buildParallelepiped,
 	findParallelepipedVolume,
 	findParallelepipedHeight,
 	findVectorDecomposition,

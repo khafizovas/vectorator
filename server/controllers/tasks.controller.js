@@ -185,7 +185,7 @@ const buildParallelepiped = (req, res) => {
 				},
 			],
 		}),
-		maths: maths.canBuildParallelepiped,
+		maths: maths.buildParallelepiped,
 		descriptor: descriptors.describeParallelepiped,
 	});
 };
