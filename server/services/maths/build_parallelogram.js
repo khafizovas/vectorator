@@ -1,7 +1,7 @@
 const buildVector3D = require('./build_vector_3d');
 
 /**
- * Проверить, можно ли на векторах AB и AD построить параллелограмм. Если да, то найти длины сторон параллелограмма.
+ * Проверить, можно ли на векторах AB и AD построить параллелограмм.
  * @param {Point3D} a
  * @param {Point3D} b
  * @param {Point3D} d
@@ -55,18 +55,6 @@ const buildParallelogram = (a, b, d) => {
 		value: !solution[2].value,
 	};
 
-	// solution.push({
-	// 	name: '|AB|',
-	// 	type: 'number',
-	// 	value: findVectorLength(lhs),
-	// });
-	// solution.push({
-	// 	name: '|AD|',
-	// 	type: 'number',
-	// 	value: findVectorLength(rhs),
-	// });
-	// result = { '|AB|': solution[3].value, '|AD|': solution[4].value };
-
 	return { task: task, solution: solution, result: result };
 };
 
@@ -93,14 +81,5 @@ const areCollinearVectors = (lhs, rhs) => {
 const sumPointAndVector = (point, vector) => {
 	return [point.x + vector.x, point.y + vector.y, point.z + vector.z];
 };
-
-// /**
-//  * Поиск длины вектора
-//  * @param {Vector3D} vector
-//  * @returns {number}
-//  */
-// const findVectorLength = (vector) => {
-// 	return Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
-// };
 
 module.exports = buildParallelogram;

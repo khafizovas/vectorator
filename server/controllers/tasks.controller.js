@@ -69,7 +69,6 @@ const buildParallelogram = (req, res) => {
 	});
 };
 
-//
 const findSidesLength = (req, res) => {
 	const vectors = [
 		maths.buildVector3D(req.body.a, req.body.b),
