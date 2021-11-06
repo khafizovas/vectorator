@@ -42,44 +42,31 @@ const ratioPointCoordinates = (req, res) => {
 	});
 };
 
-// TODO remove buildVector3D
 const buildParallelogram = (req, res) => {
-	getSolution(
-		[
-			maths.buildVector3D(req.body.a, req.body.b),
-			maths.buildVector3D(req.body.a, req.body.d),
-			{
-				a: req.body.a,
-				b: req.body.b,
-				d: req.body.d,
-			},
-		],
-		res,
-		{
-			task: JSON.stringify({
-				key: 1,
-				task: [
-					{
-						type: 'point',
-						name: 'A',
-						value: Object.values(req.body.a),
-					},
-					{
-						type: 'point',
-						name: 'B',
-						value: Object.values(req.body.b),
-					},
-					{
-						type: 'point',
-						name: 'D',
-						value: Object.values(req.body.d),
-					},
-				],
-			}),
-			maths: maths.canBuildParallelogram,
-			descriptor: descriptors.describeParallelogram,
-		}
-	);
+	getSolution(Object.values(req.body), res, {
+		task: JSON.stringify({
+			key: 1,
+			task: [
+				{
+					type: 'point',
+					name: 'A',
+					value: Object.values(req.body.a),
+				},
+				{
+					type: 'point',
+					name: 'B',
+					value: Object.values(req.body.b),
+				},
+				{
+					type: 'point',
+					name: 'D',
+					value: Object.values(req.body.d),
+				},
+			],
+		}),
+		maths: maths.canBuildParallelogram,
+		descriptor: descriptors.describeParallelogram,
+	});
 };
 
 // TODO
@@ -386,7 +373,6 @@ const getSolution = (params, res, taskInfo) => {
 
 const createNewSolution = (params, res, taskInfo) => {
 	const solution = taskInfo.maths(...params);
-	console.log(solution);
 	const describedSolution = taskInfo.descriptor(solution);
 
 	const newSolution = new Solution({
