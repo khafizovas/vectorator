@@ -1,4 +1,4 @@
-const findVectorLength = require('./find_vector_length');
+const findVectorLength = require('./helpers/find_vector_length');
 
 /**
  * Найти длины сторон паралелограмма, построенного на векторах AB и AD.

@@ -1,4 +1,5 @@
-const findVectorLength = require('./find_vector_length');
+const findVectorLength = require('./helpers/find_vector_length');
+const findVector3DProduct = require('./helpers/find_vector_product');
 
 /**
  * Найти площадь параллелограмма ABCD.
@@ -27,22 +28,6 @@ function findParallelogramArea(lhs, rhs) {
 	const result = { type: 'number', value: solution[1].value };
 
 	return { task, solution, result };
-}
-
-// FIXME Helpers
-
-/**
- * Найти векторное произведение векторов.
- * @param {Vector3D} lhs
- * @param {Vector3D} rhs
- * @returns {Vector3D}
- */
-function findVector3DProduct(lhs, rhs) {
-	return {
-		x: lhs.y * rhs.z - rhs.y * lhs.z,
-		y: lhs.x * rhs.z - rhs.x * lhs.z,
-		z: lhs.x * rhs.y - rhs.x * lhs.y,
-	};
 }
 
 module.exports = findParallelogramArea;

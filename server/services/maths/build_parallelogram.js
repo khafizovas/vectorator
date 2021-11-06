@@ -1,4 +1,6 @@
-const buildVector3D = require('./build_vector_3d');
+const buildVector3D = require('./helpers/build_vector_3d');
+const areCollinearVectors = require('./helpers/are_collinear_vectors');
+const sumPointAndVector = require('./helpers/sum_point_and_vector');
 
 /**
  * Проверить, можно ли на векторах AB и AD построить параллелограмм.
@@ -35,7 +37,7 @@ const buildParallelogram = (a, b, d) => {
 		solution.push({
 			name: 'C',
 			type: 'point',
-			value: sumPointAndVector(b, vectors[1]),
+			value: Object.values(sumPointAndVector(b, vectors[1])),
 		});
 
 		solution.push({
@@ -56,32 +58,6 @@ const buildParallelogram = (a, b, d) => {
 	};
 
 	return { task: task, solution: solution, result: result };
-};
-
-// FIXME Helpers
-
-/**
- * Проверить коллинеарность векторов.
- * @param {Vector3D} lhs
- * @param {Vector3D} rhs
- * @returns {Boolean}
- */
-const areCollinearVectors = (lhs, rhs) => {
-	return (
-		lhs.x / rhs.x === lhs.y / rhs.y &&
-		lhs.y / rhs.y === lhs.z / rhs.z &&
-		lhs.x / rhs.x === lhs.z / rhs.z
-	);
-};
-
-/**
- * Найти сумму точки и вектора.
- * @param {Point3D} point
- * @param {Vector3D} vector
- * @returns {Number[]}
- */
-const sumPointAndVector = (point, vector) => {
-	return [point.x + vector.x, point.y + vector.y, point.z + vector.z];
 };
 
 module.exports = buildParallelogram;

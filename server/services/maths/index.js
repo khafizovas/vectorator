@@ -1,4 +1,4 @@
-const buildVector3D = require('./build_vector_3d');
+const buildVector3D = require('./helpers/build_vector_3d');
 
 const findRatioPoint3D = require('./ratio_point_coordinates');
 const buildParallelogram = require('./build_parallelogram');

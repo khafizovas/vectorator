@@ -1,4 +1,7 @@
-const buildVector3D = require('./build_vector_3d');
+const buildVector3D = require('./helpers/build_vector_3d');
+const findVectorsSum = require('./helpers/find_vectors_sum');
+const findCosBetweenVectors = require('./helpers/find_cos_between_vectors');
+const convertRadiansToDegrees = require('./helpers/convert_radians_to_degrees');
 
 /**
  * Найти углы между диагоналями параллелограмма ABCD.
@@ -10,7 +13,7 @@ const buildVector3D = require('./build_vector_3d');
 const findParallelogramDiagonalesAngles = (a, b, d) => {
 	const diagonales = [
 		buildVector3D(b, d),
-		sumVectors(buildVector3D(a, b), buildVector3D(a, d)),
+		findVectorsSum(buildVector3D(a, b), buildVector3D(a, d)),
 	];
 
 	const task = { a: a, b: b, d: d };
@@ -59,53 +62,5 @@ const findParallelogramDiagonalesAngles = (a, b, d) => {
 
 	return { task, solution, result };
 };
-
-// FIXME Helpers
-
-/**
- * Найти сумму векторов.
- * @param {Vector3D} lhs
- * @param {Vector3D} rhs
- * @returns {number[]}
- */
-function sumVectors(lhs, rhs) {
-	return {
-		x: lhs.x + rhs.x,
-		y: lhs.y + rhs.y,
-		z: lhs.z + rhs.z,
-	};
-}
-
-/**
- * Найти косинус угла между векторами.
- * @param {Vector3D} lhs
- * @param {Vector3D} rhs
- * @returns {number}
- */
-function findCosBetweenVectors(lhs, rhs) {
-	return (
-		findScalarVectorProduct(lhs, rhs) /
-		(findVectorLength(lhs) * findVectorLength(rhs))
-	);
-}
-
-/**
- * Найти скалярное произведение векторов.
- * @param {Vector3D} lhs
- * @param {Vector3D} rhs
- * @returns {number}
- */
-function findScalarVectorProduct(lhs, rhs) {
-	return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
-}
-
-/**
- * Перевести радианы в градусы.
- * @param {number} radians
- * @returns {number}
- */
-function convertRadiansToDegrees(radians) {
-	return (radians * 180) / Math.PI;
-}
 
 module.exports = findParallelogramDiagonalesAngles;

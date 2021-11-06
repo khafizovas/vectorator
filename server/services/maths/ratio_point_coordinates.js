@@ -1,3 +1,5 @@
+const findRatioCoordinate = require('./helpers/find_ratio_coordinate');
+
 /**
  * Найти координаты точки М, делящей вектор AB в отношении a : b.
  * @param {{first: Point3D, second: Point3D}} vectorPoints координаты концов вектора
@@ -60,19 +62,6 @@ const findRatioPoint3D = (vectorPoints, ratioParts) => {
 	};
 
 	return { task: task, solution: solution, result: result };
-};
-
-// FIXME Helpers
-
-/**
- * Найти координату точки, делящей вектор в заданном отношении.
- * @param {number} first
- * @param {number} second
- * @param {number} ratio
- * @returns {number}
- */
-const findRatioCoordinate = (first, second, ratio) => {
-	return (first + ratio * second) / (1 + ratio);
 };
 
 module.exports = findRatioPoint3D;
