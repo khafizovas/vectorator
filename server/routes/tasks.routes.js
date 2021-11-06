@@ -14,7 +14,6 @@ router
 	.route('/api/tasks/build_parallelogram')
 	.post(tasksController.buildParallelogram);
 
-//
 router
 	.route('/api/tasks/find_sides_length')
 	.post(tasksController.findSidesLength);

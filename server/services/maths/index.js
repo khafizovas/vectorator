@@ -2,21 +2,18 @@ const buildVector3D = require('./build_vector_3d');
 
 const findRatioPoint3D = require('./ratio_point_coordinates');
 const buildParallelogram = require('./build_parallelogram');
-
-// tmp
-const findParallelorgamSides = () => console.log('in maths');
-const findParallelogramDiagonalesAngles = () => console.log('in maths');
-const findParallelogramArea = () => console.log('in maths');
-const canBuildParallelepiped = () => console.log('in maths');
-const findParallelepipedVolume = () => console.log('in maths');
-const findParallelepipedHeight = () => console.log('in maths');
-const findVectorDecomposition = () => console.log('in maths');
-const findVectorProjection = () => console.log('in maths');
-const findPlaneEquation = () => console.log('in maths');
-const findDistanceBetweenLines = () => console.log('in maths');
-const findSymmetricalPoint = () => console.log('in maths');
-const findAngleBetweenPlanes = () => console.log('in maths');
-// end tmp
+const findParallelorgamSides = require('./find_sides_length');
+const findParallelogramDiagonalesAngles = require('./find_angle_between_diagonales');
+const findParallelogramArea = require('./find_parallelogram_area');
+const canBuildParallelepiped = require('./build_parallelepiped');
+const findParallelepipedVolume = require('./find_parallelepiped_volume');
+const findParallelepipedHeight = require('./find_parallelepiped_height');
+const findVectorDecomposition = require('./find_vector_in_basis');
+const findVectorProjection = require('./find_vector_projection');
+const findPlaneEquation = require('./find_plane_equation');
+const findDistanceBetweenLines = require('./find_distance_between_lines');
+const findSymmetricalPoint = require('./find_symmetrical_point');
+const findAngleBetweenPlanes = require('./find_angle_between_planes');
 
 module.exports = {
 	buildVector3D,
