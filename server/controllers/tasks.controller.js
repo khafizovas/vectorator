@@ -75,19 +75,25 @@ const buildParallelogram = (req, res) => {
 					},
 				],
 			}),
-			maths: maths.buildParallelogramOrNull,
-			descriptor: descriptors.describeParallelogramBuilding,
+			maths: maths.canBuildParallelogram,
+			descriptor: descriptors.describeParallelogram,
 		}
 	);
 };
 
-// TODO
-const findSidesLength = (req, res) => {};
+// TODO add params and task
+const findSidesLength = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findParallelorgamSides,
+		descriptor: descriptors.describeParallelorgamSides,
+	});
+};
 
 const findAngleBetweenDiagonales = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
-			key: 2,
+			key: 3,
 			task: [
 				{
 					type: 'point',
@@ -107,22 +113,90 @@ const findAngleBetweenDiagonales = (req, res) => {
 			],
 		}),
 		maths: maths.findParallelogramDiagonalesAngles,
-		descriptor: descriptors.findParallelogramDiagonalesAngles,
+		descriptor: descriptors.describeParallelogramDiagonalesAngles,
 	});
 };
 
-// TODO
-const findParallelogramArea = (req, res) => {};
-const buildParallelepiped = (req, res) => {};
-const findParallelepipedVolume = (req, res) => {};
-const findParallelepipedHeight = (req, res) => {};
-const findVectorInBasis = (req, res) => {};
-const findVectorProjection = (req, res) => {};
-const findPlaneEquationByPoints = (req, res) => {};
-const findPlaneEquationByPointAndLine = (req, res) => {};
-const findDistanceBetweenLines = (req, res) => {};
-const findSymmetricalPoint = (req, res) => {};
-const findAngleBetweenPlanes = (req, res) => {};
+// TODO add params and task
+const findParallelogramArea = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findParallelogramArea,
+		descriptor: descriptors.describeParallelogramArea,
+	});
+};
+
+const buildParallelepiped = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.canBuildParallelepiped,
+		descriptor: descriptors.describeParallelepiped,
+	});
+};
+
+const findParallelepipedVolume = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findParallelepipedVolume,
+		descriptor: descriptors.describeParallelepipedVolume,
+	});
+};
+
+const findParallelepipedHeight = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findParallelepipedHeight,
+		descriptor: descriptors.describeParallelepipedHeight,
+	});
+};
+
+const findVectorInBasis = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findVectorDecomposition,
+		descriptor: descriptors.describeVectorDecomposition,
+	});
+};
+
+const findVectorProjection = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findVectorProjection,
+		descriptor: descriptors.describeVectorProjection,
+	});
+};
+
+const findPlaneEquation = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findPlaneEquation,
+		descriptor: descriptors.describePlaneEquation,
+	});
+};
+
+const findDistanceBetweenLines = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findDistanceBetweenLines,
+		descriptor: descriptors.describeDistanceBetweenLines,
+	});
+};
+
+const findSymmetricalPoint = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findSymmetricalPoint,
+		descriptor: descriptors.describeSymmetricalPoint,
+	});
+};
+
+const findAngleBetweenPlanes = (req, res) => {
+	getSolution(null, res, {
+		task: JSON.stringify({ key: 2, task: '' }),
+		maths: maths.findAngleBetweenPlanes,
+		descriptor: descriptors.describeAngleBetweenPlanes,
+	});
+};
 
 // Helpers
 
@@ -166,8 +240,7 @@ module.exports = {
 	findParallelepipedHeight,
 	findVectorInBasis,
 	findVectorProjection,
-	findPlaneEquationByPoints,
-	findPlaneEquationByPointAndLine,
+	findPlaneEquation,
 	findDistanceBetweenLines,
 	findSymmetricalPoint,
 	findAngleBetweenPlanes,

@@ -38,6 +38,7 @@ router
 	.route('/api/tasks/find_parallelepiped_height')
 	.post(tasksController.findParallelepipedHeight);
 
+// TODO
 router
 	.route('/api/tasks/find_vector_in_basis')
 	.post(tasksController.findVectorInBasis);
@@ -48,11 +49,11 @@ router
 
 router
 	.route('/api/tasks/find_plane_equation_by_points')
-	.post(tasksController.findPlaneEquationByPoints);
+	.post(tasksController.findPlaneEquation);
 
 router
 	.route('/api/tasks/find_plane_equation_by_point_and_line')
-	.post(tasksController.findPlaneEquationByPointAndLine);
+	.post(tasksController.findPlaneEquation);
 
 router
 	.route('/api/tasks/find_distance_between_lines')

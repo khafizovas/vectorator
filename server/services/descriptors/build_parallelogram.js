@@ -1,4 +1,4 @@
-const describeParallelogramBuilding = ({ task, solution, result }) => {
+const describeParallelogram = ({ task, solution, result }) => {
 	const describedSolution = [];
 
 	describedSolution.push({
@@ -43,4 +43,4 @@ const describeParallelogramBuilding = ({ task, solution, result }) => {
 	return { describedSolution: describedSolution };
 };
 
-module.exports = describeParallelogramBuilding;
+module.exports = describeParallelogram;

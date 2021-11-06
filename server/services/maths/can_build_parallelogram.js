@@ -5,9 +5,11 @@
  * @param {{a: Point3D, b: Point3D, d: Point3D}} coordinates
  * @returns {solution}
  */
-const buildParallelogramOrNull = (lhs, rhs, coordinates) => {
+const canBuildParallelogram = (lhs, rhs, coordinates) => {
 	const task = { lhs: lhs, rhs: rhs, coordinates: coordinates };
 	const solution = [];
+
+	// TODO add vectors building from points
 
 	solution.push({
 		name: 'collinearity',
@@ -86,4 +88,4 @@ const findVectorLength = (vector) => {
 	return Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
 };
 
-module.exports = buildParallelogramOrNull;
+module.exports = canBuildParallelogram;
