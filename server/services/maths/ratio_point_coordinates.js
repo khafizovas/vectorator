@@ -1,5 +1,5 @@
 /**
- * Найти координаты точки М, делящей вектор AB в отношении a : b
+ * Найти координаты точки М, делящей вектор AB в отношении a : b.
  * @param {{first: Point3D, second: Point3D}} vectorPoints координаты концов вектора
  * @param {{a: number, b: number}} ratioParts заданное отношение
  * @returns {solution} координата искомой точки
@@ -62,8 +62,10 @@ const findRatioPoint3D = (vectorPoints, ratioParts) => {
 	return { task: task, solution: solution, result: result };
 };
 
+// FIXME Helpers
+
 /**
- * Поиск координаты, делящей в заданном отношении, по координатам начальной и конечной точки
+ * Найти координату точки, делящей вектор в заданном отношении.
  * @param {number} first
  * @param {number} second
  * @param {number} ratio

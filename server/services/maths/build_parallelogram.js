@@ -58,8 +58,10 @@ const buildParallelogram = (a, b, d) => {
 	return { task: task, solution: solution, result: result };
 };
 
+// FIXME Helpers
+
 /**
- * Проверка коллинеарности векторов
+ * Проверить коллинеарность векторов.
  * @param {Vector3D} lhs
  * @param {Vector3D} rhs
  * @returns {Boolean}
@@ -73,7 +75,7 @@ const areCollinearVectors = (lhs, rhs) => {
 };
 
 /**
- * Поиск суммы точки и вектора
+ * Найти сумму точки и вектора.
  * @param {Point3D} point
  * @param {Vector3D} vector
  * @returns {Number[]}

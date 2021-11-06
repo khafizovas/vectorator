@@ -25,8 +25,10 @@ const findParallelogramSides = (lhs, rhs) => {
 	return { task: task, solution: solution, result: result };
 };
 
+// FIXME Helpers
+
 /**
- * Поиск длины вектора
+ * Найти длину вектора.
  * @param {Vector3D} vector
  * @returns {number}
  */
