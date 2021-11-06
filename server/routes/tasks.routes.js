@@ -4,7 +4,7 @@ const router = express.Router({ mergeParams: true });
 const tasksController = require('../controllers/tasks.controller');
 
 router.route('/api/tasks').get(tasksController.getTasksList);
-router.route('/api/tasks/:id').get(tasksController.getTask);
+router.route('/api/tasks/:key').get(tasksController.getTask);
 
 router
 	.route('/api/tasks/ratio_point_coordinates')
@@ -14,6 +14,7 @@ router
 	.route('/api/tasks/build_parallelogram')
 	.post(tasksController.buildParallelogram);
 
+//
 router
 	.route('/api/tasks/find_sides_length')
 	.post(tasksController.findSidesLength);
@@ -38,7 +39,6 @@ router
 	.route('/api/tasks/find_parallelepiped_height')
 	.post(tasksController.findParallelepipedHeight);
 
-// TODO
 router
 	.route('/api/tasks/find_vector_in_basis')
 	.post(tasksController.findVectorInBasis);

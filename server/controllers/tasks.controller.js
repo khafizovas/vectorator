@@ -13,7 +13,7 @@ const getTasksList = (req, res) => {
 };
 
 const getTask = (req, res) => {
-	Task.findOne({ key: req.params.id }, { _id: 0 }, (err, result) => {
+	Task.findOne({ key: req.params.key }, { _id: 0 }, (err, result) => {
 		res.send({
 			task: result,
 		});
@@ -64,12 +64,12 @@ const buildParallelogram = (req, res) => {
 				},
 			],
 		}),
-		maths: maths.canBuildParallelogram,
+		maths: maths.buildParallelogram,
 		descriptor: descriptors.describeParallelogram,
 	});
 };
 
-// TODO
+//
 const findSidesLength = (req, res) => {
 	const vectors = [
 		maths.buildVector3D(req.body.a, req.body.b),

@@ -7,7 +7,7 @@ const buildVector3D = require('./build_vector_3d');
  * @param {Point3D} d
  * @returns {solution}
  */
-const canBuildParallelogram = (a, b, d) => {
+const buildParallelogram = (a, b, d) => {
 	const vectors = [buildVector3D(a, b), buildVector3D(a, d)];
 
 	const task = { a: a, b: b, d: d };
@@ -103,4 +103,4 @@ const sumPointAndVector = (point, vector) => {
 // 	return Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
 // };
 
-module.exports = canBuildParallelogram;
+module.exports = buildParallelogram;

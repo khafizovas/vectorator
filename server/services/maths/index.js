@@ -1,7 +1,7 @@
 const buildVector3D = require('./build_vector_3d');
 
 const findRatioPoint3D = require('./ratio_point_coordinates');
-const canBuildParallelogram = require('./can_build_parallelogram');
+const buildParallelogram = require('./build_parallelogram');
 
 // tmp
 const findParallelorgamSides = () => console.log('in maths');
@@ -21,7 +21,7 @@ const findAngleBetweenPlanes = () => console.log('in maths');
 module.exports = {
 	buildVector3D,
 	findRatioPoint3D,
-	canBuildParallelogram,
+	buildParallelogram,
 	findParallelorgamSides,
 	findParallelogramDiagonalesAngles,
 	findParallelogramArea,
