@@ -1,6 +1,5 @@
 const { buildVector3D, findPlaneEquation } = require('.');
-const findAngleBetweenVectors = require('./helpers/find_angle_between_vectors');
-const sumPointAndVector = require('./helpers/sum_point_and_vector');
+const { findAngleBetweenVectors, sumPointAndVector } = require('./helpers');
 
 /**
  * Найти острый угол между плоскостями ABCD (плоскость P) и ABB1A1 (плоскость P1).

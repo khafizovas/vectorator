@@ -1,5 +1,4 @@
-const findVectorLength = require('./helpers/find_vector_length');
-const findVector3DProduct = require('./helpers/find_vector_product');
+const { findVectorLength, findVector3DProduct } = require('./helpers');
 
 /**
  * Найти площадь параллелограмма ABCD.

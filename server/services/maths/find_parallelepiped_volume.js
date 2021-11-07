@@ -1,4 +1,4 @@
-const buildParallelepiped = require('./build_parallelepiped');
+const { buildParallelepiped } = require('.');
 
 /**
  * Найти объём параллелепипеда, построенного на векторах AB, AD, AA1.

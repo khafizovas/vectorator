@@ -1,5 +1,4 @@
-const findCosBetweenVectors = require('./find_cos_between_vectors');
-const convertRadiansToDegrees = require('./convert_radians_to_degrees');
+const { findCosBetweenVectors, convertRadiansToDegrees } = require('.');
 
 const findAngleBetweenVectors = (lhs, rhs) => {
 	const task = { lhs, rhs };

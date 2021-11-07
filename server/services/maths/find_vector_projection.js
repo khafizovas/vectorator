@@ -1,5 +1,4 @@
-const findScalarProduct = require('./helpers/find_scalar_product');
-const findVectorLength = require('./helpers/find_vector_length');
+const { findScalarProduct, findVectorLength } = require('./helpers');
 
 /**
  * Найти проекцию вектора AH на вектор AA_1

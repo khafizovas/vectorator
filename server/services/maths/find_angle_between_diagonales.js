@@ -1,6 +1,5 @@
-const buildVector3D = require('./helpers/build_vector_3d');
-const findVectorsSum = require('./helpers/find_vectors_sum');
-const findAngleBetweenVectors = require('./helpers/find_angle_between_vectors');
+const { buildVector3D } = require('.');
+const { findVectorsSum, findAngleBetweenVectors } = require('./helpers');
 
 /**
  * Найти углы между диагоналями параллелограмма ABCD.

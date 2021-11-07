@@ -1,5 +1,4 @@
-const findMatrixDeterminant = require('./find_matrix_determinant');
-const replaceMatrixColumn = require('./replace_matrix_column');
+const { findMatrixDeterminant, replaceMatrixColumn } = require('.');
 
 /**
  * Решить систему уравнений методом Крамера.

@@ -1,8 +1,10 @@
 const { buildVector3D } = require('.');
-const findMatrixDeterminant = require('./helpers/find_matrix_determinant');
-const findPlaneMatrixes = require('./helpers/find_plane_matrixes');
-const sumPointAndVector = require('./helpers/sum_point_and_vector');
-const findGCD = require('./helpers/find_GCD');
+const {
+	findMatrixDeterminant,
+	findPlaneMatrixes,
+	sumPointAndVector,
+	findGCD,
+} = require('./helpers');
 
 /**
  * Найти уравнение плоскости

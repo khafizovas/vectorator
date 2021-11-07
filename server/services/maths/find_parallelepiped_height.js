@@ -1,5 +1,4 @@
-const findParallelepipedVolume = require('./find_parallelepiped_volume');
-const findParallelogramArea = require('./find_parallelogram_area');
+const { findParallelepipedVolume, findParallelogramArea } = require('.');
 
 /**
  * Найти высоту параллелепипеда, построенного на векторах AB, AD, AA1.

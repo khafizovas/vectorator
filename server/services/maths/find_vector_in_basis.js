@@ -1,6 +1,5 @@
-const buildVector3D = require('./helpers/build_vector_3d');
-const convertVectorsToMatrix = require('./helpers/convert_vectors_to_matrix');
-const solveSystemCramer = require('./helpers/solve_system_cramer');
+const { buildVector3D } = require('.');
+const { convertVectorsToMatrix, solveSystemCramer } = require('./helpers');
 
 /**
  * Найти разложение вектора AH по векторам AB, AD, AA1.

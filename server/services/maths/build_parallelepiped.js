@@ -1,5 +1,4 @@
-const convertVectorsToMatrix = require('./helpers/convert_vectors_to_matrix');
-const findMatrixDeterminant = require('./helpers/find_matrix_determinant');
+const { convertVectorsToMatrix, findMatrixDeterminant } = require('./helpers');
 
 /**
  * Убедиться, что на векторах AB, AD, AA1 можно построить параллелепипед.

@@ -1,6 +1,5 @@
-const buildVector3D = require('./helpers/build_vector_3d');
-const areCollinearVectors = require('./helpers/are_collinear_vectors');
-const sumPointAndVector = require('./helpers/sum_point_and_vector');
+const { buildVector3D } = require('.');
+const { areCollinearVectors, sumPointAndVector } = require('./helpers');
 
 /**
  * Проверить, можно ли на векторах AB и AD построить параллелограмм.

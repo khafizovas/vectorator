@@ -1,5 +1,5 @@
 const { findPlaneEquation, buildVector3D } = require('.');
-const sumPointAndVector = require('./helpers/sum_point_and_vector');
+const { sumPointAndVector } = require('./helpers');
 
 /**
  * Найти точку A_2, симметричную точке A_1 относительно плоскости основания ABCD.

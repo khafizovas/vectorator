@@ -1,6 +1,8 @@
 const { buildVector3D, findPlaneEquation } = require('.');
-const sumPointAndVector = require('./helpers/sum_point_and_vector');
-const findDistanceBetweenPointAndPlane = require('./helpers/find_distance_between_point_and_plane');
+const {
+	sumPointAndVector,
+	findDistanceBetweenPointAndPlane,
+} = require('./helpers');
 
 /**
  * Найти расстояние между прямыми, на которых лежат ребра AB и CC_1.

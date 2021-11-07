@@ -1,4 +1,4 @@
-const findRatioCoordinate = require('./helpers/find_ratio_coordinate');
+const { findRatioCoordinate } = require('./helpers');
 
 /**
  * Найти координаты точки М, делящей вектор AB в отношении a : b.
