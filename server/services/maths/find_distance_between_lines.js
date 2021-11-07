@@ -1,4 +1,5 @@
-const { buildVector3D, findPlaneEquation } = require('.');
+const buildVector3D = require('./build_vector_3d');
+const findPlaneEquation = require('./find_plane_equation');
 const {
 	sumPointAndVector,
 	findDistanceBetweenPointAndPlane,

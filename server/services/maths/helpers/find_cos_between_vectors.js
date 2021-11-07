@@ -1,4 +1,5 @@
-const { findScalarProduct, findVectorLength } = require('.');
+const findScalarProduct = require('./find_scalar_product');
+const findVectorLength = require('./find_vector_length');
 
 /**
  * Найти косинус угла между векторами.

@@ -1,5 +1,5 @@
 /**
- *
+ * Заменить столбец матрицы.
  * @param {number[][]} matrix
  * @param {number[]} column
  * @param {number} columnIndex

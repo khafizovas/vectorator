@@ -1,4 +1,4 @@
-const { buildVector3D } = require('.');
+const buildVector3D = require('./build_vector_3d');
 const { convertVectorsToMatrix, solveSystemCramer } = require('./helpers');
 
 /**

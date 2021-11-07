@@ -1,4 +1,4 @@
-const { transposeMatrix } = require('.');
+const transposeMatrix = require('./transpose_matrix');
 
 /**
  * @param {Vector3D[]} vectors
