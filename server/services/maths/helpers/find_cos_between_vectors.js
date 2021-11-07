@@ -9,7 +9,7 @@ const findVectorLength = require('./find_vector_length');
  */
 function findCosBetweenVectors(lhs, rhs) {
 	return (
-		findScalarProduct(lhs, rhs) /
+		Math.abs(findScalarProduct(lhs, rhs)) /
 		(findVectorLength(lhs) * findVectorLength(rhs))
 	);
 }

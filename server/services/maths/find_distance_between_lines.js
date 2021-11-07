@@ -8,6 +8,7 @@ const findDistanceBetweenPointAndPlane = require('./helpers/find_distance_betwee
  * @param {Point3D} b
  * @param {Point3D} c
  * @param {Point3D} a1
+ * @returns {solution}
  */
 const findDistanceBetweenLines = (a, b, c, a1) => {
 	const task = { a, b, c, a1 };

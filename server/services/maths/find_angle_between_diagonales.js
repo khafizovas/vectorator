@@ -1,7 +1,6 @@
 const buildVector3D = require('./helpers/build_vector_3d');
 const findVectorsSum = require('./helpers/find_vectors_sum');
-const findCosBetweenVectors = require('./helpers/find_cos_between_vectors');
-const convertRadiansToDegrees = require('./helpers/convert_radians_to_degrees');
+const findAngleBetweenVectors = require('./helpers/find_angle_between_vectors');
 
 /**
  * Найти углы между диагоналями параллелограмма ABCD.
@@ -17,7 +16,7 @@ const findParallelogramDiagonalesAngles = (a, b, d) => {
 	];
 
 	const task = { a: a, b: b, d: d };
-	const solution = [];
+	let solution = [];
 
 	solution.push({
 		type: 'vector',
@@ -31,33 +30,20 @@ const findParallelogramDiagonalesAngles = (a, b, d) => {
 		value: Object.values(diagonales[1]),
 	});
 
-	solution.push({
-		type: 'number',
-		name: 'cos',
-		value: findCosBetweenVectors(...diagonales),
-	});
-
-	solution.push({
-		type: 'number',
-		name: 'angle in radias',
-		value: Math.acos(solution[2].value),
-	});
-
-	solution.push({
-		type: 'number',
-		name: 'angle in degrees',
-		value: convertRadiansToDegrees(solution[3].value),
-	});
+	solution = [...solution, ...findAngleBetweenVectors(...diagonales).solution];
 
 	solution.push({
 		type: 'number',
 		name: 'another angle',
-		value: 180 - solution[4].value,
+		value: 180 - solution[solution.length - 1].value,
 	});
 
 	const result = {
 		type: 'numbers',
-		value: [solution[4].value, solution[5].value],
+		value: [
+			solution[solution.length - 2].value,
+			solution[solution.length - 1].value,
+		],
 	};
 
 	return { task, solution, result };
