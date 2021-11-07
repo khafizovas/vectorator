@@ -1,4 +1,4 @@
-const describeParallelogramDiagonalesAngles = ({ task, solution, result }) => {
+const describeParallelogramDiagonalesAngles = ({ task, solution }) => {
 	const describedSolution = [];
 
 	describedSolution.push({
