@@ -329,11 +329,7 @@ const findDistanceBetweenLines = (req, res) => {
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
 				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
 				{ type: 'point', name: 'C', value: Object.values(req.body.c) },
-				{
-					type: 'vector',
-					name: 'AA_1',
-					value: maths.buildVector3D(req.body.a, req.body.a1),
-				},
+				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
 			],
 		}),
 		maths: maths.findDistanceBetweenLines,

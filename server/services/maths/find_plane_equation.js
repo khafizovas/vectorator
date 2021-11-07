@@ -57,12 +57,23 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 		),
 	});
 
+	solution.push({
+		type: 'numbers',
+		name: 'members',
+		value: [
+			solution[solution.length - 1].value[0],
+			-solution[solution.length - 1].value[0],
+			solution[solution.length - 1].value[0],
+			-findD(...solution[solution.length - 1].value, a),
+		],
+	});
+
 	const gcd = findGCD(...solution[solution.length - 1].value);
 
 	solution.push({
 		type: 'numbers',
-		name: 'factors',
-		value: solution[solution.length - 1].value.map((factor) => factor / gcd),
+		name: 'members',
+		value: solution[solution.length - 1].value.map((member) => member / gcd),
 	});
 
 	const result = {
@@ -71,6 +82,10 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 	};
 
 	return { task, solution, result };
+};
+
+const findD = (a, b, c, point) => {
+	return a * point.x - b * point.y + c * point.z;
 };
 
 module.exports = findPlaneEquation;
