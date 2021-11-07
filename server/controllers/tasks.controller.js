@@ -299,14 +299,22 @@ const findVectorProjection = (req, res) => {
 };
 
 const findPlaneEquation = (req, res) => {
-	getSolution(Object.values(req.body), res, {
-		task: JSON.stringify({
-			key: 10,
-			task: [
+	const task = req.body.a1
+		? [
+				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
+				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
+				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
+		  ]
+		: [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
 				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
 				{ type: 'point', name: 'D', value: Object.values(req.body.d) },
-			],
+		  ];
+
+	getSolution([req.body], res, {
+		task: JSON.stringify({
+			key: 10,
+			task: task,
 		}),
 		maths: maths.findPlaneEquation,
 		descriptor: descriptors.describePlaneEquation,

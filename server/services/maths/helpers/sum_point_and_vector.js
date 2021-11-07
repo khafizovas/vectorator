@@ -2,7 +2,7 @@
  * Найти сумму точки и вектора.
  * @param {Point3D} point
  * @param {Vector3D} vector
- * @returns {Vector3D}
+ * @returns {Point3D}
  */
 const sumPointAndVector = (point, vector) => {
 	return {
