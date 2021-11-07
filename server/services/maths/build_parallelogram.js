@@ -14,6 +14,7 @@ const buildParallelogram = (a, b, d) => {
 	const task = { a: a, b: b, d: d };
 	const solution = [];
 
+	// TODO add 'vector' type steps
 	solution.push({
 		name: 'AB',
 		type: 'coordinates',
