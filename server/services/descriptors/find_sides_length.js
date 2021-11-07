@@ -1,4 +1,4 @@
-const describeParallelorgamSides = ({ task, solution, result }) => {
+const describeParallelorgamSides = ({ task, solution }) => {
 	const describedSolution = [];
 
 	describedSolution.push({
