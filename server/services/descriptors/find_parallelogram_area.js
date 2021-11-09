@@ -3,15 +3,15 @@ const describeParallelogramArea = ({ task, solution, result }) => {
 
 	describedSolution.push({
 		description: 'Найдём векторное произведение векторов AB и AD',
-		action: `[AB, AD] = det[
+		action: `[AB, AD] = |[
       [i, j, k],
 		  [AB_x, AB_y, AB_z],
 		  [AD_x, AD_y, AD_z]
-    ] = [
+    | = |
       [[AB_y, AB_z], [AD_y, AD_z]] * i - 
       [[AB_x, AB_z], [AD_x, AD_z]] * j + 
       [[AB_x, AB_y], [AD_x, AD_y]] * k
-    ] = (AB_y * AD_z - AD_y * AB_z) * i - 
+    | = (AB_y * AD_z - AD_y * AB_z) * i - 
       (AB_x * AD_z - AD_x * AB_z) * j + 
       (AB_x * AD_y - AD_x * AB_y) * k = 
     = (${lhs.y} * ${rhs.z} -  ${rhs.y} *  ${lhs.z}) * i - 
