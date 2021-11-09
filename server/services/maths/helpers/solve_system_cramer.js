@@ -13,7 +13,7 @@ const solveSystemCramer = (matrix, vectorCoordinates) => {
 	solution.push({
 		type: 'number',
 		name: 'det',
-		value: (matrixDet = findMatrixDeterminant(matrix)),
+		value: findMatrixDeterminant(matrix),
 	});
 
 	solution.push({
