@@ -26,7 +26,11 @@ const describeParallelepiped = ({ task, solution, result }) => {
         ${task.AD.x} * ${task.AA1.y} - 
         ${task.AA1.x} * ${task.AD.y}) = 
       ${solution[1].value} 
-      ${solution[1].value ? '!= 0 => можно.' : '== 0 => нельзя'}`,
+      ${
+				solution[1].value
+					? `!= 0 => можно построить параллелепипед объёма ${solution[1].value}.`
+					: '== 0 => нельзя'
+			}`,
 	});
 
 	return describedSolution;
