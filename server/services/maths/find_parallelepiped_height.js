@@ -16,7 +16,7 @@ const findParallelepipedHeight = (AB, AD, AA1) => {
 
 	solution.push({
 		type: 'number',
-		name: 'H',
+		name: 'h',
 		value: solution[1].value / solution[3].value,
 	});
 
