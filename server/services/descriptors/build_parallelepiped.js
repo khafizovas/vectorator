@@ -1,4 +1,4 @@
-const describeParallelepiped = ({ task, solution, result }) => {
+const describeParallelepiped = ({ task, solution }) => {
 	const describedSolution = [];
 
 	describedSolution.push({

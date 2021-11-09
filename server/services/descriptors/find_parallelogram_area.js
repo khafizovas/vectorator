@@ -1,4 +1,4 @@
-const describeParallelogramArea = ({ task, solution, result }) => {
+const describeParallelogramArea = ({ task, solution }) => {
 	const describedSolution = [];
 
 	describedSolution.push({
@@ -14,9 +14,9 @@ const describeParallelogramArea = ({ task, solution, result }) => {
     | = (AB_y * AD_z - AD_y * AB_z) * i - 
       (AB_x * AD_z - AD_x * AB_z) * j + 
       (AB_x * AD_y - AD_x * AB_y) * k = 
-    = (${lhs.y} * ${rhs.z} -  ${rhs.y} *  ${lhs.z}) * i - 
-      (${lhs.x} * ${rhs.z} - ${rhs.x} * ${lhs.z}) * j + 
-      (${lhs.x} * ${rhs.y} - ${rhs.x} * ${lhs.y}) * k = 
+    = (${task.lhs.y} * ${task.rhs.z} -  ${task.rhs.y} *  ${task.lhs.z}) * i - 
+      (${task.lhs.x} * ${task.rhs.z} - ${task.rhs.x} * ${task.lhs.z}) * j + 
+      (${task.lhs.x} * ${task.rhs.y} - ${task.rhs.x} * ${task.lhs.y}) * k = 
     = ${solution[0].value[0]} * i - ${solution[0].value[1]} * j + ${
 			solution[0].value[2]
 		} * k = 
