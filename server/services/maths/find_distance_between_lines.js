@@ -15,7 +15,7 @@ const {
  */
 const findDistanceBetweenLines = (a, b, c, a1) => {
 	const task = { a, b, c, a1 };
-	const solution = [];
+	let solution = [];
 
 	solution.push({
 		type: 'plane',
@@ -28,11 +28,7 @@ const findDistanceBetweenLines = (a, b, c, a1) => {
 		],
 	});
 
-	solution.push({
-		type: 'numbers',
-		name: 'A_1AB',
-		value: findPlaneEquation(a, b, a1),
-	});
+	solution = [...solution, findPlaneEquation(a, b, a1).solution];
 
 	solution.push({
 		type: 'number',

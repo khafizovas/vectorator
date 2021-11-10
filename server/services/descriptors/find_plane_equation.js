@@ -2,7 +2,7 @@ const describePlaneEquation = ({ task, solution }) => {
 	const describedSolution = [];
 	let i = 0;
 
-	if (solution.length === 6) {
+	if (solution[0].name === 'AA_1') {
 		describedSolution.push({
 			description: 'Найдём координаты вектора AA_1',
 			action: `AA_1 = {A_1_x - A_x; A_1_y - A_y; A_1_z - A_z} = {
