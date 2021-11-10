@@ -25,11 +25,7 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		],
 	});
 
-	solution.push({
-		type: 'numbers',
-		name: 'plane',
-		value: findPlaneEquation(a, b, d),
-	});
+	solution = [...solution, findPlaneEquation(a, b, d).solution];
 
 	solution.push({
 		type: 'vector',
@@ -55,19 +51,19 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 	solution.push({
 		type: 'coordinate',
 		name: 'x',
-		value: t * solution[2].value[0] + a1.x,
+		value: t * solution[solution.lenght - 2].value[0] + a1.x,
 	});
 
 	solution.push({
 		type: 'coordinate',
 		name: 'y',
-		value: t * solution[2].value[1] + a1.y,
+		value: t * solution[solution.lenght - 2].value[1] + a1.y,
 	});
 
 	solution.push({
 		type: 'coordinate',
 		name: 'z',
-		value: t * solution[2].value[2] + a1.z,
+		value: t * solution[solution.lenght - 2].value[2] + a1.z,
 	});
 
 	const a0 = {
@@ -91,7 +87,7 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 	const a1a0 = buildVector3D(a1, a0);
 
 	solution.push({
-		type: 'number',
+		type: 'numbers',
 		name: 'A_1A_0',
 		value: Object.values(a1a0),
 	});
