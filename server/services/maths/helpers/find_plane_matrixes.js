@@ -7,8 +7,8 @@
 const findPlaneMatrixes = (a, b, c) => {
 	const AXIS = ['x', 'y', 'z'];
 	const matrix = Object.values(a).map((coordinate, i) => [
-		b[AXIS[i] - coordinate],
-		c[AXIS[i] - coordinate],
+		b[AXIS[i]] - coordinate,
+		c[AXIS[i]] - coordinate,
 	]);
 
 	return [

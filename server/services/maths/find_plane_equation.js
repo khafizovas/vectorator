@@ -27,7 +27,7 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 		task.a1 = a1;
 
 		solution.push({
-			type: 'vector',
+			type: 'coordinates',
 			name: 'AA_1',
 			value: Object.values(aa1),
 		});
