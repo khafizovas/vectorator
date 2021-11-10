@@ -42,23 +42,14 @@ const findAngleBetweenPlanes = (a, b, d, a1) => {
 		],
 	});
 
-	solution.push({
-		type: 'numbers',
-		name: 'A_1AB',
-		value: findPlaneEquation(a, b, a1),
-	});
-
-	solution.push({
-		type: 'numbers',
-		name: 'DD_1C',
-		value: findPlaneEquation(d, d1, c),
-	});
-
+	const aba1 = findPlaneEquation(a, b, a1);
+	const dd1c = findPlaneEquation(d, d1, c);
 	solution = [
-		...solution,
+		...aba1.solution,
+		...dd1c.solution,
 		findAngleBetweenVectors(
-			solution[solution.length - 2].value.slice(0, -1),
-			solution[solution.length - 1].value.slice(0, -1)
+			aba1.result.value.slice(0, -1),
+			dd1c.result.value.slice(0, -1)
 		).solution,
 	];
 
