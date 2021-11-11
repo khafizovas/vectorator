@@ -8,19 +8,19 @@ const findParallelogramArea = require('./find_parallelogram_area');
  * @param {Vector3D} AA1
  * @returns {solution}
  */
-const findParallelepipedHeight = (AB, AD, AA1) => {
-	const task = { AB: AB, AD: AD, AA1: AA1 };
-	let solution = findParallelepipedVolume(AB, AD, AA1).solution;
+const findParallelepipedHeight = (AB, AD, AA1, coordinates) => {
+	const task = { AB, AD, AA1 };
+	let solution = findParallelepipedVolume(AB, AD, AA1, coordinates).solution;
 
 	solution = [...solution, findParallelogramArea(AB, AD).solution];
 
 	solution.push({
 		type: 'number',
 		name: 'h',
-		value: solution[1].value / solution[3].value,
+		value: solution[1].value / solution[solution.length - 1].value,
 	});
 
-	result = { type: 'number', value: solution[4].value };
+	result = { type: 'number', value: solution[solution.length - 1].value };
 
 	return { task, solution, result };
 };

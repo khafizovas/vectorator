@@ -291,6 +291,7 @@ const findParallelepipedVolume = (req, res) => {
 	});
 };
 
+// TODO test and fix
 const findParallelepipedHeight = (req, res) => {
 	const vectors = [
 		maths.buildVector3D(req.body.a, req.body.b),
@@ -298,24 +299,58 @@ const findParallelepipedHeight = (req, res) => {
 		maths.buildVector3D(req.body.a, req.body.a1),
 	];
 
-	getSolution(vectors, res, {
-		task: JSON.stringify({
-			key: 7,
-			task: [
+	if (
+		!canBuildParallelepiped(
+			[
 				{
 					type: 'vector',
 					name: 'AB',
-					value: Object.values(vectors[0]),
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
 					name: 'AD',
-					value: Object.values(vectors[1]),
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
 					name: 'AA_1',
-					value: Object.values(vectors[2]),
+					value: [Object.values(req.body.a), Object.values(req.body.a1)],
+				},
+			],
+			[...vectors, req.body]
+		)
+	) {
+		return;
+	}
+
+	const c = maths.sumPointAndVector(
+		req.body.b,
+		maths.buildVector3D(req.body.a, req.body.d)
+	);
+	const aa1 = maths.buildVector3D(req.body.a, req.body.a1);
+
+	getSolution([...vectors, req.body], res, {
+		task: JSON.stringify({
+			key: 7,
+			task: [
+				{
+					type: 'parallelepiped',
+					name: 'ABCDA_1B_1C_1D_1',
+					value: [
+						[
+							Object.values(req.body.a),
+							Object.values(req.body.b),
+							Object.values(c),
+							Object.values(req.body.d),
+						],
+						[
+							Object.values(maths.sumPointAndVector(req.body.a, aa1)),
+							Object.values(maths.sumPointAndVector(req.body.b, aa1)),
+							Object.values(maths.sumPointAndVector(c, aa1)),
+							Object.values(maths.sumPointAndVector(req.body.d, aa1)),
+						],
+					],
 				},
 			],
 		}),
@@ -332,14 +367,30 @@ const findVectorInBasis = (req, res) => {
 		maths.buildVector3D(req.body.a, req.body.a1),
 	];
 
-	getSolution({ vector, basis }, res, {
+	getSolution([vector, basis], res, {
 		task: JSON.stringify({
 			key: 8,
 			task: [
-				{ type: 'vector', name: 'AH', value: Object.values(vector) },
-				{ type: 'vector', name: 'AB', value: Object.values(basis[0]) },
-				{ type: 'vector', name: 'AD', value: Object.values(basis[1]) },
-				{ type: 'vector', name: 'AA_1', value: Object.values(basis[2]) },
+				{
+					type: 'vector',
+					name: 'AH',
+					value: [Object.values(req.body.a), Object.values(req.body.h)],
+				},
+				{
+					type: 'vector',
+					name: 'AB',
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
+				},
+				{
+					type: 'vector',
+					name: 'AD',
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
+				},
+				{
+					type: 'vector',
+					name: 'AA_1',
+					value: [Object.values(req.body.a), Object.values(req.body.a1)],
+				},
 			],
 		}),
 		maths: maths.findVectorDecomposition,
@@ -357,8 +408,16 @@ const findVectorProjection = (req, res) => {
 		task: JSON.stringify({
 			key: 9,
 			task: [
-				{ type: 'vector', name: 'AH', value: Object.values(vectors[0]) },
-				{ type: 'vector', name: 'AA_1', value: Object.values(vectors[1]) },
+				{
+					type: 'vector',
+					name: 'AH',
+					value: [Object.values(req.body.a), Object.values(req.body.h)],
+				},
+				{
+					type: 'vector',
+					name: 'AA_1',
+					value: [Object.values(req.body.a), Object.values(req.body.a1)],
+				},
 			],
 		}),
 		maths: maths.findVectorProjection,
