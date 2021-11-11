@@ -20,16 +20,16 @@ const describeParallelogramArea = ({ task, solution }) => {
     = ${solution[0].value[0]} * i - ${solution[0].value[1]} * j + ${
 			solution[0].value[2]
 		} * k = 
-    = {${solution[0].value.join('; ')}}`,
+    {${solution[0].value.join('; ')}}`,
 	});
 
 	describedSolution.push({
 		description: 'Найдём длину найденного вектора',
 		action: `S = sqrt(${solution[0].value[0]}^2 + ${solution[0].value[1]}^2 + ${solution[0].value[2]}^2) = 
-      = ${solution[1].value}`,
+      ${solution[1].value}`,
 	});
 
-	return describedSolution;
+	return { describedSolution };
 };
 
 module.exports = describeParallelogramArea;

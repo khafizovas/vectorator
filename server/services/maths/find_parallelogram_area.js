@@ -9,11 +9,11 @@ const { findVectorLength, findVector3DProduct } = require('./helpers');
 function findParallelogramArea(lhs, rhs) {
 	const vector = findVector3DProduct(lhs, rhs);
 
-	const task = { lhs: lhs, rhs: rhs };
+	const task = { lhs, rhs };
 	const solution = [];
 
 	solution.push({
-		type: 'vector',
+		type: 'coordinates',
 		name: '[AB, AD]',
 		value: Object.values(vector),
 	});

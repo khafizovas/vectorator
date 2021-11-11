@@ -12,6 +12,8 @@ const Solution = (props) => {
 				return props.result.value ? 'Да' : 'Нет';
 			case 'numbers':
 				return props.result.value.join('; ');
+			case 'number':
+				return props.result.value;
 
 			default:
 				break;

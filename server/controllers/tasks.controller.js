@@ -144,6 +144,24 @@ const findAngleBetweenDiagonales = (req, res) => {
 };
 
 const findParallelogramArea = (req, res) => {
+	if (
+		!canBuildParallelogram(
+			[
+				{
+					type: 'vector',
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
+				},
+				{
+					type: 'vector',
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
+				},
+			],
+			Object.values(req.body)
+		)
+	) {
+		return;
+	}
+
 	const vectors = [
 		maths.buildVector3D(req.body.a, req.body.b),
 		maths.buildVector3D(req.body.a, req.body.d),
@@ -154,19 +172,19 @@ const findParallelogramArea = (req, res) => {
 			key: 4,
 			task: [
 				{
-					type: 'point',
-					name: 'A',
-					value: Object.values(req.body.a),
-				},
-				{
-					type: 'point',
-					name: 'B',
-					value: Object.values(req.body.b),
-				},
-				{
-					type: 'point',
-					name: 'D',
-					value: Object.values(req.body.d),
+					type: 'parallelogram',
+					name: 'ABCD',
+					value: [
+						Object.values(req.body.a),
+						Object.values(req.body.b),
+						Object.values(
+							maths.sumPointAndVector(
+								req.body.b,
+								maths.buildVector3D(req.body.a, req.body.d)
+							)
+						),
+						Object.values(req.body.d),
+					],
 				},
 			],
 		}),
@@ -176,12 +194,6 @@ const findParallelogramArea = (req, res) => {
 };
 
 const buildParallelepiped = (req, res) => {
-	const vectors = [
-		maths.buildVector3D(req.body.a, req.body.b),
-		maths.buildVector3D(req.body.a, req.body.d),
-		maths.buildVector3D(req.body.a, req.body.a1),
-	];
-
 	getSolution(vectors, res, {
 		task: JSON.stringify({
 			key: 5,
@@ -189,17 +201,17 @@ const buildParallelepiped = (req, res) => {
 				{
 					type: 'vector',
 					name: 'AB',
-					value: Object.values(vectors[0]),
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
 					name: 'AD',
-					value: Object.values(vectors[1]),
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
 					name: 'AA_1',
-					value: Object.values(vectors[2]),
+					value: [Object.values(req.body.a), Object.values(req.body.a1)],
 				},
 			],
 		}),
@@ -429,7 +441,32 @@ const canBuildParallelogram = (task, params) => {
 			result: { type: 'bool', value: false },
 			solution: [],
 			task: JSON.stringify({
-				key: 2,
+				key: 1,
+				task: task,
+			}),
+		});
+
+		return false;
+	}
+
+	return true;
+};
+
+const canBuildParallelepiped = (task, params) => {
+	if (!maths.buildParallelepiped(...params).result.value) {
+		console.log('cannot build parallelepiped');
+
+		res.send({
+			describedSolution: [
+				{
+					description: 'На данных векторах нельзя построить параллелепипед',
+					action: '',
+				},
+			],
+			result: { type: 'bool', value: false },
+			solution: [],
+			task: JSON.stringify({
+				key: 5,
 				task: task,
 			}),
 		});
