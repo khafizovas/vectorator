@@ -18,11 +18,16 @@ const SolutionIllustration = (props) => {
 			(3 *
 				Math.max(
 					...[...props.task, ...props.solution]
+						.filter(
+							(step) =>
+								step.type !== 'number' &&
+								step.type !== 'numbers' &&
+								step.type !== 'bool'
+						)
 						.map((step) =>
 							Array.isArray(step.value) ? step.value.flat(Infinity) : step.value
 						)
 						.flat(Infinity)
-						.filter((step) => step.type !== 'number' && step.type !== 'bool')
 				));
 
 		drawGrid(context, size, unit);

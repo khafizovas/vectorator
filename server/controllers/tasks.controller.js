@@ -50,19 +50,14 @@ const buildParallelogram = (req, res) => {
 			key: 1,
 			task: [
 				{
-					type: 'point',
-					name: 'A',
-					value: Object.values(req.body.a),
+					type: 'vector',
+					name: 'AB',
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
-					type: 'point',
-					name: 'B',
-					value: Object.values(req.body.b),
-				},
-				{
-					type: 'point',
-					name: 'D',
-					value: Object.values(req.body.d),
+					type: 'vector',
+					name: 'AB',
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 			],
 		}),
@@ -76,22 +71,27 @@ const findSidesLength = (req, res) => {
 		maths.buildVector3D(req.body.a, req.body.b),
 		maths.buildVector3D(req.body.a, req.body.d),
 	];
+	const task = [
+		{
+			type: 'vector',
+			name: 'AB',
+			value: [Object.values(req.body.a), Object.values(req.body.b)],
+		},
+		{
+			type: 'vector',
+			name: 'AD',
+			value: [Object.values(req.body.a), Object.values(req.body.d)],
+		},
+	];
+
+	if (!canBuildParallelogram(task, Object.values(req.body))) {
+		return;
+	}
 
 	getSolution(vectors, res, {
 		task: JSON.stringify({
 			key: 2,
-			task: [
-				{
-					type: 'vector',
-					name: 'AB',
-					value: Object.values(vectors[0]),
-				},
-				{
-					type: 'vector',
-					name: 'AD',
-					value: Object.values(vectors[1]),
-				},
-			],
+			task: task,
 		}),
 		maths: maths.findParallelorgamSides,
 		descriptor: descriptors.describeParallelorgamSides,
@@ -99,24 +99,42 @@ const findSidesLength = (req, res) => {
 };
 
 const findAngleBetweenDiagonales = (req, res) => {
+	if (
+		!canBuildParallelogram(
+			[
+				{
+					type: 'vector',
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
+				},
+				{
+					type: 'vector',
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
+				},
+			],
+			Object.values(req.body)
+		)
+	) {
+		return;
+	}
+
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
 			key: 3,
 			task: [
 				{
-					type: 'point',
-					name: 'A',
-					value: Object.values(req.body.a),
-				},
-				{
-					type: 'point',
-					name: 'B',
-					value: Object.values(req.body.b),
-				},
-				{
-					type: 'point',
-					name: 'D',
-					value: Object.values(req.body.d),
+					type: 'parallelogram',
+					name: 'ABCD',
+					value: [
+						Object.values(req.body.a),
+						Object.values(req.body.b),
+						Object.values(
+							maths.sumPointAndVector(
+								req.body.b,
+								maths.buildVector3D(req.body.a, req.body.d)
+							)
+						),
+						Object.values(req.body.d),
+					],
 				},
 			],
 		}),
@@ -395,6 +413,31 @@ const createNewSolution = (params, res, taskInfo) => {
 	newSolution.save().then((data) => {
 		res.send(data);
 	});
+};
+
+const canBuildParallelogram = (task, params) => {
+	if (!maths.buildParallelogram(...params).result.value) {
+		console.log('cannot build parallelogram');
+
+		res.send({
+			describedSolution: [
+				{
+					description: 'На данных векторах нельзя построить параллелограмм',
+					action: '',
+				},
+			],
+			result: { type: 'bool', value: false },
+			solution: [],
+			task: JSON.stringify({
+				key: 2,
+				task: task,
+			}),
+		});
+
+		return false;
+	}
+
+	return true;
 };
 
 module.exports = {

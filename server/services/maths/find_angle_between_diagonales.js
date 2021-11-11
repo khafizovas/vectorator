@@ -1,5 +1,9 @@
 const buildVector3D = require('./build_vector_3d');
-const { findVectorsSum, findAngleBetweenVectors } = require('./helpers');
+const {
+	findVectorsSum,
+	sumPointAndVector,
+	findAngleBetweenVectors,
+} = require('./helpers');
 
 /**
  * Найти углы между диагоналями параллелограмма ABCD.
@@ -9,9 +13,10 @@ const { findVectorsSum, findAngleBetweenVectors } = require('./helpers');
  * @returns {solution}
  */
 const findParallelogramDiagonalesAngles = (a, b, d) => {
+	const ad = buildVector3D(a, d);
 	const diagonales = [
 		buildVector3D(b, d),
-		findVectorsSum(buildVector3D(a, b), buildVector3D(a, d)),
+		findVectorsSum(buildVector3D(a, b), ad),
 	];
 
 	const task = { a: a, b: b, d: d };
@@ -20,11 +25,23 @@ const findParallelogramDiagonalesAngles = (a, b, d) => {
 	solution.push({
 		type: 'vector',
 		name: 'BD',
+		value: [Object.values(b), Object.values(d)],
+	});
+
+	solution.push({
+		type: 'coordinates',
+		name: 'BD',
 		value: Object.values(diagonales[0]),
 	});
 
 	solution.push({
 		type: 'vector',
+		name: 'AC',
+		value: [Object.values(a), Object.values(sumPointAndVector(b, ad))],
+	});
+
+	solution.push({
+		type: 'coordinates',
 		name: 'AC',
 		value: Object.values(diagonales[1]),
 	});

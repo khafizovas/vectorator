@@ -11,10 +11,9 @@ const { areCollinearVectors, sumPointAndVector } = require('./helpers');
 const buildParallelogram = (a, b, d) => {
 	const vectors = [buildVector3D(a, b), buildVector3D(a, d)];
 
-	const task = { a: a, b: b, d: d };
+	const task = { a, b, d };
 	const solution = [];
 
-	// TODO add 'vector' type steps
 	solution.push({
 		name: 'AB',
 		type: 'coordinates',
@@ -57,7 +56,7 @@ const buildParallelogram = (a, b, d) => {
 		value: !solution[2].value,
 	};
 
-	return { task: task, solution: solution, result: result };
+	return { task, solution, result };
 };
 
 module.exports = buildParallelogram;

@@ -7,7 +7,7 @@ const { findVectorLength } = require('./helpers');
  * @returns {solution}
  */
 const findParallelogramSides = (lhs, rhs) => {
-	const task = { lhs: lhs, rhs: rhs };
+	const task = { lhs, rhs };
 	const solution = [];
 
 	solution.push({
@@ -22,9 +22,12 @@ const findParallelogramSides = (lhs, rhs) => {
 		value: findVectorLength(rhs),
 	});
 
-	result = { '|AB|': solution[0].value, '|AD|': solution[1].value };
+	result = {
+		type: 'numbers',
+		value: [solution[0].value, solution[1].value],
+	};
 
-	return { task: task, solution: solution, result: result };
+	return { task, solution, result };
 };
 
 module.exports = findParallelogramSides;

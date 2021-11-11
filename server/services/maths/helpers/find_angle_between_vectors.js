@@ -20,7 +20,7 @@ const findAngleBetweenVectors = (lhs, rhs) => {
 	solution.push({
 		type: 'number',
 		name: 'angle in degrees',
-		value: convertRadiansToDegrees(solution[length - 1].value),
+		value: convertRadiansToDegrees(solution[solution.length - 1].value),
 	});
 
 	const result = {

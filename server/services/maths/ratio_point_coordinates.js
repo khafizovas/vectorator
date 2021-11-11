@@ -7,7 +7,7 @@ const { findRatioCoordinate } = require('./helpers');
  * @returns {solution} координата искомой точки
  */
 const findRatioPoint3D = (vectorPoints, ratioParts) => {
-	const task = { vectorPoints: vectorPoints, ratioParts: ratioParts };
+	const task = { vectorPoints, ratioParts };
 	const solution = [];
 
 	solution.push({
@@ -61,7 +61,7 @@ const findRatioPoint3D = (vectorPoints, ratioParts) => {
 		},
 	};
 
-	return { task: task, solution: solution, result: result };
+	return { task, solution, result };
 };
 
 module.exports = findRatioPoint3D;

@@ -42,16 +42,6 @@ const describeParallelogram = ({ task, solution, result }) => {
 				C(${solution[4].value[2].join('; ')}), 
 				D(${solution[4].value[3].join('; ')})`,
 		});
-
-		// describedSolution.push({
-		// 	description: 'Вычислим длину AB',
-		// 	action: `${solution[3].name} = sqrt((AB_x)^2 + (AB_y)^2 + (AB_z)^2) = sqrt(${task.lhs.x}^2 + ${task.lhs.y}^2 + ${task.lhs.z}^2) = ${solution[3].value}`,
-		// });
-
-		// describedSolution.push({
-		// 	description: 'Вычислим длину AD',
-		// 	action: `${solution[4].name} = sqrt((AD_x)^2 + (AD_y)^2 + (AD_z)^2) = sqrt(${task.rhs.x}^2 + ${task.rhs.y}^2 + ${task.rhs.z}^2) = ${solution[4].value}`,
-		// });
 	}
 
 	return { describedSolution: describedSolution };

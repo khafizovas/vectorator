@@ -13,6 +13,7 @@ const findPlaneEquation = require('./find_plane_equation');
 const findDistanceBetweenLines = require('./find_distance_between_lines');
 const findSymmetricalPoint = require('./find_symmetrical_point');
 const findAngleBetweenPlanes = require('./find_angle_between_planes');
+const sumPointAndVector = require('./helpers/sum_point_and_vector');
 
 module.exports = {
 	buildVector3D,
@@ -30,4 +31,5 @@ module.exports = {
 	findDistanceBetweenLines,
 	findSymmetricalPoint,
 	findAngleBetweenPlanes,
+	sumPointAndVector,
 };

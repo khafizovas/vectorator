@@ -10,6 +10,8 @@ const Solution = (props) => {
 					.join('; ');
 			case 'bool':
 				return props.result.value ? 'Да' : 'Нет';
+			case 'numbers':
+				return props.result.value.join('; ');
 
 			default:
 				break;
