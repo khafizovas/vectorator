@@ -7,9 +7,9 @@ const buildParallelepiped = require('./build_parallelepiped');
  * @param {Vector3D} AA1
  * @returns {solution}
  */
-const findParallelepipedVolume = (AB, AD, AA1) => {
-	const task = { AB: AB, AD: AD, AA1: AA1 };
-	const solution = buildParallelepiped(AB, AD, AA1).solution;
+const findParallelepipedVolume = (AB, AD, AA1, coordinates) => {
+	const task = { AB, AD, AA1 };
+	const solution = buildParallelepiped(AB, AD, AA1, coordinates).solution;
 
 	result = { type: 'number', value: solution[1].value };
 

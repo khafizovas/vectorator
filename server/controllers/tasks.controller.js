@@ -20,8 +20,6 @@ const getTask = (req, res) => {
 	});
 };
 
-// TODO Fix before getSolution
-
 // Solutions
 const ratioPointCoordinates = (req, res) => {
 	getSolution(Object.values(req.body), res, {
@@ -194,7 +192,13 @@ const findParallelogramArea = (req, res) => {
 };
 
 const buildParallelepiped = (req, res) => {
-	getSolution(vectors, res, {
+	const vectors = [
+		maths.buildVector3D(req.body.a, req.body.b),
+		maths.buildVector3D(req.body.a, req.body.d),
+		maths.buildVector3D(req.body.a, req.body.a1),
+	];
+
+	getSolution([...vectors, req.body], res, {
 		task: JSON.stringify({
 			key: 5,
 			task: [
@@ -227,24 +231,58 @@ const findParallelepipedVolume = (req, res) => {
 		maths.buildVector3D(req.body.a, req.body.a1),
 	];
 
-	getSolution(vectors, res, {
-		task: JSON.stringify({
-			key: 6,
-			task: [
+	if (
+		!canBuildParallelepiped(
+			[
 				{
 					type: 'vector',
 					name: 'AB',
-					value: Object.values(vectors[0]),
+					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
 					name: 'AD',
-					value: Object.values(vectors[1]),
+					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
 					name: 'AA_1',
-					value: Object.values(vectors[2]),
+					value: [Object.values(req.body.a), Object.values(req.body.a1)],
+				},
+			],
+			[...vectors, req.body]
+		)
+	) {
+		return;
+	}
+
+	const c = maths.sumPointAndVector(
+		req.body.b,
+		maths.buildVector3D(req.body.a, req.body.d)
+	);
+	const aa1 = maths.buildVector3D(req.body.a, req.body.a1);
+
+	getSolution([...vectors, req.body], res, {
+		task: JSON.stringify({
+			key: 6,
+			task: [
+				{
+					type: 'parallelepiped',
+					name: 'ABCDA_1B_1C_1D_1',
+					value: [
+						[
+							Object.values(req.body.a),
+							Object.values(req.body.b),
+							Object.values(c),
+							Object.values(req.body.d),
+						],
+						[
+							Object.values(maths.sumPointAndVector(req.body.a, aa1)),
+							Object.values(maths.sumPointAndVector(req.body.b, aa1)),
+							Object.values(maths.sumPointAndVector(c, aa1)),
+							Object.values(maths.sumPointAndVector(req.body.d, aa1)),
+						],
+					],
 				},
 			],
 		}),

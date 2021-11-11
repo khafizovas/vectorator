@@ -33,7 +33,7 @@ const describeParallelepiped = ({ task, solution }) => {
 			}`,
 	});
 
-	return describedSolution;
+	return { describedSolution };
 };
 
 module.exports = describeParallelepiped;

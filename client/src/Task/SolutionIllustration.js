@@ -85,11 +85,11 @@ const SolutionIllustration = (props) => {
 
 		// Captions
 		contex.fillStyle = 'black';
-		contex.fillText('0', 0.5 * size - 0.9 * unit, 0.5 * size);
+		contex.fillText('0', 0.5 * size, 0.5 * size);
 		contex.fillText('x', 0.05, 0.95 * size);
 		contex.fillText('y', 0.95 * size, 0.5 * size);
 		contex.fillText('z', 0.5 * size, 0.05 * size);
-		captions.push(['0', 0.5 * size - 0.9 * unit, 0.5 * size]);
+		captions.push(['0', 0.5 * size, 0.5 * size]);
 		captions.push(['x', 0.05, 0.95 * size]);
 		captions.push(['y', 0.95 * size, 0.5 * size]);
 		captions.push(['z', 0.5 * size, 0.05 * size]);
@@ -159,9 +159,35 @@ const SolutionIllustration = (props) => {
 				break;
 			}
 
+			case 'parallelepiped': {
+				const parallelepipedInfo = step.value.map((elem, i) =>
+					elem.map((point, j) => {
+						return {
+							...findPointCoordinates({ value: point }, canv),
+							value: point,
+							name: step.name.slice(
+								4 * i + j * (1 + 2 * i),
+								6 * i + j * (1 + 2 * i) + 1
+							),
+						};
+					})
+				);
+
+				drawParallellepiped(parallelepipedInfo, canv);
+				break;
+			}
+
 			default:
 				break;
 		}
+	};
+
+	const drawParallellepiped = (parallelepiped, canv) => {
+		parallelepiped.forEach((elem) => drawParallelogram(elem, canv));
+
+		parallelepiped[0].forEach((point, i) =>
+			drawVector([point, parallelepiped[1][i]], canv, false)
+		);
 	};
 
 	const drawParallelogram = (parallelogram, canv) => {
@@ -179,7 +205,7 @@ const SolutionIllustration = (props) => {
 		canv.ctx.stroke();
 	};
 
-	const drawVector = (vector, canv) => {
+	const drawVector = (vector, canv, arrow = true) => {
 		vector.forEach((point) => drawPoint(point, canv, false));
 
 		canv.ctx.beginPath();
@@ -190,7 +216,9 @@ const SolutionIllustration = (props) => {
 		canv.ctx.strokeStyle = 'black';
 		canv.ctx.stroke();
 
-		drawArrow(vector, canv);
+		if (arrow) {
+			drawArrow(vector, canv);
+		}
 	};
 
 	const drawArrow = (vector, canv) => {
