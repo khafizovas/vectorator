@@ -10,9 +10,11 @@ const findParallelogramArea = require('./find_parallelogram_area');
  */
 const findParallelepipedHeight = (AB, AD, AA1, coordinates) => {
 	const task = { AB, AD, AA1 };
-	let solution = findParallelepipedVolume(AB, AD, AA1, coordinates).solution;
 
-	solution = [...solution, findParallelogramArea(AB, AD).solution];
+	const solution = [
+		...findParallelepipedVolume(AB, AD, AA1, coordinates).solution,
+		...findParallelogramArea(AB, AD).solution,
+	];
 
 	solution.push({
 		type: 'number',

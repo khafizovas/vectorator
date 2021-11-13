@@ -5,6 +5,7 @@ const {
 	findDistanceBetweenPointAndPlane,
 } = require('./helpers');
 
+// TODO find c, knowing d
 /**
  * Найти расстояние между прямыми, на которых лежат ребра AB и CC_1.
  * @param {Point3D} a

@@ -291,7 +291,6 @@ const findParallelepipedVolume = (req, res) => {
 	});
 };
 
-// TODO test and fix
 const findParallelepipedHeight = (req, res) => {
 	const vectors = [
 		maths.buildVector3D(req.body.a, req.body.b),
@@ -359,6 +358,7 @@ const findParallelepipedHeight = (req, res) => {
 	});
 };
 
+// TODO test and fix
 const findVectorInBasis = (req, res) => {
 	const vector = maths.buildVector3D(req.body.a, req.body.h);
 	const basis = [
@@ -426,6 +426,7 @@ const findVectorProjection = (req, res) => {
 };
 
 const findPlaneEquation = (req, res) => {
+	const key = req.body.a1 ? 11 : 10;
 	const task = req.body.a1
 		? [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
@@ -440,7 +441,7 @@ const findPlaneEquation = (req, res) => {
 
 	getSolution([req.body], res, {
 		task: JSON.stringify({
-			key: 10,
+			key: key,
 			task: task,
 		}),
 		maths: maths.findPlaneEquation,
@@ -448,10 +449,11 @@ const findPlaneEquation = (req, res) => {
 	});
 };
 
+// TODO C isn't in the task
 const findDistanceBetweenLines = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
-			key: 11,
+			key: 12,
 			task: [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
 				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
@@ -467,7 +469,7 @@ const findDistanceBetweenLines = (req, res) => {
 const findSymmetricalPoint = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
-			key: 12,
+			key: 13,
 			task: [
 				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
@@ -483,7 +485,7 @@ const findSymmetricalPoint = (req, res) => {
 const findAngleBetweenPlanes = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
-			key: 13,
+			key: 14,
 			task: [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
 				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
