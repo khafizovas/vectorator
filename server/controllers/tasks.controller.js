@@ -358,7 +358,6 @@ const findParallelepipedHeight = (req, res) => {
 	});
 };
 
-// TODO test and fix
 const findVectorInBasis = (req, res) => {
 	const vector = maths.buildVector3D(req.body.a, req.body.h);
 	const basis = [
@@ -425,6 +424,7 @@ const findVectorProjection = (req, res) => {
 	});
 };
 
+// TODO test and fix
 const findPlaneEquation = (req, res) => {
 	const key = req.body.a1 ? 11 : 10;
 	const task = req.body.a1

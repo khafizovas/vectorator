@@ -1,4 +1,4 @@
-const describeVectorProjection = ({ task, solution, result }) => {
+const describeVectorProjection = ({ task, solution }) => {
 	const describedSolution = [];
 
 	describedSolution.push({
@@ -21,10 +21,10 @@ const describeVectorProjection = ({ task, solution, result }) => {
 		description: 'Найдём искомую проекцию',
 		action: `AH * AA_1 / |AA_1| = 
       ${solution[0].value} / ${solution[1].value} = 
-      ${solution[2].value}`,
+      ${solution[solution.length - 1].value}`,
 	});
 
-	return describedSolution;
+	return { describedSolution };
 };
 
 module.exports = describeVectorProjection;
