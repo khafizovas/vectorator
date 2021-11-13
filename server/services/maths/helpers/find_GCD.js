@@ -6,11 +6,13 @@
 const findGCD = (numbers) => {
 	const factor =
 		10 **
-		Math.max(...[numbers].map((num) => num.toString().split('.')[1].length));
+		Math.max(
+			...numbers.map((num) => num.toString().split('.')[1]?.length || 0)
+		);
 
 	return numbers.reduce(
-		(gcd, cur) => findIntGCD(cur * factor, gcd),
-		numbers[0] * factor
+		(gcd, cur) => findIntGCD(Math.abs(cur) * factor, gcd),
+		Math.abs(numbers[0]) * factor
 	);
 };
 

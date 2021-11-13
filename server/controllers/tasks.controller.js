@@ -424,14 +424,13 @@ const findVectorProjection = (req, res) => {
 	});
 };
 
-// TODO test and fix
 const findPlaneEquation = (req, res) => {
 	const key = req.body.a1 ? 11 : 10;
 	const task = req.body.a1
 		? [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
-				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
 				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
+				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
 		  ]
 		: [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
@@ -449,6 +448,7 @@ const findPlaneEquation = (req, res) => {
 	});
 };
 
+// TODO test and fix
 // TODO C isn't in the task
 const findDistanceBetweenLines = (req, res) => {
 	getSolution(Object.values(req.body), res, {

@@ -13,6 +13,7 @@ const Solution = (props) => {
 			case 'numbers':
 				return props.result.value.join('; ');
 			case 'number':
+			case 'string':
 				return props.result.value;
 
 			default:

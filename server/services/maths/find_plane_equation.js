@@ -64,13 +64,13 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 		name: 'members',
 		value: [
 			solution[solution.length - 1].value[0],
-			-solution[solution.length - 1].value[0],
-			solution[solution.length - 1].value[0],
+			-solution[solution.length - 1].value[1],
+			solution[solution.length - 1].value[2],
 			-findD(...solution[solution.length - 1].value, a),
 		],
 	});
 
-	const gcd = findGCD(...solution[solution.length - 1].value);
+	const gcd = findGCD(solution[solution.length - 1].value);
 
 	solution.push({
 		type: 'numbers',
@@ -78,9 +78,17 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 		value: solution[solution.length - 1].value.map((member) => member / gcd),
 	});
 
+	const AXIS = ['x', 'y', 'z'];
 	const result = {
-		type: 'numbers',
-		value: solution[solution.length - 1].value,
+		type: 'string',
+		value:
+			solution[solution.length - 1].value
+				.map(
+					(factor, i) =>
+						(i && factor > 0 ? '+' : '') +
+						(factor ? (factor === 1 ? '' : factor) + AXIS[i] || '' : '')
+				)
+				.join(' ') + ' = 0',
 	};
 
 	return { task, solution, result };
