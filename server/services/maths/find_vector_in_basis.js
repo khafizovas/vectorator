@@ -4,7 +4,7 @@ const { convertVectorsToMatrix, solveSystemCramer } = require('./helpers');
 /**
  * Найти разложение вектора AH по векторам AB, AD, AA1.
  * @param {Vector3D} vector
- * @param {Vector3D} basis
+ * @param {Vector3D[]} basis
  * @returns {Vector3D}
  */
 const findVectorDecomposition = (vector, basis) => {
@@ -19,10 +19,10 @@ const findVectorDecomposition = (vector, basis) => {
 
 	const cramerSolution = solveSystemCramer(
 		solution[0].value,
-		Object.values(buildVector3D(vector))
+		Object.values(vector)
 	);
 
-	solution = [...solution, cramerSolution.solution];
+	solution = [...solution, ...cramerSolution.solution];
 
 	const result = cramerSolution.result;
 

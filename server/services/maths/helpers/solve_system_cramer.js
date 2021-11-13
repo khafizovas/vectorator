@@ -1,4 +1,5 @@
 const findMatrixDeterminant = require('./find_matrix_determinant');
+const replaceMatrixColumn = require('./replace_matrix_column');
 
 /**
  * Решить систему уравнений методом Крамера.
@@ -45,7 +46,7 @@ const solveSystemCramer = (matrix, vectorCoordinates) => {
 	});
 
 	const result = {
-		type: 'vector',
+		type: 'numbers',
 		value: [solution[2].value, solution[3].value, solution[4].value],
 	};
 
