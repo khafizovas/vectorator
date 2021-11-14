@@ -14,11 +14,11 @@ const solveSystemCramer = (matrix, vectorCoordinates) => {
 	solution.push({
 		type: 'number',
 		name: 'det',
-		value: findMatrixDeterminant(matrix),
+		value: Number(findMatrixDeterminant(matrix).toPrecision(4)),
 	});
 
 	solution.push({
-		type: 'matrixes',
+		type: 'numbers',
 		name: 'matrixes',
 		value: [
 			replaceMatrixColumn(matrix, vectorCoordinates, 0),
@@ -30,19 +30,31 @@ const solveSystemCramer = (matrix, vectorCoordinates) => {
 	solution.push({
 		type: 'number',
 		name: 'det1',
-		value: findMatrixDeterminant(solution[1].value[0]) / solution[0].value,
+		value: Number(
+			(
+				findMatrixDeterminant(solution[1].value[0]) / solution[0].value
+			).toPrecision(4)
+		),
 	});
 
 	solution.push({
 		type: 'number',
 		name: 'det2',
-		value: findMatrixDeterminant(solution[1].value[1]) / solution[0].value,
+		value: Number(
+			(
+				findMatrixDeterminant(solution[1].value[1]) / solution[0].value
+			).toPrecision(4)
+		),
 	});
 
 	solution.push({
 		type: 'number',
 		name: 'det3',
-		value: findMatrixDeterminant(solution[1].value[2]) / solution[0].value,
+		value: Number(
+			(
+				findMatrixDeterminant(solution[1].value[2]) / solution[0].value
+			).toPrecision(4)
+		),
 	});
 
 	const result = {

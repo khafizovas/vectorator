@@ -40,7 +40,7 @@ const buildParallelogram = (a, b, d) => {
 		});
 
 		solution.push({
-			name: 'ABCD',
+			name: ['A', 'B', 'C', 'D'],
 			type: 'parallelogram',
 			value: [
 				Object.values(a),

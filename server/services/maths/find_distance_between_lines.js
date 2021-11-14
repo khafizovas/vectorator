@@ -22,7 +22,7 @@ const findDistanceBetweenLines = (a, b, d, a1) => {
 
 	solution.push({
 		type: 'vector',
-		name: 'AD',
+		name: ['A', 'D'],
 		value: [Object.values(a), Object.values(d)],
 	});
 
@@ -40,7 +40,7 @@ const findDistanceBetweenLines = (a, b, d, a1) => {
 
 	solution.push({
 		type: 'vector',
-		name: 'CC_1',
+		name: ['C', 'C_1'],
 		value: [
 			Object.values(c),
 			Object.values(sumPointAndVector(c, buildVector3D(a, a1))),
@@ -49,7 +49,7 @@ const findDistanceBetweenLines = (a, b, d, a1) => {
 
 	solution.push({
 		type: 'plane',
-		name: 'AA_1B_1B',
+		name: ['A', 'A_1', 'B_1', 'B'],
 		value: [
 			Object.values(a),
 			Object.values(a1),

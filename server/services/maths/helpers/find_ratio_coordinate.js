@@ -6,7 +6,7 @@
  * @returns {number}
  */
 const findRatioCoordinate = (first, second, ratio) => {
-	return (first + ratio * second) / (1 + ratio);
+	return Number(((first + ratio * second) / (1 + ratio)).toPrecision(4));
 };
 
 module.exports = findRatioCoordinate;

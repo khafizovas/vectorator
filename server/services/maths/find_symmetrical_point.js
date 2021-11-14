@@ -16,7 +16,7 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 
 	solution.push({
 		type: 'plane',
-		name: 'ABCD',
+		name: ['A', 'B', 'C', 'D'],
 		value: [
 			Object.values(a),
 			Object.values(b),
@@ -33,14 +33,17 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		value: solution[solution.length - 1].value.slice(0, -1),
 	});
 
-	const t =
+	const t = Number(
 		-(
 			Object.values(a1).reduce(
 				(res, cur, i) => res + cur * solution[solution.length - 1].value[i],
 				0
 			) + solution[solution.length - 2].value[3]
 		) /
-		solution[solution.length - 1].value.reduce((res, cur) => res + cur ** 2, 0);
+			solution[solution.length - 1].value
+				.reduce((res, cur) => res + cur ** 2, 0)
+				.toPrecision(4)
+	);
 
 	solution.push({
 		type: 'number',
@@ -81,7 +84,7 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 
 	solution.push({
 		type: 'vector',
-		name: 'A_1A_0',
+		name: ['A_1', 'A_0'],
 		value: [Object.values(a1), Object.values(a0)],
 	});
 

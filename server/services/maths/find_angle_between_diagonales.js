@@ -14,17 +14,15 @@ const {
  */
 const findParallelogramDiagonalesAngles = (a, b, d) => {
 	const ad = buildVector3D(a, d);
-	const diagonales = [
-		buildVector3D(b, d),
-		findVectorsSum(buildVector3D(a, b), ad),
-	];
+	const ab = buildVector3D(a, b);
+	const diagonales = [buildVector3D(b, d), findVectorsSum(ab, ad)];
 
 	const task = { a: a, b: b, d: d };
 	let solution = [];
 
 	solution.push({
 		type: 'vector',
-		name: 'BD',
+		name: ['B', 'D'],
 		value: [Object.values(b), Object.values(d)],
 	});
 
@@ -35,8 +33,20 @@ const findParallelogramDiagonalesAngles = (a, b, d) => {
 	});
 
 	solution.push({
+		type: 'coordinates',
+		name: 'AB',
+		value: Object.values(ab),
+	});
+
+	solution.push({
+		type: 'coordinates',
+		name: 'AD',
+		value: Object.values(ad),
+	});
+
+	solution.push({
 		type: 'vector',
-		name: 'AC',
+		name: ['A', 'C'],
 		value: [Object.values(a), Object.values(sumPointAndVector(b, ad))],
 	});
 

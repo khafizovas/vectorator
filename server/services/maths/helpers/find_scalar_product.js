@@ -5,7 +5,7 @@
  * @returns {number}
  */
 const findScalarProduct = (lhs, rhs) => {
-	return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+	return Number((lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z).toPrecision(4));
 };
 
 module.exports = findScalarProduct;

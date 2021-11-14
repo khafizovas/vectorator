@@ -46,7 +46,7 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 	}
 
 	solution.push({
-		type: 'matrixes',
+		type: 'numbers',
 		name: 'plane',
 		value: findPlaneMatrixes(...points),
 	});
@@ -55,7 +55,7 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 		type: 'numbers',
 		name: 'determinants',
 		value: solution[solution.length - 1].value.map((matrix) =>
-			findMatrixDeterminant(matrix)
+			Number(findMatrixDeterminant(matrix).toPrecision(4))
 		),
 	});
 

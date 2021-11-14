@@ -13,7 +13,6 @@ const describeSymmetricalPoint = ({ task, solution, result }) => {
 	});
 
 	// TODO добавить вывод t
-
 	describedSolution.push({
 		description: 'Найдём t',
 		action: `t = -(A_1_x * A + A_1_y * B + A_1_z * C + D) / (A^2 + B^2 + C^2) = 

@@ -12,7 +12,7 @@ const findVectorDecomposition = (vector, basis) => {
 	let solution = [];
 
 	solution.push({
-		type: 'matrix',
+		type: 'numbers',
 		name: 'matrix',
 		value: convertVectorsToMatrix(basis, true),
 	});

@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import Solution from './Solution';
 
 // TODO Make inputs' values state
-
 const Task = () => {
 	const { key } = useParams();
 

@@ -25,7 +25,7 @@ const buildParallelepiped = (AB, AD, AA1, coordinates) => {
 	solution.push({
 		type: 'number',
 		name: 'V',
-		value: findMatrixDeterminant(solution[0].value),
+		value: findMatrixDeterminant(Number(solution[0].value.toPrecision(4))),
 	});
 
 	const c = sumPointAndVector(
@@ -36,7 +36,7 @@ const buildParallelepiped = (AB, AD, AA1, coordinates) => {
 
 	solution.push({
 		type: 'parallelepiped',
-		name: 'ABCDA_1B_1C_1D_1',
+		name: ['A', 'B', 'C', 'D', 'A_1', 'B_1', 'C_1', 'D_1'],
 		value: [
 			[
 				Object.values(coordinates.a),

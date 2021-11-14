@@ -25,7 +25,7 @@ const findVectorProjection = (lhs, rhs) => {
 	solution.push({
 		type: 'number',
 		name: 'projection',
-		value: solution[0].value / solution[1].value,
+		value: Number((solution[0].value / solution[1].value).toPrecision(4)),
 	});
 
 	const result = { type: 'number', value: solution[solution.length - 1].value };

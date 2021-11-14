@@ -14,7 +14,6 @@ const findAngleBetweenPlanes = (a, b, d, a1) => {
 	const aa1 = buildVector3D(a, a1);
 	const ad = buildVector3D(a, d);
 	const b1 = sumPointAndVector(b, aa1);
-	const d1 = sumPointAndVector(d, aa1);
 	const c = sumPointAndVector(b, ad);
 
 	const task = { a, b, d, a1 };
@@ -22,23 +21,23 @@ const findAngleBetweenPlanes = (a, b, d, a1) => {
 
 	solution.push({
 		type: 'plane',
-		name: 'AA_1B_1B',
+		name: ['A', 'B', 'C', 'D'],
 		value: [
 			Object.values(a),
-			Object.values(a1),
-			Object.values(b1),
 			Object.values(b),
+			Object.values(c),
+			Object.values(d),
 		],
 	});
 
 	solution.push({
 		type: 'plane',
-		name: 'DD_1C_1C',
+		name: ['A', 'B', 'B_1', 'A_1'],
 		value: [
-			Object.values(d),
-			Object.values(d1),
-			Object.values(sumPointAndVector(b1, ad)),
-			Object.values(c),
+			Object.values(a),
+			Object.values(b),
+			Object.values(b1),
+			Object.values(a1),
 		],
 	});
 

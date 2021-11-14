@@ -28,7 +28,7 @@ const ratioPointCoordinates = (req, res) => {
 			task: [
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'B'],
 					value: Object.values(req.body.vectorPoints).map((point) =>
 						Object.values(point)
 					),
@@ -49,12 +49,12 @@ const buildParallelogram = (req, res) => {
 			task: [
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 			],
@@ -72,12 +72,12 @@ const findSidesLength = (req, res) => {
 	const task = [
 		{
 			type: 'vector',
-			name: 'AB',
+			name: ['A', 'B'],
 			value: [Object.values(req.body.a), Object.values(req.body.b)],
 		},
 		{
 			type: 'vector',
-			name: 'AD',
+			name: ['A', 'D'],
 			value: [Object.values(req.body.a), Object.values(req.body.d)],
 		},
 	];
@@ -102,10 +102,12 @@ const findAngleBetweenDiagonales = (req, res) => {
 			[
 				{
 					type: 'vector',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 			],
@@ -121,7 +123,7 @@ const findAngleBetweenDiagonales = (req, res) => {
 			task: [
 				{
 					type: 'parallelogram',
-					name: 'ABCD',
+					name: ['A', 'B', 'C', 'D'],
 					value: [
 						Object.values(req.body.a),
 						Object.values(req.body.b),
@@ -147,10 +149,12 @@ const findParallelogramArea = (req, res) => {
 			[
 				{
 					type: 'vector',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 			],
@@ -171,7 +175,7 @@ const findParallelogramArea = (req, res) => {
 			task: [
 				{
 					type: 'parallelogram',
-					name: 'ABCD',
+					name: ['A', 'B', 'C', 'D'],
 					value: [
 						Object.values(req.body.a),
 						Object.values(req.body.b),
@@ -204,17 +208,17 @@ const buildParallelepiped = (req, res) => {
 			task: [
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
-					name: 'AD',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
-					name: 'AA_1',
+					name: ['A', 'A_1'],
 					value: [Object.values(req.body.a), Object.values(req.body.a1)],
 				},
 			],
@@ -236,17 +240,17 @@ const findParallelepipedVolume = (req, res) => {
 			[
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
-					name: 'AD',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
-					name: 'AA_1',
+					name: ['A', 'A_1'],
 					value: [Object.values(req.body.a), Object.values(req.body.a1)],
 				},
 			],
@@ -268,7 +272,7 @@ const findParallelepipedVolume = (req, res) => {
 			task: [
 				{
 					type: 'parallelepiped',
-					name: 'ABCDA_1B_1C_1D_1',
+					name: ['A', 'B', 'C', 'D', 'A_1', 'B_1', 'C_1', 'D_1'],
 					value: [
 						[
 							Object.values(req.body.a),
@@ -303,17 +307,17 @@ const findParallelepipedHeight = (req, res) => {
 			[
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
-					name: 'AD',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
-					name: 'AA_1',
+					name: ['A', 'A_1'],
 					value: [Object.values(req.body.a), Object.values(req.body.a1)],
 				},
 			],
@@ -335,7 +339,7 @@ const findParallelepipedHeight = (req, res) => {
 			task: [
 				{
 					type: 'parallelepiped',
-					name: 'ABCDA_1B_1C_1D_1',
+					name: ['A', 'B', 'C', 'D', 'A_1', 'B_1', 'C_1', 'D_1'],
 					value: [
 						[
 							Object.values(req.body.a),
@@ -372,22 +376,22 @@ const findVectorInBasis = (req, res) => {
 			task: [
 				{
 					type: 'vector',
-					name: 'AH',
+					name: ['A', 'H'],
 					value: [Object.values(req.body.a), Object.values(req.body.h)],
 				},
 				{
 					type: 'vector',
-					name: 'AB',
+					name: ['A', 'B'],
 					value: [Object.values(req.body.a), Object.values(req.body.b)],
 				},
 				{
 					type: 'vector',
-					name: 'AD',
+					name: ['A', 'D'],
 					value: [Object.values(req.body.a), Object.values(req.body.d)],
 				},
 				{
 					type: 'vector',
-					name: 'AA_1',
+					name: ['A', 'A_1'],
 					value: [Object.values(req.body.a), Object.values(req.body.a1)],
 				},
 			],
@@ -409,12 +413,12 @@ const findVectorProjection = (req, res) => {
 			task: [
 				{
 					type: 'vector',
-					name: 'AH',
+					name: ['A', 'H'],
 					value: [Object.values(req.body.a), Object.values(req.body.h)],
 				},
 				{
 					type: 'vector',
-					name: 'AA_1',
+					name: ['A', 'A_1'],
 					value: [Object.values(req.body.a), Object.values(req.body.a1)],
 				},
 			],
