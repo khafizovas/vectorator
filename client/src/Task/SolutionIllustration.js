@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 // TODO fix points' names
 // TODO remove projection drawing if it belongs to axis
 // TODO add plane drawing
+// TODO fix unit calculations
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
 

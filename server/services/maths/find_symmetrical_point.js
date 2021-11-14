@@ -12,7 +12,7 @@ const { sumPointAndVector } = require('./helpers');
  */
 const findSymmetricalPoint = (a1, a, b, d) => {
 	const task = { a, b, d, a1 };
-	const solution = [];
+	let solution = [];
 
 	solution.push({
 		type: 'plane',
@@ -25,10 +25,10 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		],
 	});
 
-	solution = [...solution, findPlaneEquation(a, b, d).solution];
+	solution = [...solution, ...findPlaneEquation({ a, b, d }).solution];
 
 	solution.push({
-		type: 'vector',
+		type: 'coordinates',
 		name: 'n',
 		value: solution[solution.length - 1].value.slice(0, -1),
 	});
@@ -51,19 +51,19 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 	solution.push({
 		type: 'coordinate',
 		name: 'x',
-		value: t * solution[solution.lenght - 2].value[0] + a1.x,
+		value: t * solution[solution.length - 2].value[0] + a1.x,
 	});
 
 	solution.push({
 		type: 'coordinate',
 		name: 'y',
-		value: t * solution[solution.lenght - 2].value[1] + a1.y,
+		value: t * solution[solution.length - 3].value[1] + a1.y,
 	});
 
 	solution.push({
 		type: 'coordinate',
 		name: 'z',
-		value: t * solution[solution.lenght - 2].value[2] + a1.z,
+		value: t * solution[solution.length - 4].value[2] + a1.z,
 	});
 
 	const a0 = {
@@ -71,6 +71,7 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		y: solution[solution.length - 2].value,
 		z: solution[solution.length - 1].value,
 	};
+	const a1a0 = buildVector3D(a1, a0);
 
 	solution.push({
 		type: 'point',
@@ -84,10 +85,8 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		value: [Object.values(a1), Object.values(a0)],
 	});
 
-	const a1a0 = buildVector3D(a1, a0);
-
 	solution.push({
-		type: 'numbers',
+		type: 'coordinates',
 		name: 'A_1A_0',
 		value: Object.values(a1a0),
 	});
@@ -99,8 +98,8 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 	});
 
 	const result = {
-		type: 'point',
-		value: solution[solution.length - 1].value,
+		type: 'string',
+		value: `{${solution[solution.length - 1].value.join('; ')}}`,
 	};
 
 	return { task, solution, result };

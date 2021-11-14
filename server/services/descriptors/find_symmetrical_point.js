@@ -1,9 +1,11 @@
 const describePlaneEquation = require('./find_plane_equation');
 
 const describeSymmetricalPoint = ({ task, solution, result }) => {
-	const describedSolution = [
-		...describePlaneEquation({ task, solution: solution.slice(1), result }),
-	];
+	const describedSolution = describePlaneEquation({
+		task,
+		solution: solution.slice(1, -9),
+		result,
+	}).describedSolution;
 
 	describedSolution.push({
 		description: 'Таким образом, вектор нормали к плоскости',
@@ -19,9 +21,9 @@ const describeSymmetricalPoint = ({ task, solution, result }) => {
         ${task.a1.y} * ${solution[solution.length - 10].value[1]} +
         ${task.a1.z} * ${solution[solution.length - 10].value[2]} + 
         ${solution[solution.length - 10].value[3]}) / (
-          ${solution[solution.length - 9].value[0]}^2 + 
-          ${solution[solution.length - 9].value[1]}^2 + 
-          ${solution[solution.length - 9].value[2]}^2) = 
+          ${solution[solution.length - 10].value[0]}^2 + 
+          ${solution[solution.length - 10].value[1]}^2 + 
+          ${solution[solution.length - 10].value[2]}^2) = 
         ${solution[solution.length - 8].value}`,
 	});
 
@@ -72,7 +74,7 @@ const describeSymmetricalPoint = ({ task, solution, result }) => {
     } = {${solution[solution.length - 1].value.join('; ')}}`,
 	});
 
-	return describedSolution;
+	return { describedSolution };
 };
 
 module.exports = describeSymmetricalPoint;
