@@ -448,8 +448,6 @@ const findPlaneEquation = (req, res) => {
 	});
 };
 
-// TODO test and fix
-// TODO C isn't in the task
 const findDistanceBetweenLines = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
@@ -457,7 +455,7 @@ const findDistanceBetweenLines = (req, res) => {
 			task: [
 				{ type: 'point', name: 'A', value: Object.values(req.body.a) },
 				{ type: 'point', name: 'B', value: Object.values(req.body.b) },
-				{ type: 'point', name: 'C', value: Object.values(req.body.c) },
+				{ type: 'point', name: 'C', value: Object.values(req.body.d) },
 				{ type: 'point', name: 'A_1', value: Object.values(req.body.a1) },
 			],
 		}),
@@ -466,6 +464,7 @@ const findDistanceBetweenLines = (req, res) => {
 	});
 };
 
+// TODO test and fix
 const findSymmetricalPoint = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({

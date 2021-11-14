@@ -5,18 +5,47 @@ const {
 	findDistanceBetweenPointAndPlane,
 } = require('./helpers');
 
-// TODO find c, knowing d
 /**
  * Найти расстояние между прямыми, на которых лежат ребра AB и CC_1.
  * @param {Point3D} a
  * @param {Point3D} b
- * @param {Point3D} c
+ * @param {Point3D} d
  * @param {Point3D} a1
  * @returns {solution}
  */
-const findDistanceBetweenLines = (a, b, c, a1) => {
-	const task = { a, b, c, a1 };
+const findDistanceBetweenLines = (a, b, d, a1) => {
+	const ad = buildVector3D(a, d);
+	const c = sumPointAndVector(b, ad);
+
+	const task = { a, b, d, a1 };
 	let solution = [];
+
+	solution.push({
+		type: 'vector',
+		name: 'AD',
+		value: [Object.values(a), Object.values(d)],
+	});
+
+	solution.push({
+		type: 'coordinates',
+		name: 'AD',
+		value: Object.values(ad),
+	});
+
+	solution.push({
+		type: 'point',
+		name: 'C',
+		value: Object.values(c),
+	});
+
+	solution.push({
+		type: 'vector',
+		name: 'CC_1',
+		value: [
+			Object.values(c),
+			Object.values(sumPointAndVector(c, buildVector3D(a, a1))),
+		],
+	});
 
 	solution.push({
 		type: 'plane',
@@ -29,7 +58,7 @@ const findDistanceBetweenLines = (a, b, c, a1) => {
 		],
 	});
 
-	solution = [...solution, findPlaneEquation(a, b, a1).solution];
+	solution = [...solution, ...findPlaneEquation({ a, b, d: a1 }).solution];
 
 	solution.push({
 		type: 'number',

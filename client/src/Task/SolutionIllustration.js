@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
 // TODO move functions into separate file
+// TODO fix points' names
+// TODO remove projection drawing if it belongs to axis
+// TODO add plane drawing
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
 
@@ -280,7 +283,6 @@ const SolutionIllustration = (props) => {
 		]);
 	};
 
-	// TODO remove projection drawing if it belongs to axis
 	const drawPointProjections = (point, canv) => {
 		canv.ctx.beginPath();
 
