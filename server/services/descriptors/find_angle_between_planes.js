@@ -2,8 +2,10 @@ const describePlaneEquation = require('./find_plane_equation');
 
 const describeAngleBetweenPlanes = ({ task, solution, result }) => {
 	const describedSolution = [
-		...describePlaneEquation({ task, solution: solution.slice(2), result }),
-		...describePlaneEquation({ task, solution: solution.slice(9), result }),
+		...describePlaneEquation({ task, solution: solution.slice(0, 6), result })
+			.describedSolution,
+		...describePlaneEquation({ task, solution: solution.slice(6, 10), result })
+			.describedSolution,
 	];
 
 	describedSolution.push({
@@ -28,7 +30,7 @@ const describeAngleBetweenPlanes = ({ task, solution, result }) => {
 		}`,
 	});
 
-	return describedSolution;
+	return { describedSolution };
 };
 
 module.exports = describeAngleBetweenPlanes;

@@ -42,20 +42,30 @@ const findAngleBetweenPlanes = (a, b, d, a1) => {
 		],
 	});
 
-	const aba1 = findPlaneEquation(a, b, a1);
-	const dd1c = findPlaneEquation(d, d1, c);
+	const ABCD = findPlaneEquation({ a, b, d });
+	const ABB1A1 = findPlaneEquation({ a, b, d: a1 });
+	const AXIS = ['x', 'y', 'z'];
+
+	let n1 = {};
+	ABCD.solution[ABCD.solution.length - 1].value
+		.slice(0, -1)
+		.forEach((coordinate, i) => (n1[AXIS[i]] = coordinate));
+
+	let n2 = {};
+	ABB1A1.solution[ABB1A1.solution.length - 1].value
+		.slice(0, -1)
+		.forEach((coordinate, i) => (n2[AXIS[i]] = coordinate));
+
 	solution = [
-		...aba1.solution,
-		...dd1c.solution,
-		findAngleBetweenVectors(
-			aba1.result.value.slice(0, -1),
-			dd1c.result.value.slice(0, -1)
-		).solution,
+		...solution,
+		...ABCD.solution,
+		...ABB1A1.solution,
+		...findAngleBetweenVectors(n1, n2).solution,
 	];
 
 	const result = {
 		type: 'number',
-		value: solution[solution.length - 1],
+		value: solution[solution.length - 1].value,
 	};
 
 	return { task, solution, result };

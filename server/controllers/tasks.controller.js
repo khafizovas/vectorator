@@ -464,7 +464,6 @@ const findDistanceBetweenLines = (req, res) => {
 	});
 };
 
-// TODO test and fix
 const findSymmetricalPoint = (req, res) => {
 	getSolution(Object.values(req.body), res, {
 		task: JSON.stringify({
