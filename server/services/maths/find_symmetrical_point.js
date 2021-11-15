@@ -94,10 +94,17 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		value: Object.values(a1a0),
 	});
 
+	const a2 = sumPointAndVector(a0, a1a0);
+	solution.push({
+		type: 'vector',
+		name: ['A_0', 'A_2'],
+		value: [Object.values(a0), Object.values(a2)],
+	});
+
 	solution.push({
 		type: 'point',
 		name: 'A_2',
-		value: Object.values(sumPointAndVector(a0, a1a0)),
+		value: Object.values(a2),
 	});
 
 	const result = {

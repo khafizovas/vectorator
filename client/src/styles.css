@@ -48,7 +48,6 @@ body {
 	background: #fff;
 
 	align-self: center;
-	margin-left: 5%;
 }
 
 form > * {
@@ -67,6 +66,14 @@ button {
 	padding: 0.5%;
 
 	font-weight: bold;
+}
+
+.content button {
+	margin: 0.5%;
+}
+
+button:disabled {
+	cursor: not-allowed;
 }
 
 ul {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Solution from './Solution';
+import ExportableSolution from './ExportableSolution';
 
 // TODO Make inputs' values state
 const Task = () => {
@@ -63,7 +63,7 @@ const Task = () => {
 			<p>{task?.task}</p>
 
 			{solution ? (
-				<Solution
+				<ExportableSolution
 					task={solution.task.task}
 					solution={solution.solution}
 					describedSolution={solution.describedSolution}

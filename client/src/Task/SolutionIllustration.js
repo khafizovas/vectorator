@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-// TODO move functions into separate file
+// TODO move functions into separate file (watch todos below)
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
 
@@ -127,6 +127,7 @@ const SolutionIllustration = (props) => {
 		};
 
 		// TODO Captions drawing
+		// TODO remove canv.unit from calculations
 		const drawCaptions = (canv) => {
 			sortCaptions();
 
@@ -140,8 +141,8 @@ const SolutionIllustration = (props) => {
 				coordinates.forEach((caption, j) =>
 					canv.ctx.fillText(
 						caption[0],
-						caption[1] + (i === 2 ? (-1) ** j * canv.unit : 0),
-						caption[2] + (i !== 2 ? (-1) ** j * canv.unit : 0)
+						caption[1] + (i === 2 ? (-1) ** j * 0.2 * canv.unit : 0),
+						caption[2] + (i !== 2 ? (-1) ** j * 0.2 * canv.unit : 0)
 					)
 				)
 			);
@@ -156,20 +157,20 @@ const SolutionIllustration = (props) => {
 		// TODO Figures drawing
 		const drawWithDelay = (ctx, size, unit) => {
 			const closure = () =>
-				setTimeout(
-					() => drawCaptions({ ctx, unit }),
-					drawable.length * 3000 + 1000
-				);
+				setTimeout(() => {
+					drawCaptions({ ctx, unit });
+					props.enableButtons();
+				}, drawable.length * 1000 + 1000);
 
 			drawable.forEach((step, i) =>
-				setTimeout(() => drawStep(step, { ctx, size, unit }), 3000 * (i + 1))
+				setTimeout(() => drawStep(step, { ctx, size, unit }), 1000 * (i + 1))
 			);
 
 			closure();
 		};
 
 		const drawStep = (step, canv) => {
-			let isFilled;
+			let isFilled = false;
 
 			switch (step.type) {
 				case 'coordinate':
@@ -192,8 +193,6 @@ const SolutionIllustration = (props) => {
 
 				case 'vector':
 				case 'parallelogram': {
-					isFilled = false;
-
 					const pointsInfo = step.value.map((point, i) => {
 						return {
 							...findCanvasCoordinates({ value: point }, canv),
@@ -249,34 +248,26 @@ const SolutionIllustration = (props) => {
 			canv.ctx.globalAlpha = 0.75;
 			canv.ctx.strokeStyle = 'MidnightBlue';
 
-			canv.ctx.stroke();
-
-			canv.ctx.beginPath();
 			if (points.length === 2) {
+				canv.ctx.stroke();
 				drawArrow(points, canv);
 			} else {
-				canv.ctx.beginPath();
-
 				canv.ctx.moveTo(...points[points.length - 1].canvasCoordinates);
 				canv.ctx.lineTo(...points[0].canvasCoordinates);
-
-				canv.ctx.globalAlpha = 0.75;
-				canv.ctx.strokeStyle = 'MidnightBlue';
 
 				canv.ctx.stroke();
 			}
 
 			if (filled) {
-				canv.ctx.beginPath();
-
 				canv.ctx.globalAlpha = 0.25;
 
-				canv.ctx.strokeStyle = 'MidnightBlue';
+				canv.ctx.fillStyle = 'MidnightBlue';
 				canv.ctx.fill();
 			}
 		};
 
 		// TODO Vector arrow drawing
+		// TODO remove canv.unit from calculcations
 		const drawArrow = (vector, canv) => {
 			const angle = Math.atan2(
 				vector[1].canvasCoordinates[1] - vector[0].canvasCoordinates[1],
@@ -288,16 +279,16 @@ const SolutionIllustration = (props) => {
 			canv.ctx.moveTo(...vector[1].canvasCoordinates);
 			canv.ctx.lineTo(
 				vector[1].canvasCoordinates[0] -
-					canv.unit * Math.cos(angle - Math.PI / 6),
+					0.2 * canv.unit * Math.cos(angle - Math.PI / 6),
 				vector[1].canvasCoordinates[1] -
-					canv.unit * Math.sin(angle - Math.PI / 6)
+					0.2 * canv.unit * Math.sin(angle - Math.PI / 6)
 			);
 			canv.ctx.moveTo(...vector[1].canvasCoordinates);
 			canv.ctx.lineTo(
 				vector[1].canvasCoordinates[0] -
-					canv.unit * Math.cos(angle + Math.PI / 6),
+					0.2 * canv.unit * Math.cos(angle + Math.PI / 6),
 				vector[1].canvasCoordinates[1] -
-					canv.unit * Math.sin(angle + Math.PI / 6)
+					0.2 * canv.unit * Math.sin(angle + Math.PI / 6)
 			);
 
 			canv.ctx.stroke();
@@ -316,7 +307,7 @@ const SolutionIllustration = (props) => {
 				canv.ctx.arc(...point.canvasCoordinates, 3, 0, 2 * Math.PI);
 
 				canv.ctx.globalAlpha = 0.75;
-				canv.ctx.fillStyle = 'MediumSeaGreen';
+				canv.ctx.fillStyle = 'Green';
 
 				canv.ctx.fill();
 			}
@@ -324,14 +315,14 @@ const SolutionIllustration = (props) => {
 			canv.ctx.beginPath();
 
 			canv.ctx.globalAlpha = 1;
-			canv.ctx.fillStyle = 'black';
+			canv.ctx.fillStyle = 'Black';
 
 			canv.ctx.fillText(point.name, ...point.canvasCoordinates);
 		};
 
 		// TODO Point projections drawing
 		const drawPointProjections = (point, canv) => {
-			if (point.value.filter((coordinate) => !coordinate).length > 1) {
+			if (point.value.filter((coordinate) => !coordinate).length > 2) {
 				return;
 			}
 
@@ -346,8 +337,8 @@ const SolutionIllustration = (props) => {
 			canv.ctx.lineTo(point.projections[2].x, point.projections[2].y);
 
 			canv.ctx.setLineDash([5, 5]);
-			canv.ctx.globalAlpha = 0.5;
-			canv.ctx.strokeStyle = 'LightSkyBlue';
+			canv.ctx.globalAlpha = 0.75;
+			canv.ctx.strokeStyle = 'MediumTurquoise';
 
 			canv.ctx.stroke();
 			canv.ctx.setLineDash([]);
@@ -507,7 +498,7 @@ const SolutionIllustration = (props) => {
 
 		drawGrid(context, size, unit);
 		drawWithDelay(context, size, unit);
-	}, [AXIS, FIGURE_TYPES, drawable, coordinatesCaptions]);
+	}, [props, AXIS, FIGURE_TYPES, drawable, coordinatesCaptions]);
 
 	return <canvas id='illustration' ref={canvasRef} width='300' height='300' />;
 };

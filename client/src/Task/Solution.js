@@ -1,7 +1,8 @@
 import React from 'react';
+
 import SolutionIllustration from './SolutionIllustration';
 
-const Solution = (props) => {
+const Solution = React.forwardRef((props, ref) => {
 	const getResultString = () => {
 		switch (props.result.type) {
 			case 'point':
@@ -22,7 +23,7 @@ const Solution = (props) => {
 	};
 
 	return (
-		<div className='solution'>
+		<div className='solution' ref={ref}>
 			<div>
 				<h3>Решение:</h3>
 				<ol>
@@ -38,9 +39,13 @@ const Solution = (props) => {
 				<h3>Ответ:</h3>
 				<p>{getResultString()}</p>
 			</div>
-			<SolutionIllustration solution={props.solution} task={props.task} />
+			<SolutionIllustration
+				solution={props.solution}
+				task={props.task}
+				enableButtons={props.enableButtons}
+			/>
 		</div>
 	);
-};
+});
 
 export default Solution;
