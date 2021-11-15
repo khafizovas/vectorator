@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from 'react';
 // TODO move functions into separate file
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
+
+	const AXIS = ['x', 'y', 'z'];
 	const FIGURE_TYPES = [
 		'coordinate',
 		'point',
@@ -11,6 +13,7 @@ const SolutionIllustration = (props) => {
 		'parallelepiped',
 		'plane',
 	];
+
 	const drawable = [...props.task, ...props.solution].filter((elem) =>
 		FIGURE_TYPES.includes(elem.type)
 	);
@@ -25,8 +28,11 @@ const SolutionIllustration = (props) => {
 
 		// TODO Grid drawing
 		const drawGrid = (ctx, size, unit) => {
+			ctx.strokeStyle = 'Gray';
+			ctx.globalAlpha = 0.5;
+
 			drawGridAxis({ ctx, size });
-			drawAxisArrows({ ctx, size }, unit);
+			drawAxisArrows({ ctx, size, unit });
 			drawAxisCaptions({ ctx, size });
 		};
 
@@ -49,9 +55,6 @@ const SolutionIllustration = (props) => {
 			canv.ctx.moveTo(0.5 * canv.size, 0.5 * canv.size);
 			canv.ctx.lineTo(0, canv.size);
 
-			canv.ctx.strokeStyle = 'gray';
-			canv.ctx.globalAlpha = 0.5;
-
 			canv.ctx.stroke();
 		};
 
@@ -69,8 +72,6 @@ const SolutionIllustration = (props) => {
 			canv.ctx.moveTo(0.5 * canv.size, 0.5 * canv.size);
 			canv.ctx.lineTo(canv.size, 0);
 
-			canv.ctx.strokeStyle = 'gray';
-			canv.ctx.globalAlpha = 0.5;
 			canv.ctx.setLineDash([10, 10]);
 
 			canv.ctx.stroke();
@@ -78,7 +79,7 @@ const SolutionIllustration = (props) => {
 			canv.ctx.setLineDash([]);
 		};
 
-		const drawAxisArrows = (canv, unit) => {
+		const drawAxisArrows = (canv) => {
 			// OZ
 			drawArrow(
 				[
@@ -87,7 +88,7 @@ const SolutionIllustration = (props) => {
 					},
 					{ canvasCoordinates: [0.5 * canv.size, 0] },
 				],
-				{ ctx: canv.ctx, size: canv.size, unit }
+				{ ctx: canv.ctx, size: canv.size, unit: canv.unit }
 			);
 
 			// OY
@@ -98,7 +99,7 @@ const SolutionIllustration = (props) => {
 					},
 					{ canvasCoordinates: [canv.size, 0.5 * canv.size] },
 				],
-				{ ctx: canv.ctx, size: canv.size, unit }
+				{ ctx: canv.ctx, size: canv.size, unit: canv.unit }
 			);
 
 			// OX
@@ -109,7 +110,7 @@ const SolutionIllustration = (props) => {
 					},
 					{ canvasCoordinates: [0, canv.size] },
 				],
-				{ ctx: canv.ctx, size: canv.size, unit }
+				{ ctx: canv.ctx, size: canv.size, unit: canv.unit }
 			);
 		};
 
@@ -117,40 +118,30 @@ const SolutionIllustration = (props) => {
 			canv.ctx.beginPath();
 
 			canv.ctx.globalAlpha = 1;
-			canv.ctx.fillStyle = 'black';
+			canv.ctx.font = 'bold italic 16px serif';
+			canv.ctx.fillStyle = 'Black';
 
-			canv.ctx.fillText('x', 0.05 * canv.size, 0.95 * canv.size);
+			canv.ctx.fillText('x', 0.025 * canv.size, 0.925 * canv.size);
 			canv.ctx.fillText('y', 0.95 * canv.size, 0.55 * canv.size);
-			canv.ctx.fillText('z', 0.55 * canv.size, 0.05 * canv.size);
+			canv.ctx.fillText('z', 0.525 * canv.size, 0.05 * canv.size);
 		};
 
-		// TODO Figures drawing
-		const drawWithDelay = (ctx, size, unit) => {
-			const closure = () =>
-				setTimeout(
-					() => drawCaptions(ctx, unit),
-					drawable.length * 3000 + 1000
-				);
-
-			drawable.forEach((step, i) =>
-				setTimeout(() => drawStep(step, { ctx, size }, unit), 3000 * (i + 1))
-			);
-
-			closure();
-		};
-
-		const drawCaptions = (ctx, unit) => {
+		// TODO Captions drawing
+		const drawCaptions = (canv) => {
 			sortCaptions();
 
-			ctx.font = 'bold italic 12px serif';
-			ctx.fillStyle = 'black';
+			canv.ctx.beginPath();
+
+			canv.ctx.globalAlpha = 1;
+			canv.ctx.font = 'bold italic 12px serif';
+			canv.ctx.fillStyle = 'black';
 
 			Object.values(coordinatesCaptions).forEach((coordinates, i) =>
 				coordinates.forEach((caption, j) =>
-					ctx.fillText(
+					canv.ctx.fillText(
 						caption[0],
-						caption[1] + (i !== 1 ? (-1) ** j * unit : 0),
-						caption[2] + (i === 1 ? (-1) ** j * unit : 0)
+						caption[1] + (i === 2 ? (-1) ** j * canv.unit : 0),
+						caption[2] + (i !== 2 ? (-1) ** j * canv.unit : 0)
 					)
 				)
 			);
@@ -162,7 +153,24 @@ const SolutionIllustration = (props) => {
 			coordinatesCaptions.z.sort((lhs, rhs) => lhs[0] - rhs[0]);
 		};
 
+		// TODO Figures drawing
+		const drawWithDelay = (ctx, size, unit) => {
+			const closure = () =>
+				setTimeout(
+					() => drawCaptions({ ctx, unit }),
+					drawable.length * 3000 + 1000
+				);
+
+			drawable.forEach((step, i) =>
+				setTimeout(() => drawStep(step, { ctx, size, unit }), 3000 * (i + 1))
+			);
+
+			closure();
+		};
+
 		const drawStep = (step, canv) => {
+			let isFilled;
+
 			switch (step.type) {
 				case 'coordinate':
 					drawCoordinate(step, canv);
@@ -170,59 +178,39 @@ const SolutionIllustration = (props) => {
 
 				case 'point': {
 					const pointInfo = {
-						...findPointCoordinates(step, canv),
+						...findCanvasCoordinates(step, canv),
 						value: step.value,
 						name: step.name,
 					};
 
-					drawPoint(pointInfo, canv);
+					drawPoint(pointInfo, canv, true);
 					break;
 				}
 
-				case 'vector': {
-					const vectorInfo = step.value.map((point, i) => {
-						return {
-							...findPointCoordinates({ value: point }, canv),
-							value: point,
-							name: step.name[i],
-						};
-					});
+				case 'plane':
+					isFilled = true;
 
-					drawVector(vectorInfo, canv);
-					break;
-				}
-
-				case 'plane': {
-					const planeInfo = step.value.map((point, i) => {
-						return {
-							...findPointCoordinates({ value: point }, canv),
-							value: point,
-							name: step.name[i],
-						};
-					});
-
-					drawParallelogram(planeInfo, canv, true);
-					break;
-				}
-
+				case 'vector':
 				case 'parallelogram': {
-					const parallelogramInfo = step.value.map((point, i) => {
+					isFilled = false;
+
+					const pointsInfo = step.value.map((point, i) => {
 						return {
-							...findPointCoordinates({ value: point }, canv),
-							value: point,
+							...findCanvasCoordinates({ value: point }, canv),
 							name: step.name[i],
+							value: point,
 						};
 					});
 
-					drawParallelogram(parallelogramInfo, canv);
+					drawPoints(pointsInfo, canv, isFilled);
 					break;
 				}
 
 				case 'parallelepiped': {
 					const parallelepipedInfo = step.value.map((elem, i) =>
-						elem.map((point, j) => {
+						elem.map((point) => {
 							return {
-								...findPointCoordinates({ value: point }, canv),
+								...findCanvasCoordinates({ value: point }, canv),
 								value: point,
 								name: step.name[i],
 							};
@@ -238,51 +226,57 @@ const SolutionIllustration = (props) => {
 			}
 		};
 
+		// TODO Parallelepiped drawing
 		const drawParallellepiped = (parallelepiped, canv) => {
-			parallelepiped.forEach((elem) => drawParallelogram(elem, canv));
+			parallelepiped.forEach((elem) => drawPoints(elem, canv));
 
 			parallelepiped[0].forEach((point, i) =>
-				drawVector([point, parallelepiped[1][i]], canv, false)
+				drawPoints([point, parallelepiped[1][i]], canv)
 			);
 		};
 
-		const drawParallelogram = (parallelogram, canv, filled = false) => {
-			parallelogram.forEach((point) => drawPoint(point, canv, false));
+		// TODO Plane, parallelogram and vector drawing
+		const drawPoints = (points, canv, filled = false) => {
+			points.forEach((point) => drawPoint(point, canv));
 
 			canv.ctx.beginPath();
 
-			canv.ctx.moveTo(...parallelogram[0].canvasCoordinates);
-			for (let i = 1; i < parallelogram.length; ++i) {
-				canv.ctx.lineTo(...parallelogram[i].canvasCoordinates);
+			canv.ctx.moveTo(...points[0].canvasCoordinates);
+			for (let i = 1; i < points.length; ++i) {
+				canv.ctx.lineTo(...points[i].canvasCoordinates);
 			}
-			canv.ctx.lineTo(...parallelogram[0].canvasCoordinates);
 
-			canv.ctx.strokeStyle = 'black';
+			canv.ctx.globalAlpha = 0.75;
+			canv.ctx.strokeStyle = 'MidnightBlue';
+
 			canv.ctx.stroke();
+
+			canv.ctx.beginPath();
+			if (points.length === 2) {
+				drawArrow(points, canv);
+			} else {
+				canv.ctx.beginPath();
+
+				canv.ctx.moveTo(...points[points.length - 1].canvasCoordinates);
+				canv.ctx.lineTo(...points[0].canvasCoordinates);
+
+				canv.ctx.globalAlpha = 0.75;
+				canv.ctx.strokeStyle = 'MidnightBlue';
+
+				canv.ctx.stroke();
+			}
+
 			if (filled) {
-				canv.ctx.globalAlpha = 0.5;
-				canv.ctx.fillStyle = 'blue';
+				canv.ctx.beginPath();
+
+				canv.ctx.globalAlpha = 0.25;
+
+				canv.ctx.strokeStyle = 'MidnightBlue';
 				canv.ctx.fill();
-				canv.ctx.globalAlpha = 1;
 			}
 		};
 
-		const drawVector = (vector, canv, arrow = true) => {
-			vector.forEach((point) => drawPoint(point, canv, false));
-
-			canv.ctx.beginPath();
-
-			canv.ctx.moveTo(...vector[0].canvasCoordinates);
-			canv.ctx.lineTo(...vector[1].canvasCoordinates);
-
-			canv.ctx.strokeStyle = 'black';
-			canv.ctx.stroke();
-
-			if (arrow) {
-				drawArrow(vector, canv);
-			}
-		};
-
+		// TODO Vector arrow drawing
 		const drawArrow = (vector, canv) => {
 			const angle = Math.atan2(
 				vector[1].canvasCoordinates[1] - vector[0].canvasCoordinates[1],
@@ -309,36 +303,33 @@ const SolutionIllustration = (props) => {
 			canv.ctx.stroke();
 		};
 
-		const drawPoint = (
-			point,
-			canv,
-			isVisible = true,
-			showCoordinates = false
-		) => {
-			const AXIS = ['x', 'y', 'z'];
-
+		// TODO Point drawing
+		const drawPoint = (point, canv, isFilled = false) => {
 			point.value.forEach((coordinate, i) =>
 				drawCoordinate({ name: AXIS[i], value: coordinate }, canv)
 			);
 			drawPointProjections(point, canv);
 
-			canv.ctx.beginPath();
+			if (isFilled) {
+				canv.ctx.beginPath();
 
-			if (isVisible) {
 				canv.ctx.arc(...point.canvasCoordinates, 3, 0, 2 * Math.PI);
-				canv.ctx.fillStyle = 'green';
+
+				canv.ctx.globalAlpha = 0.75;
+				canv.ctx.fillStyle = 'MediumSeaGreen';
+
 				canv.ctx.fill();
 			}
 
+			canv.ctx.beginPath();
+
+			canv.ctx.globalAlpha = 1;
 			canv.ctx.fillStyle = 'black';
-			canv.ctx.fillText(
-				showCoordinates
-					? `${point.name}(${point.value.join('; ')})`
-					: point.name,
-				...point.canvasCoordinates
-			);
+
+			canv.ctx.fillText(point.name, ...point.canvasCoordinates);
 		};
 
+		// TODO Point projections drawing
 		const drawPointProjections = (point, canv) => {
 			if (point.value.filter((coordinate) => !coordinate).length > 1) {
 				return;
@@ -346,54 +337,42 @@ const SolutionIllustration = (props) => {
 
 			canv.ctx.beginPath();
 
-			canv.ctx.moveTo(point.coordinates[0].x, point.coordinates[0].y);
-			canv.ctx.lineTo(point.canvasCoordinates[0], point.coordinates[0].y);
-			canv.ctx.lineTo(point.coordinates[1].x, point.coordinates[1].y);
+			canv.ctx.moveTo(point.projections[0].x, point.projections[0].y);
+			canv.ctx.lineTo(point.canvasCoordinates[0], point.projections[0].y);
+			canv.ctx.lineTo(point.projections[1].x, point.projections[1].y);
 
-			canv.ctx.moveTo(point.canvasCoordinates[0], point.coordinates[0].y);
+			canv.ctx.moveTo(point.canvasCoordinates[0], point.projections[0].y);
 			canv.ctx.lineTo(...point.canvasCoordinates);
-			canv.ctx.lineTo(point.coordinates[2].x, point.coordinates[2].y);
+			canv.ctx.lineTo(point.projections[2].x, point.projections[2].y);
 
 			canv.ctx.setLineDash([5, 5]);
-			canv.ctx.strokeStyle = 'blue';
+			canv.ctx.globalAlpha = 0.5;
+			canv.ctx.strokeStyle = 'LightSkyBlue';
 
 			canv.ctx.stroke();
 			canv.ctx.setLineDash([]);
 		};
 
+		// TODO Coordinate drawing
 		const drawCoordinate = (coordinate, canv) => {
 			if (coordinate.value === 0) {
 				return;
 			}
 
+			const canvasCoordinates = findCanvasCoordinate(
+				{ axis: coordinate.name, value: coordinate.value },
+				canv
+			);
+
 			canv.ctx.beginPath();
-
-			let canvasCoordinates;
-			switch (coordinate.name) {
-				case 'x':
-					canvasCoordinates = findX(coordinate.value, canv);
-					break;
-
-				case 'y':
-					canvasCoordinates = findY(coordinate.value, canv);
-					break;
-
-				case 'z':
-					canvasCoordinates = findZ(coordinate.value, canv);
-					break;
-
-				default:
-					break;
-			}
 
 			canv.ctx.moveTo(...canvasCoordinates.from);
 			canv.ctx.lineTo(...canvasCoordinates.to);
 
-			canv.ctx.strokeStyle = 'red';
+			canv.ctx.globalAlpha = 0.5;
+			canv.ctx.strokeStyle = 'DarkGray';
 			canv.ctx.stroke();
 
-			canv.ctx.fillStyle = 'black';
-			// canv.ctx.fillText(coordinate.value, ...canvasCoordinates.from);
 			if (
 				coordinatesCaptions[coordinate.name].findIndex(
 					(elem) => elem[0] === coordinate.value
@@ -406,23 +385,39 @@ const SolutionIllustration = (props) => {
 			}
 		};
 
-		// Helpers
-		const findPointCoordinates = (point, canv) => {
-			const pointCoordinates = [
-				findX(point.value[0], canv),
-				findY(point.value[1], canv),
-				findZ(point.value[2], canv),
-			].map((coordinate) => coordinate.center);
+		// TODO Helpers
+		const findCanvasCoordinates = (point, canv) => {
+			const pointProjections = point.value.map(
+				(coordinate, i) =>
+					findCanvasCoordinate({ axis: AXIS[i], value: coordinate }, canv)
+						.center
+			);
 
 			const pointCanvasCoordinates = [
-				pointCoordinates[0].x + canv.unit * point.value[1],
-				pointCoordinates[0].y - canv.unit * point.value[2],
+				pointProjections[0].x + canv.unit * point.value[1],
+				pointProjections[0].y - canv.unit * point.value[2],
 			];
 
 			return {
-				coordinates: pointCoordinates,
+				projections: pointProjections,
 				canvasCoordinates: pointCanvasCoordinates,
 			};
+		};
+
+		const findCanvasCoordinate = (coordinate, canv) => {
+			switch (coordinate.axis) {
+				case 'x':
+					return findX(coordinate.value, canv);
+
+				case 'y':
+					return findY(coordinate.value, canv);
+
+				case 'z':
+					return findZ(coordinate.value, canv);
+
+				default:
+					return;
+			}
 		};
 
 		const findX = (value, canv) => {
@@ -512,7 +507,7 @@ const SolutionIllustration = (props) => {
 
 		drawGrid(context, size, unit);
 		drawWithDelay(context, size, unit);
-	}, [FIGURE_TYPES, drawable, coordinatesCaptions]);
+	}, [AXIS, FIGURE_TYPES, drawable, coordinatesCaptions]);
 
 	return <canvas id='illustration' ref={canvasRef} width='300' height='300' />;
 };
