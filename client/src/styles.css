@@ -72,10 +72,6 @@ button {
 	margin: 0.5%;
 }
 
-button:disabled {
-	cursor: not-allowed;
-}
-
 ul {
 	list-style: none;
 	padding: 0;

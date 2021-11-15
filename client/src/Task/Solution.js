@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import SolutionIllustration from './SolutionIllustration';
 
@@ -48,4 +48,4 @@ const Solution = React.forwardRef((props, ref) => {
 	);
 });
 
-export default Solution;
+export default memo(Solution);
