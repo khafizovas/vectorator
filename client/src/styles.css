@@ -3,6 +3,10 @@
 	src: URL('GOST\ type\ A.ttf') format('truetype');
 }
 
+body {
+	padding: 1%;
+}
+
 body,
 button {
 	font-family: 'Gost';
@@ -10,11 +14,6 @@ button {
 
 .katex {
 	font-size: 1rem;
-}
-
-ul {
-	list-style: none;
-	padding: 0.1%;
 }
 
 .solution {

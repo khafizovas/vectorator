@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import KioskBoard from 'kioskboard';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 import ExportableSolution from './ExportableSolution';
+
+// TODO add keyboard
 
 const Task = () => {
 	const { key } = useParams();
@@ -18,22 +23,23 @@ const Task = () => {
 			})
 			.then((data) => {
 				setTask(data.task);
-
-				KioskBoard.Run('input', {
-					keysArrayOfObjects: [
-						{ 0: '7', 1: '8', 2: '9' },
-						{ 0: '4', 1: '5', 2: '6' },
-						{ 0: '1', 1: '2', 2: '3' },
-						{ 0: ',', 1: '0' },
-					],
-					theme: 'oldschool',
-					keysAllowSpacebar: false,
-					keysSpacebarText: ' ',
-					specialCharactersObject: null,
-					keysFontFamily: 'Gost',
-				});
 			});
 	}, [key]);
+
+	const spliceIntoChunks = (arr, chunkSize) => {
+		if (!arr) {
+			return;
+		}
+
+		const res = [];
+
+		while (arr.length > 0) {
+			const chunk = arr.splice(0, chunkSize);
+			res.push(chunk);
+		}
+
+		return res;
+	};
 
 	let params;
 	let paramIndex = 0;
@@ -86,25 +92,32 @@ const Task = () => {
 						result={solution.result}
 					/>
 				) : (
-					<form onSubmit={getSolution}>
-						{task?.inputs.map((input, i) => (
-							<div key={i}>
-								<label htmlFor={input.type + i}>{input.caption}: </label>
-								<input
-									type='text'
-									inputMode='numeric'
-									id={input.type + i}
-									required
-									data-kioskboard-type='keyboard'
-									data-kioskboard-specialcharacters='false'
-									{...(input.decimal && { step: '0.1' })}
-									{...(input.min !== undefined && { min: input.min })}
-									{...(input.max !== undefined && { max: input.max })}
-								/>
-							</div>
+					<Form onSubmit={getSolution}>
+						{spliceIntoChunks(task?.inputs, 3)?.map((inputRow) => (
+							<Row>
+								{inputRow.map((input, i) => (
+									<Col>
+										<Form.Group key={i} className='mb-3' controlId={i}>
+											<Form.Label>{input.caption}</Form.Label>
+											<Form.Control
+												type='number'
+												required
+												{...(input.decimal && { step: '0.1' })}
+												{...(input.min !== undefined && { min: input.min })}
+												{...(input.max !== undefined && { max: input.max })}
+											/>
+										</Form.Group>
+									</Col>
+								))}
+							</Row>
 						))}
-						{task && <button type='submit'>Получить решение</button>}
-					</form>
+
+						{task && (
+							<Button type='submit' variant='outline-dark'>
+								Получить решение
+							</Button>
+						)}
+					</Form>
 				)}
 			</div>
 		</>

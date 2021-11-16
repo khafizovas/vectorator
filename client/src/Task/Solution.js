@@ -4,6 +4,7 @@ import SolutionIllustration from './SolutionIllustration';
 
 const Latex = require('react-latex');
 
+// TODO add bootstrap
 const Solution = React.forwardRef((props, ref) => {
 	const getResultString = () => {
 		switch (props.result.type) {

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const HomePage = () => {
+	const history = useHistory();
 	const [tasks, setTasks] = useState(null);
 
 	useEffect(() => {
@@ -15,13 +18,16 @@ const HomePage = () => {
 	}, []);
 
 	return (
-		<div className='content'>
+		<ListGroup variant='flush'>
 			{tasks?.map((task, i) => (
-				<ul key={i}>
-					<Link to={`tasks/${i}`}>{task.name}</Link>
-				</ul>
+				<ListGroup.Item
+					key={i}
+					action
+					onClick={() => history.push(`tasks/${i}`)}>
+					{task.name}
+				</ListGroup.Item>
 			))}
-		</div>
+		</ListGroup>
 	);
 };
 
