@@ -1,24 +1,13 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-const isActive = (history, path) => {
-	return history.location.pathname === path;
-};
+import Button from 'react-bootstrap/Button';
 
-const Navbar = withRouter(({ history }) => (
+const Navbar = withRouter(() => (
 	<nav className='navbar'>
 		<Link to='/'>
-			<button
-				className={`navbar-item ${isActive(history, '/') ? 'active' : ''}`}>
-				Главная страница
-			</button>
+			<Button variant='outline-dark'>Главная страница</Button>
 		</Link>
-
-		{!isActive(history, '/') && (
-			<button disabled className={'navbar-item active'}>
-				Задача
-			</button>
-		)}
 	</nav>
 ));
 
