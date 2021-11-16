@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+
+import KioskBoard from 'kioskboard';
 
 import ExportableSolution from './ExportableSolution';
 
-// TODO Make inputs' values state
 const Task = () => {
 	const { key } = useParams();
 
 	const [task, setTask] = useState(null);
 	const [solution, setSolution] = useState(null);
-
-	const inputsRefs = Array(task?.inputs.length).fill(useRef(null));
 
 	useEffect(() => {
 		fetch(`/api/tasks/${key}`)
@@ -19,6 +18,20 @@ const Task = () => {
 			})
 			.then((data) => {
 				setTask(data.task);
+
+				KioskBoard.Run('input', {
+					keysArrayOfObjects: [
+						{ 0: '7', 1: '8', 2: '9' },
+						{ 0: '4', 1: '5', 2: '6' },
+						{ 0: '1', 1: '2', 2: '3' },
+						{ 0: ',', 1: '0' },
+					],
+					theme: 'oldschool',
+					keysAllowSpacebar: false,
+					keysSpacebarText: ' ',
+					specialCharactersObject: null,
+					keysFontFamily: 'Gost',
+				});
 			});
 	}, [key]);
 
@@ -78,22 +91,22 @@ const Task = () => {
 							<div key={i}>
 								<label htmlFor={input.type + i}>{input.caption}: </label>
 								<input
-									ref={inputsRefs[i]}
-									type={input.type}
+									type='text'
+									inputMode='numeric'
 									id={input.type + i}
 									required
+									data-kioskboard-type='keyboard'
+									data-kioskboard-specialcharacters='false'
 									{...(input.decimal && { step: '0.1' })}
 									{...(input.min !== undefined && { min: input.min })}
 									{...(input.max !== undefined && { max: input.max })}
 								/>
 							</div>
 						))}
-						<button type='submit'>Получить решение</button>
+						{task && <button type='submit'>Получить решение</button>}
 					</form>
 				)}
 			</div>
-
-			{/* keyboard */}
 		</>
 	);
 };

@@ -52,3 +52,7 @@ ul {
 	align-self: center;
 	margin-left: 3%;
 }
+
+#KioskBoard-VirtualKeyboard {
+	height: 50%;
+}
