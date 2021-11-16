@@ -24,7 +24,7 @@ const Solution = React.forwardRef((props, ref) => {
 
 	return (
 		<div className='solution' ref={ref}>
-			<div>
+			<div id='description'>
 				<h3>Решение:</h3>
 				<ol>
 					{props.describedSolution.map((step, i) => (

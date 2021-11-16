@@ -27,12 +27,12 @@ const ExportableSolution = (props) => {
 		const element = exportRef.current;
 		const canvas = await html2canvas(element);
 
-		const data = canvas.toDataURL(`image/${format}`);
+		const data = canvas.toDataURL(`solution/${format}`);
 		const link = document.createElement('a');
 
 		if (typeof link.download === 'string') {
 			link.href = data;
-			link.download = `image.${format}`;
+			link.download = `solution.${format}`;
 
 			document.body.appendChild(link);
 			link.click();
@@ -48,13 +48,16 @@ const ExportableSolution = (props) => {
 		const canvas = await html2canvas(element);
 		const data = canvas.toDataURL('image/png');
 
-		const pdf = new jsPDF();
+		const pdf = new jsPDF({
+			orientation: 'l',
+			format: 'a4',
+		});
 		const imgProperties = pdf.getImageProperties(data);
 		const pdfWidth = pdf.internal.pageSize.getWidth();
 		const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-		pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
-		pdf.save('print.pdf');
+		pdf.addImage(data, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
+		pdf.save('solution.pdf');
 	};
 
 	return (

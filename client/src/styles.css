@@ -1,5 +1,11 @@
+@font-face {
+	font-family: 'Gost';
+	src: URL('GOST\ type\ A.ttf') format('truetype');
+}
+
 body {
 	margin: 0;
+	font-family: 'Gost';
 	font-size: 1.1em;
 }
 
