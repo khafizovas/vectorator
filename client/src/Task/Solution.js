@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 
 import SolutionIllustration from './SolutionIllustration';
 
+const Latex = require('react-latex');
+
 const Solution = React.forwardRef((props, ref) => {
 	const getResultString = () => {
 		switch (props.result.type) {
@@ -31,7 +33,9 @@ const Solution = React.forwardRef((props, ref) => {
 						<li key={`solution-step${i}`}>
 							<ul>
 								<li>{step.description}:</li>
-								<li>{step.action}</li>
+								<li>
+									<Latex>{step.action}</Latex>
+								</li>
 							</ul>
 						</li>
 					))}

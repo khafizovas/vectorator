@@ -23,7 +23,7 @@ const findPlaneEquation = ({ a, b, d, a1 }) => {
 		points.push(a1);
 		points.push(sumPointAndVector(b, aa1));
 
-		task.b = b;
+		task.b1 = points[points.length - 1];
 		task.a1 = a1;
 
 		solution.push({

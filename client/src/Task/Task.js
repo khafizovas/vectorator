@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 
 import ExportableSolution from './ExportableSolution';
@@ -9,6 +9,8 @@ const Task = () => {
 
 	const [task, setTask] = useState(null);
 	const [solution, setSolution] = useState(null);
+
+	const inputsRefs = Array(task?.inputs.length).fill(useRef(null));
 
 	useEffect(() => {
 		fetch(`/api/tasks/${key}`)
@@ -58,36 +60,41 @@ const Task = () => {
 	};
 
 	return (
-		<div className='content'>
-			<h3>{task?.name}</h3>
-			<p>{task?.task}</p>
+		<>
+			<div className='content'>
+				<h3>{task?.name}</h3>
+				<p>{task?.task}</p>
 
-			{solution ? (
-				<ExportableSolution
-					task={solution.task.task}
-					solution={solution.solution}
-					describedSolution={solution.describedSolution}
-					result={solution.result}
-				/>
-			) : (
-				<form onSubmit={getSolution}>
-					{task?.inputs.map((input, i) => (
-						<div key={i}>
-							<label htmlFor={input.type + i}>{input.caption}: </label>
-							<input
-								type={input.type}
-								id={input.type + i}
-								required
-								{...(input.decimal && { step: '0.1' })}
-								{...(input.min !== undefined && { min: input.min })}
-								{...(input.max !== undefined && { max: input.max })}
-							/>
-						</div>
-					))}
-					<button type='submit'>Получить решение</button>
-				</form>
-			)}
-		</div>
+				{solution ? (
+					<ExportableSolution
+						task={solution.task.task}
+						solution={solution.solution}
+						describedSolution={solution.describedSolution}
+						result={solution.result}
+					/>
+				) : (
+					<form onSubmit={getSolution}>
+						{task?.inputs.map((input, i) => (
+							<div key={i}>
+								<label htmlFor={input.type + i}>{input.caption}: </label>
+								<input
+									ref={inputsRefs[i]}
+									type={input.type}
+									id={input.type + i}
+									required
+									{...(input.decimal && { step: '0.1' })}
+									{...(input.min !== undefined && { min: input.min })}
+									{...(input.max !== undefined && { max: input.max })}
+								/>
+							</div>
+						))}
+						<button type='submit'>Получить решение</button>
+					</form>
+				)}
+			</div>
+
+			{/* keyboard */}
+		</>
 	);
 };
 
