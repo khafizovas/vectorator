@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'Gost';
-	src: URL('GOST\ type\ A.ttf') format('truetype');
+	src: url('./assets/GOST\ type\ A.ttf') format('truetype');
 }
 
 body {
@@ -50,8 +50,4 @@ button {
 	border: solid #000;
 	align-self: center;
 	margin-left: 3%;
-}
-
-#KioskBoard-VirtualKeyboard {
-	height: 50%;
 }

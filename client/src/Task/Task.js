@@ -5,10 +5,10 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import ExportableSolution from './ExportableSolution';
-
-// TODO add keyboard
 
 const Task = () => {
 	const { key } = useParams();
@@ -30,20 +30,16 @@ const Task = () => {
 		if (!arr) {
 			return;
 		}
-
 		const res = [];
-
 		while (arr.length > 0) {
 			const chunk = arr.splice(0, chunkSize);
 			res.push(chunk);
 		}
-
 		return res;
 	};
 
 	let params;
 	let paramIndex = 0;
-
 	const fillReqBody = (obj) => {
 		for (let k in obj) {
 			if (typeof obj[k] === 'object' && obj[k] !== null) {
@@ -92,32 +88,48 @@ const Task = () => {
 						result={solution.result}
 					/>
 				) : (
-					<Form onSubmit={getSolution}>
-						{spliceIntoChunks(task?.inputs, 3)?.map((inputRow) => (
-							<Row>
-								{inputRow.map((input, i) => (
-									<Col>
-										<Form.Group key={i} className='mb-3' controlId={i}>
-											<Form.Label>{input.caption}</Form.Label>
-											<Form.Control
-												type='number'
-												required
-												{...(input.decimal && { step: '0.1' })}
-												{...(input.min !== undefined && { min: input.min })}
-												{...(input.max !== undefined && { max: input.max })}
-											/>
-										</Form.Group>
-									</Col>
-								))}
-							</Row>
-						))}
+					<>
+						<Form onSubmit={getSolution}>
+							{spliceIntoChunks(task?.inputs, 3)?.map((inputRow, j) => (
+								<Row key={j}>
+									{inputRow.map((input, i) => (
+										<Col key={3 * j + i}>
+											<Form.Group className='mb-3' controlId={i}>
+												<Form.Label>{input.caption}</Form.Label>
+												<OverlayTrigger
+													trigger='click'
+													rootClose
+													placement='bottom'
+													overlay={
+														<Tooltip>
+															Введите {input.decimal ? 'дробное' : 'целое'}{' '}
+															число
+															{input.min !== undefined &&
+																` от ${input.min}`}{' '}
+															{input.max !== undefined && ` до ${input.max}`}
+														</Tooltip>
+													}>
+													<Form.Control
+														type='number'
+														required
+														{...(input.decimal && { step: '0.1' })}
+														{...(input.min !== undefined && { min: input.min })}
+														{...(input.max !== undefined && { max: input.max })}
+													/>
+												</OverlayTrigger>
+											</Form.Group>
+										</Col>
+									))}
+								</Row>
+							))}
 
-						{task && (
-							<Button type='submit' variant='outline-dark'>
-								Получить решение
-							</Button>
-						)}
-					</Form>
+							{task && (
+								<Button type='submit' variant='outline-dark'>
+									Получить решение
+								</Button>
+							)}
+						</Form>
+					</>
 				)}
 			</div>
 		</>
