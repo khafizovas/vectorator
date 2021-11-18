@@ -15,6 +15,10 @@ const MainRouter = () => {
 					<HomePage />
 				</Route>
 
+				<Route path='/instruction'>
+					<HomePage />
+				</Route>
+
 				<Route path='/tasks/:key'>
 					<Task />
 				</Route>

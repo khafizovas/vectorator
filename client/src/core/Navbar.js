@@ -1,14 +1,28 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
-const Navbar = withRouter(() => (
-	<nav className='navbar'>
-		<Link to='/'>
-			<Button variant='outline-dark'>Главная страница</Button>
-		</Link>
-	</nav>
-));
+const Navigation = () => (
+	<Navbar bg='dark' variant='dark'>
+		<Navbar.Brand as={Link} to='/' exact='true'>
+			Vectorator
+		</Navbar.Brand>
 
-export default Navbar;
+		<Nav variant='tabs' defaultActiveKey='/'>
+			<Nav.Item>
+				<Nav.Link as={Link} to='/' exact='true'>
+					Главная страница
+				</Nav.Link>
+			</Nav.Item>
+			<Nav.Item>
+				<Nav.Link as={Link} to='/instruction'>
+					Инструкция
+				</Nav.Link>
+			</Nav.Item>
+		</Nav>
+	</Navbar>
+);
+
+export default Navigation;

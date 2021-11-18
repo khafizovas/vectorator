@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const HomePage = () => {
@@ -18,16 +19,18 @@ const HomePage = () => {
 	}, []);
 
 	return (
-		<ListGroup variant='flush'>
-			{tasks?.map((task, i) => (
-				<ListGroup.Item
-					key={i}
-					action
-					onClick={() => history.push(`tasks/${i}`)}>
-					{task.name}
-				</ListGroup.Item>
-			))}
-		</ListGroup>
+		<Container>
+			<ListGroup variant='flush'>
+				{tasks?.map((task, i) => (
+					<ListGroup.Item
+						key={i}
+						action
+						onClick={() => history.push(`tasks/${i}`)}>
+						{task.name}
+					</ListGroup.Item>
+				))}
+			</ListGroup>
+		</Container>
 	);
 };
 

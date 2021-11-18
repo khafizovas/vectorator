@@ -3,10 +3,6 @@
 	src: url('./assets/GOST\ type\ A.ttf') format('truetype');
 }
 
-body {
-	padding: 1%;
-}
-
 body,
 button {
 	font-family: 'Gost';
@@ -14,40 +10,4 @@ button {
 
 .katex {
 	font-size: 1rem;
-}
-
-.solution {
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: flex-start;
-}
-
-@media (max-width: 768px) {
-	.solution {
-		flex-wrap: wrap;
-	}
-}
-
-#illustration {
-	border: solid #000;
-	align-self: center;
-	margin-left: 3%;
-}
-
-.solution {
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: flex-start;
-}
-
-@media (max-width: 768px) {
-	.solution {
-		flex-wrap: wrap;
-	}
-}
-
-#illustration {
-	border: solid #000;
-	align-self: center;
-	margin-left: 3%;
 }

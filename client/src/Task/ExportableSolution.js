@@ -1,7 +1,10 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, Fragment } from 'react';
 
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+
+import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
 
 import ExportMenu from './ExportMenu';
 import Solution from './Solution';
@@ -49,29 +52,37 @@ const ExportableSolution = (props) => {
 		const data = canvas.toDataURL('image/png');
 
 		const pdf = new jsPDF({
-			orientation: 'l',
+			orientation: 'p',
 			format: 'a4',
 		});
 		const imgProperties = pdf.getImageProperties(data);
 		const pdfWidth = pdf.internal.pageSize.getWidth();
 		const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-		pdf.addImage(data, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
+		pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
 		pdf.save('solution.pdf');
 	};
 
 	return (
-		<>
+		<Container>
 			<Solution {...props} enableButtons={enableButtons} ref={exportRef} />
 
 			{allowExport && (
-				<ExportMenu
-					downloadPdf={handleDownloadPdf}
-					downloadPng={handleDownloadPng}
-					downloadJpeg={handleDownloadJpeg}
-				/>
+				<Fragment>
+					<br />
+					<Card md='auto'>
+						<Card.Header>Загрузить решение</Card.Header>
+						<Card.Body>
+							<ExportMenu
+								downloadPdf={handleDownloadPdf}
+								downloadPng={handleDownloadPng}
+								downloadJpeg={handleDownloadJpeg}
+							/>
+						</Card.Body>
+					</Card>
+				</Fragment>
 			)}
-		</>
+		</Container>
 	);
 };
 

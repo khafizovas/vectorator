@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 import ExportableSolution from './ExportableSolution';
 
@@ -75,64 +77,67 @@ const Task = () => {
 	};
 
 	return (
-		<>
-			<div className='content'>
-				<h3>{task?.name}</h3>
-				<p>{task?.task}</p>
+		<Container>
+			<Card>
+				<Card.Header>Формулировка задания</Card.Header>
+				<Card.Body>
+					<Card.Title>{task?.name}</Card.Title>
+					<Card.Text>{task?.task}</Card.Text>
+				</Card.Body>
+			</Card>
+			<br />
 
-				{solution ? (
-					<ExportableSolution
-						task={solution.task.task}
-						solution={solution.solution}
-						describedSolution={solution.describedSolution}
-						result={solution.result}
-					/>
-				) : (
-					<>
-						<Form onSubmit={getSolution}>
-							{spliceIntoChunks(task?.inputs, 3)?.map((inputRow, j) => (
-								<Row key={j}>
-									{inputRow.map((input, i) => (
-										<Col key={3 * j + i}>
-											<Form.Group className='mb-3' controlId={i}>
-												<Form.Label>{input.caption}</Form.Label>
-												<OverlayTrigger
-													trigger='click'
-													rootClose
-													placement='bottom'
-													overlay={
-														<Tooltip>
-															Введите {input.decimal ? 'дробное' : 'целое'}{' '}
-															число
-															{input.min !== undefined &&
-																` от ${input.min}`}{' '}
-															{input.max !== undefined && ` до ${input.max}`}
-														</Tooltip>
-													}>
-													<Form.Control
-														type='number'
-														required
-														{...(input.decimal && { step: '0.1' })}
-														{...(input.min !== undefined && { min: input.min })}
-														{...(input.max !== undefined && { max: input.max })}
-													/>
-												</OverlayTrigger>
-											</Form.Group>
-										</Col>
-									))}
-								</Row>
-							))}
+			{solution ? (
+				<ExportableSolution
+					task={solution.task.task}
+					solution={solution.solution}
+					describedSolution={solution.describedSolution}
+					result={solution.result}
+				/>
+			) : (
+				<Container>
+					<Form onSubmit={getSolution}>
+						{spliceIntoChunks(task?.inputs, 3)?.map((inputRow, j) => (
+							<Row key={j}>
+								{inputRow.map((input, i) => (
+									<Col key={3 * j + i}>
+										<Form.Group className='mb-3' controlId={i}>
+											<Form.Label>{input.caption}</Form.Label>
+											<OverlayTrigger
+												trigger='focus'
+												delay={{ hide: 1000 }}
+												rootClose
+												placement='bottom'
+												overlay={
+													<Tooltip>
+														Введите {input.decimal ? 'дробное' : 'целое'} число
+														{input.min !== undefined && ` от ${input.min}`}{' '}
+														{input.max !== undefined && ` до ${input.max}`}
+													</Tooltip>
+												}>
+												<Form.Control
+													type='number'
+													required
+													{...(input.decimal && { step: '0.1' })}
+													{...(input.min !== undefined && { min: input.min })}
+													{...(input.max !== undefined && { max: input.max })}
+												/>
+											</OverlayTrigger>
+										</Form.Group>
+									</Col>
+								))}
+							</Row>
+						))}
 
-							{task && (
-								<Button type='submit' variant='outline-dark'>
-									Получить решение
-								</Button>
-							)}
-						</Form>
-					</>
-				)}
-			</div>
-		</>
+						{task && (
+							<Button type='submit' variant='outline-dark'>
+								Получить решение
+							</Button>
+						)}
+					</Form>
+				</Container>
+			)}
+		</Container>
 	);
 };
 
