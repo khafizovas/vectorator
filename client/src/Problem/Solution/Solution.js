@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import SolutionIllustration from './SolutionIllustration';
+import SolutionIllustration from './Illustration/SolutionIllustration';
 import SolutionText from './SolutionText';
 import SolutionAnswer from './SolutionAnswer';
 
