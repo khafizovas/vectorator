@@ -6,7 +6,7 @@ import { jsPDF } from 'jspdf';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 
-import ExportMenu from './ExportMenu';
+import SolutionExportMenu from './SolutionExportMenu';
 import Solution from './Solution';
 
 const ExportableSolution = (props) => {
@@ -73,7 +73,7 @@ const ExportableSolution = (props) => {
 					<Card md='auto'>
 						<Card.Header>Загрузить решение</Card.Header>
 						<Card.Body>
-							<ExportMenu
+							<SolutionExportMenu
 								downloadPdf={handleDownloadPdf}
 								downloadPng={handleDownloadPng}
 								downloadJpeg={handleDownloadJpeg}

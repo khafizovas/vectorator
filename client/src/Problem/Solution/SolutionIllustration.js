@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-// TODO move functions into separate file (watch todos below)
 const SolutionIllustration = (props) => {
 	const canvasRef = useRef(null);
 
@@ -25,8 +24,6 @@ const SolutionIllustration = (props) => {
 
 	useEffect(() => {
 		// Magic starts here
-
-		// TODO Grid drawing
 		const drawGrid = (ctx, size, unit) => {
 			ctx.strokeStyle = 'Gray';
 			ctx.globalAlpha = 0.5;
@@ -126,8 +123,6 @@ const SolutionIllustration = (props) => {
 			canv.ctx.fillText('z', 0.525 * canv.size, 0.05 * canv.size);
 		};
 
-		// TODO Captions drawing
-		// TODO remove canv.unit from calculations
 		const drawCaptions = (canv) => {
 			sortCaptions();
 
@@ -141,8 +136,8 @@ const SolutionIllustration = (props) => {
 				coordinates.forEach((caption, j) =>
 					canv.ctx.fillText(
 						caption[0],
-						caption[1] + (i === 2 ? (-1) ** j * 0.2 * canv.unit : 0),
-						caption[2] + (i !== 2 ? (-1) ** j * 0.2 * canv.unit : 0)
+						caption[1] + (i === 2 ? (-1) ** j * 13 : 0),
+						caption[2] + (i !== 2 ? (-1) ** j * 13 : 0)
 					)
 				)
 			);
@@ -154,7 +149,6 @@ const SolutionIllustration = (props) => {
 			coordinatesCaptions.z.sort((lhs, rhs) => lhs[0] - rhs[0]);
 		};
 
-		// TODO Figures drawing
 		const drawWithDelay = (ctx, size, unit) => {
 			const closure = () =>
 				setTimeout(() => {
@@ -225,7 +219,6 @@ const SolutionIllustration = (props) => {
 			}
 		};
 
-		// TODO Parallelepiped drawing
 		const drawParallellepiped = (parallelepiped, canv) => {
 			parallelepiped.forEach((elem) => drawPoints(elem, canv));
 
@@ -234,7 +227,6 @@ const SolutionIllustration = (props) => {
 			);
 		};
 
-		// TODO Plane, parallelogram and vector drawing
 		const drawPoints = (points, canv, filled = false) => {
 			points.forEach((point) => drawPoint(point, canv));
 
@@ -266,8 +258,6 @@ const SolutionIllustration = (props) => {
 			}
 		};
 
-		// TODO Vector arrow drawing
-		// TODO remove canv.unit from calculcations
 		const drawArrow = (vector, canv) => {
 			const angle = Math.atan2(
 				vector[1].canvasCoordinates[1] - vector[0].canvasCoordinates[1],
@@ -278,23 +268,18 @@ const SolutionIllustration = (props) => {
 
 			canv.ctx.moveTo(...vector[1].canvasCoordinates);
 			canv.ctx.lineTo(
-				vector[1].canvasCoordinates[0] -
-					0.2 * canv.unit * Math.cos(angle - Math.PI / 6),
-				vector[1].canvasCoordinates[1] -
-					0.2 * canv.unit * Math.sin(angle - Math.PI / 6)
+				vector[1].canvasCoordinates[0] - 13 * Math.cos(angle - Math.PI / 6),
+				vector[1].canvasCoordinates[1] - 13 * Math.sin(angle - Math.PI / 6)
 			);
 			canv.ctx.moveTo(...vector[1].canvasCoordinates);
 			canv.ctx.lineTo(
-				vector[1].canvasCoordinates[0] -
-					0.2 * canv.unit * Math.cos(angle + Math.PI / 6),
-				vector[1].canvasCoordinates[1] -
-					0.2 * canv.unit * Math.sin(angle + Math.PI / 6)
+				vector[1].canvasCoordinates[0] - 13 * Math.cos(angle + Math.PI / 6),
+				vector[1].canvasCoordinates[1] - 13 * Math.sin(angle + Math.PI / 6)
 			);
 
 			canv.ctx.stroke();
 		};
 
-		// TODO Point drawing
 		const drawPoint = (point, canv, isFilled = false) => {
 			point.value.forEach((coordinate, i) =>
 				drawCoordinate({ name: AXIS[i], value: coordinate }, canv)
@@ -320,7 +305,6 @@ const SolutionIllustration = (props) => {
 			canv.ctx.fillText(point.name, ...point.canvasCoordinates);
 		};
 
-		// TODO Point projections drawing
 		const drawPointProjections = (point, canv) => {
 			if (point.value.filter((coordinate) => !coordinate).length > 2) {
 				return;
@@ -344,7 +328,6 @@ const SolutionIllustration = (props) => {
 			canv.ctx.setLineDash([]);
 		};
 
-		// TODO Coordinate drawing
 		const drawCoordinate = (coordinate, canv) => {
 			if (coordinate.value === 0) {
 				return;
@@ -376,7 +359,7 @@ const SolutionIllustration = (props) => {
 			}
 		};
 
-		// TODO Helpers
+		// Helpers
 		const findCanvasCoordinates = (point, canv) => {
 			const pointProjections = point.value.map(
 				(coordinate, i) =>

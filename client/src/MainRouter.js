@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './core/HomePage';
 import Instruction from './core/Instruction';
 import Navbar from './core/Navbar';
-import Task from './Task/Task';
+import Problem from './Problem/Problem';
 
 const MainRouter = () => {
 	return (
@@ -21,7 +21,7 @@ const MainRouter = () => {
 				</Route>
 
 				<Route path='/tasks/:key'>
-					<Task />
+					<Problem />
 				</Route>
 			</Switch>
 		</div>
