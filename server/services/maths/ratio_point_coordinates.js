@@ -13,7 +13,7 @@ const findRatioPoint3D = (vectorPoints, ratioParts) => {
 	solution.push({
 		name: 'ratio',
 		type: 'number',
-		value: Number((ratioParts.a / ratioParts.b).toPrecision(4)),
+		value: ratioParts.a / ratioParts.b,
 	});
 
 	solution.push({

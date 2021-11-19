@@ -12,7 +12,7 @@ const solutionStepSchema = new Schema({
 		},
 	},
 	type: { type: String, required: true },
-	value: { type: [Schema.Types.Mixed], required: true },
+	value: { type: Schema.Types.Mixed, required: true },
 });
 
 module.exports = solutionStepSchema;

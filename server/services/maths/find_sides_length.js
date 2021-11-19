@@ -13,13 +13,13 @@ const findParallelogramSides = (lhs, rhs) => {
 	solution.push({
 		name: '|AB|',
 		type: 'number',
-		value: Number(findVectorLength(lhs).toPrecision(4)),
+		value: findVectorLength(lhs),
 	});
 
 	solution.push({
 		name: '|AD|',
 		type: 'number',
-		value: Number(findVectorLength(rhs).toPrecision(4)),
+		value: findVectorLength(rhs),
 	});
 
 	result = {

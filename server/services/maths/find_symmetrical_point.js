@@ -33,17 +33,14 @@ const findSymmetricalPoint = (a1, a, b, d) => {
 		value: solution[solution.length - 1].value.slice(0, -1),
 	});
 
-	const t = Number(
+	const t =
 		-(
 			Object.values(a1).reduce(
 				(res, cur, i) => res + cur * solution[solution.length - 1].value[i],
 				0
 			) + solution[solution.length - 2].value[3]
 		) /
-			solution[solution.length - 1].value
-				.reduce((res, cur) => res + cur ** 2, 0)
-				.toPrecision(4)
-	);
+		solution[solution.length - 1].value.reduce((res, cur) => res + cur ** 2, 0);
 
 	solution.push({
 		type: 'number',

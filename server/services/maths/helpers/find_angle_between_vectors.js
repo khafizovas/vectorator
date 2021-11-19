@@ -8,25 +8,19 @@ const findAngleBetweenVectors = (lhs, rhs) => {
 	solution.push({
 		type: 'number',
 		name: 'cos',
-		value: Number(findCosBetweenVectors(lhs, rhs).toPrecision(4)),
+		value: findCosBetweenVectors(lhs, rhs),
 	});
 
 	solution.push({
 		type: 'number',
 		name: 'angle in radias',
-		value: Number(
-			Math.acos(solution[solution.length - 1].value).toPrecision(4)
-		),
+		value: Math.acos(solution[solution.length - 1].value),
 	});
 
 	solution.push({
 		type: 'number',
 		name: 'angle in degrees',
-		value: Number(
-			convertRadiansToDegrees(solution[solution.length - 1].value).toPrecision(
-				4
-			)
-		),
+		value: convertRadiansToDegrees(solution[solution.length - 1].value),
 	});
 
 	const result = {

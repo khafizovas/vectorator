@@ -20,9 +20,9 @@
  */
 const buildVector3D = (first, second) => {
 	return {
-		x: Number((second.x - first.x).toPrecision(4)),
-		y: Number((second.y - first.y).toPrecision(4)),
-		z: Number((second.z - first.z).toPrecision(4)),
+		x: second.x - first.x,
+		y: second.y - first.y,
+		z: second.z - first.z,
 	};
 };
 

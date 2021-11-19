@@ -4,9 +4,7 @@
  * @returns {number}
  */
 const findVectorLength = (vector) => {
-	return Number(
-		Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2).toPrecision(4)
-	);
+	return Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
 };
 
 module.exports = findVectorLength;
